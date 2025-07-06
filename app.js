@@ -194,3 +194,6 @@ server.listen(PORT, () => {
     console.log(`📱 Admin: http://localhost:${PORT}/admin/login`);
     console.log(`👨‍👩‍👧‍👦 Orang Tua: http://localhost:${PORT}/login`);
 });
+
+// Export for Vercel
+module.exports = app;

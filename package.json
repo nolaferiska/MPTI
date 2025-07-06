@@ -7,6 +7,8 @@
         "start": "node app.js",
         "dev": "nodemon app.js",
         "build": "npx tailwindcss -i ./src/input.css -o ./public/css/output.css --minify",
+        "vercel-build": "prisma generate && npm run build",
+        "postinstall": "prisma generate",
         "watch-css": "npx tailwindcss -i ./src/input.css -o ./public/css/output.css --watch",
         "dev-full": "npm run watch-css & npm run dev",
         "db:generate": "prisma generate",

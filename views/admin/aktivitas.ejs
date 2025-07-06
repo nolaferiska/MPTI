@@ -1,0 +1,193 @@
+<!-- Data Aktivitas Management Page -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-textPrimary">Kelola Aktivitas Harian</h2>
+            <p class="text-textSecondary">Manajemen aktivitas dan jadwal harian anak</p>
+        </div>
+        <a href="/admin/aktivitas/add" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+            <i class="fas fa-plus mr-2"></i> Tambah Aktivitas
+        </a>
+    </div>
+
+    <!-- Summary Cards -->
+
+
+    <!-- Search and Filter -->
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+        <form method="GET" action="/admin/aktivitas" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-textPrimary mb-2">Cari Aktivitas</label>
+                <input type="text" name="search" value="<%= filters.search || '' %>" placeholder="Nama aktivitas atau deskripsi..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-textPrimary mb-2">Tanggal</label>
+                <input type="date" name="date" value="<%= filters.date || '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            <div class="flex items-end">
+                <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                    <i class="fas fa-search mr-2"></i>
+                    Cari
+                </button>
+            </div>
+            <div class="flex items-end">
+                <a href="/admin/aktivitas" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                    <i class="fas fa-refresh mr-2"></i> Reset
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Aktivitas List -->
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Tanggal</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Nama Aktivitas</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Waktu</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Foto</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <% if (aktivitasList && aktivitasList.length > 0) { %>
+                        <% aktivitasList.forEach(aktivitas => { %>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-textPrimary">
+                                        <%= new Date(aktivitas.tanggal).toLocaleDateString('id-ID', { 
+                                            weekday: 'short', 
+                                            year: 'numeric', 
+                                            month: 'short', 
+                                            day: 'numeric' 
+                                        }) %>
+                                    </div>
+                                    <div class="text-sm text-textSecondary">
+                                        <%= new Date(aktivitas.tanggal).toLocaleDateString('id-ID', { 
+                                            weekday: 'long'
+                                        }) %>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-textPrimary">
+                                        <%= aktivitas.namaAktivitas %>
+                                    </div>
+                                    <div class="text-sm text-textSecondary">
+                                        <%= aktivitas.deskripsi.substring(0, 50) %>
+                                            <%= aktivitas.deskripsi.length > 50 ? '...' : '' %>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <% if (aktivitas.waktuMulai && aktivitas.waktuSelesai) { %>
+                                        <div class="text-sm font-medium text-textPrimary">
+                                            <%= new Date(aktivitas.waktuMulai).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %> -
+                                                <%= new Date(aktivitas.waktuSelesai).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %>
+                                        </div>
+                                        <div class="text-sm text-textSecondary">
+                                            <%= aktivitas.getDuration() %> menit
+                                        </div>
+                                        <% } else if (aktivitas.waktuMulai) { %>
+                                            <div class="text-sm font-medium text-textPrimary">
+                                                Mulai:
+                                                <%= new Date(aktivitas.waktuMulai).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %>
+                                            </div>
+                                            <div class="text-sm text-textSecondary">Belum selesai</div>
+                                            <% } else { %>
+                                                <div class="text-sm text-textSecondary">Belum diatur</div>
+                                                <% } %>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <% if (aktivitas.foto) { %>
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-info text-white">
+                                            <i class="fas fa-camera mr-1"></i> Ada Foto
+                                        </span>
+                                        <% } else { %>
+                                            <span class="text-textSecondary">-</span>
+                                            <% } %>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <a href="/admin/aktivitas/detail/<%= aktivitas.id %>" class="text-primary hover:text-primary-dark">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="/admin/aktivitas/edit/<%= aktivitas.id %>" class="text-warning hover:text-warning-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="/admin/aktivitas/delete/<%= aktivitas.id %>" class="text-danger hover:text-danger-dark" onclick="return confirm('Apakah Anda yakin ingin menghapus aktivitas ini?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="6" class="px-6 py-4 text-center text-textSecondary">
+                                            <div class="flex flex-col items-center py-8">
+                                                <i class="fas fa-tasks text-4xl text-gray-300 mb-4"></i>
+                                                <p class="text-lg font-medium">Tidak ada aktivitas</p>
+                                                <p class="text-sm">Mulai dengan menambahkan aktivitas baru</p>
+                                                <div class="mt-4">
+                                                    <a href="/admin/aktivitas/add" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                                                        <i class="fas fa-plus mr-2"></i> Tambah Aktivitas
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <% if (pagination && pagination.totalPages > 1) { %>
+            <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                <div class="flex-1 flex justify-between sm:hidden">
+                    <% if (pagination.hasPrev) { %>
+                        <a href="/admin/aktivitas?page=<%= pagination.currentPage - 1 %>&search=<%= filters.search || '' %>&date=<%= filters.date || '' %>" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            Sebelumnya
+                        </a>
+                        <% } %>
+                            <% if (pagination.hasNext) { %>
+                                <a href="/admin/aktivitas?page=<%= pagination.currentPage + 1 %>&search=<%= filters.search || '' %>&date=<%= filters.date || '' %>" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            Selanjutnya
+                        </a>
+                                <% } %>
+                </div>
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Menampilkan halaman <span class="font-medium"><%= pagination.currentPage %></span> dari <span class="font-medium"><%= pagination.totalPages %></span>
+                        </p>
+                    </div>
+                    <div>
+                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                            <% if (pagination.hasPrev) { %>
+                                <a href="/admin/aktivitas?page=<%= pagination.currentPage - 1 %>&search=<%= filters.search || '' %>&date=<%= filters.date || '' %>" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                                <% } %>
+
+                                    <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+                                        <a href="/admin/aktivitas?page=<%= i %>&search=<%= filters.search || '' %>&date=<%= filters.date || '' %>" class="relative inline-flex items-center px-4 py-2 border text-sm font-medium <%= i === pagination.currentPage ? 'z-10 bg-primary border-primary text-white' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50' %>">
+                                            <%= i %>
+                                        </a>
+                                        <% } %>
+
+                                            <% if (pagination.hasNext) { %>
+                                                <a href="/admin/aktivitas?page=<%= pagination.currentPage + 1 %>&search=<%= filters.search || '' %>&date=<%= filters.date || '' %>" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                                    <i class="fas fa-chevron-right"></i>
+                                                </a>
+                                                <% } %>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+    </div>
+</div>

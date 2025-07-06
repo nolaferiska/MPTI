@@ -1,0 +1,120 @@
+<!-- Edit Pengasuh Form -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-textPrimary">Edit Data Pengasuh</h2>
+            <p class="text-textSecondary">Edit data pengasuh:
+                <%= pengasuh.nama %>
+            </p>
+        </div>
+        <a href="/admin/pengasuh" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i> Kembali
+        </a>
+    </div>
+
+    <!-- Form -->
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+        <form method="POST" action="/admin/pengasuh/edit/<%= pengasuh.id %>" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nama -->
+                <div>
+                    <label for="nama" class="block text-sm font-medium text-textPrimary mb-2">
+                        Nama Lengkap <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" id="nama" name="nama" value="<%= pengasuh.nama %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Masukkan nama lengkap pengasuh">
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-textPrimary mb-2">
+                        Email <span class="text-danger">*</span>
+                    </label>
+                    <input type="email" id="email" name="email" value="<%= pengasuh.email %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="pengasuh@example.com">
+                </div>
+
+                <!-- Telepon -->
+                <div>
+                    <label for="telepon" class="block text-sm font-medium text-textPrimary mb-2">
+                        Nomor Telepon <span class="text-danger">*</span>
+                    </label>
+                    <input type="tel" id="telepon" name="telepon" value="<%= pengasuh.telepon %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="08123456789">
+                </div>
+
+                <!-- Tanggal Lahir -->
+                <div>
+                    <label for="tanggalLahir" class="block text-sm font-medium text-textPrimary mb-2">
+                        Tanggal Lahir
+                    </label>
+                    <input type="date" id="tanggalLahir" name="tanggalLahir" value="<%= pengasuh.tanggalLahir ? new Date(pengasuh.tanggalLahir).toISOString().split('T')[0] : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- Jenis Kelamin -->
+                <div>
+                    <label for="jenisKelamin" class="block text-sm font-medium text-textPrimary mb-2">
+                        Jenis Kelamin <span class="text-danger">*</span>
+                    </label>
+                    <select id="jenisKelamin" name="jenisKelamin" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="">Pilih jenis kelamin</option>
+                        <option value="L" <%= pengasuh.jenisKelamin === 'L' ? 'selected' : '' %>>Laki-laki</option>
+                        <option value="P" <%= pengasuh.jenisKelamin === 'P' ? 'selected' : '' %>>Perempuan</option>
+                    </select>
+                </div>
+
+                <!-- Tanggal Bergabung -->
+                <div>
+                    <label for="tanggalBergabung" class="block text-sm font-medium text-textPrimary mb-2">
+                        Tanggal Bergabung
+                    </label>
+                    <input type="date" id="tanggalBergabung" name="tanggalBergabung" value="<%= pengasuh.tanggalBergabung ? new Date(pengasuh.tanggalBergabung).toISOString().split('T')[0] : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- Pendidikan -->
+                <div>
+                    <label for="pendidikan" class="block text-sm font-medium text-textPrimary mb-2">
+                        Pendidikan Terakhir
+                    </label>
+                    <input type="text" id="pendidikan" name="pendidikan" value="<%= pengasuh.pendidikan || '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Contoh: S1 Pendidikan Anak Usia Dini">
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label for="status" class="block text-sm font-medium text-textPrimary mb-2">
+                        Status <span class="text-danger">*</span>
+                    </label>
+                    <select id="status" name="status" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="aktif" <%= pengasuh.status === 'aktif' ? 'selected' : '' %>>Aktif</option>
+                        <option value="nonaktif" <%= pengasuh.status === 'nonaktif' ? 'selected' : '' %>>Nonaktif</option>
+                    </select>
+                </div>
+
+                <!-- Alamat -->
+                <div class="md:col-span-2">
+                    <label for="alamat" class="block text-sm font-medium text-textPrimary mb-2">
+                        Alamat <span class="text-danger">*</span>
+                    </label>
+                    <textarea id="alamat" name="alamat" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Masukkan alamat lengkap"><%= pengasuh.alamat %></textarea>
+                </div>
+
+                <!-- Pengalaman -->
+                <div class="md:col-span-2">
+                    <label for="pengalaman" class="block text-sm font-medium text-textPrimary mb-2">
+                        Pengalaman Kerja
+                    </label>
+                    <textarea id="pengalaman" name="pengalaman" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Jelaskan pengalaman kerja di bidang pengasuhan anak"><%= pengasuh.pengalaman || '' %></textarea>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                <a href="/admin/pengasuh" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                    Batal
+                </a>
+                <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                    <i class="fas fa-save mr-2"></i>
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

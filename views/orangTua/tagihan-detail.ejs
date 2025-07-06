@@ -1,0 +1,227 @@
+<div class="container mx-auto px-4 py-6">
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <!-- Breadcrumb -->
+        <nav class="mb-6">
+            <ol class="flex items-center space-x-2 text-sm text-gray-600">
+                <li>
+                    <a href="/tagihan" class="hover:text-blue-600 transition">
+                        <i class="fas fa-file-invoice-dollar mr-1"></i>
+                        Tagihan
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <i class="fas fa-chevron-right mx-2 text-gray-400"></i>
+                    <%= anak.nama %>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 shadow-lg">
+                    <%= anak.nama.charAt(0).toUpperCase() %>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">
+                        Tagihan <%= anak.nama %>
+                    </h1>
+                    <p class="text-gray-600 mt-1">
+                        <i class="fas fa-calendar text-gray-400 mr-1"></i>
+                        Terdaftar sejak: <%= anak.tanggalMasuk ? new Date(anak.tanggalMasuk).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Tidak diketahui' %>
+                    </p>
+                </div>
+            </div>
+            <a href="/tagihan" class="inline-flex items-center px-4 py-2 bg-gray-500 text-white font-medium rounded-lg hover:bg-gray-600 transition duration-200">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Kembali
+            </a>
+        </div>
+
+        <% if (typeof error_msg !== 'undefined' && error_msg && error_msg.length > 0) { %>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <%= error_msg %>
+            </div>
+        <% } %>
+
+        <% if (typeof success_msg !== 'undefined' && success_msg && success_msg.length > 0) { %>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                <%= success_msg %>
+            </div>
+        <% } %>
+
+        <!-- Filter Controls -->
+        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex flex-wrap items-center gap-4">
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 mr-2">Filter Status:</label>
+                        <select id="statusFilter" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="all">Semua Status</option>
+                            <option value="belum_ada">Belum Ada Tagihan</option>
+                            <option value="belum_bayar">Belum Bayar</option>
+                            <option value="lunas">Lunas</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 mr-2">Urutkan:</label>
+                        <select id="sortOrder" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="newest">Terbaru</option>
+                            <option value="oldest">Terlama</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <button id="resetFilters" class="px-4 py-2 bg-gray-500 text-white rounded-md text-sm hover:bg-gray-600 transition">
+                        <i class="fas fa-undo mr-1"></i>
+                        Reset
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Summary Stats -->
+            <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white rounded-lg p-3 text-center">
+                    <div class="text-2xl font-bold text-gray-800" id="totalPeriods"><%= periods.length %></div>
+                    <div class="text-sm text-gray-600">Total Periode</div>
+                </div>
+                <div class="bg-white rounded-lg p-3 text-center">
+                    <div class="text-2xl font-bold text-red-600" id="belumBayar"><%= periods.filter(p => p.status === 'belum_bayar' || p.status === 'belum_ada').length %></div>
+                    <div class="text-sm text-gray-600">Belum Bayar</div>
+                </div>
+                <div class="bg-white rounded-lg p-3 text-center">
+                    <div class="text-2xl font-bold text-green-600" id="sudahLunas"><%= periods.filter(p => p.status === 'lunas').length %></div>
+                    <div class="text-sm text-gray-600">Sudah Lunas</div>
+                </div>
+                <div class="bg-white rounded-lg p-3 text-center">
+                    <div class="text-2xl font-bold text-blue-600" id="totalAmount">Rp <%= periods.reduce((sum, p) => sum + parseInt(p.jumlah), 0).toLocaleString('id-ID') %></div>
+                    <div class="text-sm text-gray-600">Total Tagihan</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tagihan Content -->
+        <div id="tagihanContent">
+            <div class="grid gap-4">
+                <% periods.forEach(period => { %>
+                    <div class="period-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                         data-status="<%= period.status %>" 
+                         data-amount="<%= parseInt(period.jumlah) %>"
+                         data-periode="<%= period.periode %>">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">
+                                    <%= period.periodeName %>
+                                </h3>
+                                <p class="text-gray-600">
+                                    Periode: <%= period.periode %>
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-gray-800">
+                                    Rp <%= parseInt(period.jumlah).toLocaleString('id-ID') %>
+                                </p>
+                                <% if (period.tagihan && period.tagihan.tanggalJatuhTempo) { %>
+                                    <p class="text-sm text-gray-600">
+                                        Jatuh Tempo: <%= new Date(period.tagihan.tanggalJatuhTempo).toLocaleDateString('id-ID') %>
+                                    </p>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-600">Status Tagihan:</span>
+                                <span class="px-3 py-1 rounded-full text-sm font-medium <%= period.status === 'lunas' ? 'bg-green-100 text-green-800' : period.status === 'sebagian' ? 'bg-yellow-100 text-yellow-800' : period.status === 'belum_bayar' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800' %>">
+                                    <%= period.statusDisplay %>
+                                </span>
+                            </div>
+                        </div>
+
+                        <% if (period.tagihan && period.tagihan.pembayaran && period.tagihan.pembayaran.length > 0) { %>
+                            <div class="mb-4">
+                                <h4 class="text-md font-semibold text-gray-700 mb-2">Riwayat Pembayaran:</h4>
+                                <% period.tagihan.pembayaran.forEach(payment => { %>
+                                    <div class="bg-gray-50 rounded p-3 mb-2">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="text-sm font-medium">
+                                                    Order ID: <%= payment.orderId %>
+                                                </p>
+                                                <p class="text-sm text-gray-600">
+                                                    <%= new Date(payment.createdAt || payment.tanggalPembayaran).toLocaleDateString('id-ID') %>
+                                                </p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="text-sm font-medium">
+                                                    Rp <%= (payment.jumlahBayar || payment.jumlah).toLocaleString('id-ID') %>
+                                                </p>
+                                                <span class="px-2 py-1 rounded text-xs font-medium <%= payment.transactionStatus === 'settlement' || payment.transactionStatus === 'capture' ? 'bg-green-100 text-green-800' : payment.transactionStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800' %>">
+                                                    <%= payment.transactionStatus === 'settlement' || payment.transactionStatus === 'capture' ? 'Berhasil' : payment.transactionStatus === 'pending' ? 'Pending' : 'Gagal' %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <% if (payment.paymentType) { %>
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                Via: <%= payment.paymentType.toUpperCase() %>
+                                            </p>
+                                        <% } %>
+                                    </div>
+                                <% }); %>
+                            </div>
+                        <% } %>
+
+                        <% if (period.canPay) { %>
+                            <div class="flex justify-end">
+                                <% if (period.hasTagihan) { %>
+                                    <button 
+                                        class="pay-now-btn bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 flex items-center"
+                                        data-tagihan-id="<%= period.tagihan.id %>"
+                                        data-amount="<%= period.jumlah %>"
+                                        data-anak-nama="<%= period.anak.nama %>">
+                                        <i class="fas fa-credit-card mr-2"></i>
+                                        Bayar Sekarang
+                                    </button>
+                                <% } else { %>
+                                    <button 
+                                        class="pay-now-btn bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 flex items-center"
+                                        data-anak-id="<%= period.anak.id %>"
+                                        data-periode="<%= period.periode %>"
+                                        data-amount="<%= period.jumlah %>"
+                                        data-anak-nama="<%= period.anak.nama %>">
+                                        <i class="fas fa-plus mr-2"></i>
+                                        Buat & Bayar Tagihan
+                                    </button>
+                                <% } %>
+                            </div>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="text-center py-12 hidden">
+            <div class="text-gray-400 mb-4">
+                <i class="fas fa-search text-6xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-700 mb-2">Tidak Ada Hasil</h3>
+            <p class="text-gray-500">Tidak ada tagihan yang sesuai dengan filter yang dipilih</p>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Processing Modal -->
+<div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full">
+            <div class="text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Memproses Pembayaran</h3>
+                <p class="text-gray-600">Mohon tunggu, kami sedang menyiapkan halaman pembayaran...</p>
+            </div>
+        </div>
+    </div>
+</div>

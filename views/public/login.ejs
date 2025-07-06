@@ -1,0 +1,134 @@
+<div class="min-h-screen bg-background flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex justify-center mb-6">
+                <div class="bg-primary text-white w-20 h-20 rounded-3xl flex items-center justify-center shadow-2xl">
+                    <i class="fas fa-users text-3xl"></i>
+                </div>
+            </div>
+            <h2 class="text-4xl font-bold text-textPrimary mb-4">
+                Login Orang Tua
+            </h2>
+            <p class="text-lg text-textSecondary leading-relaxed">
+                Masuk untuk mengakses dashboard dan memantau perkembangan anak Anda
+            </p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+            <form class="space-y-6" method="POST" action="/login">
+                <!-- <div>
+                    <label for="email" class="block text-sm font-semibold text-textPrimary mb-3">
+                        <i class="fas fa-envelope mr-2 text-primary"></i>
+                        Email Address
+                    </label>
+                    <input id="email" name="email" type="email" autocomplete="email" required class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 text-lg" placeholder="Masukkan email Anda">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-semibold text-textPrimary mb-3">
+                        <i class="fas fa-lock mr-2 text-primary"></i>
+                        Password
+                    </label>
+                    <div class="relative">
+                        <input id="password" name="password" type="password" autocomplete="current-password" required class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 text-lg pr-12"
+                            placeholder="Masukkan password Anda">
+                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-4 flex items-center text-textSecondary hover:text-primary transition-colors">
+                            <i id="password-icon" class="fas fa-eye text-lg"></i>
+                        </button>
+                    </div>
+                </div> -->
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-5 w-5 text-primary focus:ring-primary border-gray-300 rounded transition-all duration-300">
+                        <label for="remember-me" class="ml-3 block text-sm text-textSecondary font-medium">
+                            Ingat saya
+                        </label>
+                    </div>
+
+                    <div class="text-sm">
+                        <a href="#" class="text-primary hover:text-secondary transition-colors font-semibold">
+                            Lupa password?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="w-full bg-primary text-white py-4 px-6 rounded-2xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                        <i class="fas fa-sign-in-alt mr-3"></i>
+                        Masuk ke Dashboard
+                    </button>
+                </div>
+
+                <div class="text-center pt-4">
+                    <p class="text-textSecondary font-medium">
+                        Belum punya akun?
+                        <a href="/register" class="text-primary hover:text-secondary transition-colors font-bold">
+                            Daftar di sini
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="bg-secondary bg-opacity-10 rounded-3xl p-6 mt-8 border border-secondary border-opacity-20">
+            <div class="flex items-start space-x-4">
+                <div class="bg-secondary text-white w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-info-circle text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-textPrimary mb-2">Informasi Login</h3>
+                    <p class="text-textSecondary leading-relaxed">
+                        Gunakan email dan password yang telah didaftarkan oleh admin daycare. Jika mengalami masalah, hubungi admin melalui WhatsApp atau telepon.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="text-center space-y-4 mt-8">
+            <a href="/" class="inline-flex items-center text-textSecondary hover:text-primary transition-colors font-medium text-lg">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali ke Beranda
+            </a>
+            <div class="w-px h-6 bg-gray-300 mx-auto"></div>
+            <a href="/admin/login" class="inline-flex items-center text-textSecondary hover:text-primary transition-colors font-medium text-lg">
+                <i class="fas fa-cog mr-2"></i> Login sebagai Admin
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const passwordIcon = document.getElementById('password-icon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordIcon.classList.remove('fa-eye');
+            passwordIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            passwordIcon.classList.remove('fa-eye-slash');
+            passwordIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Add some interactive effects
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-primary');
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-primary');
+            });
+        });
+    });
+</script>

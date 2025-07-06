@@ -1,0 +1,114 @@
+<!-- Edit Aktivitas Form -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-textPrimary">Edit Aktivitas</h2>
+            <p class="text-textSecondary">Edit detail aktivitas harian</p>
+        </div>
+        <a href="/admin/aktivitas" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i> Kembali
+        </a>
+    </div>
+
+    <!-- Form -->
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+        <form method="POST" action="/admin/aktivitas/edit/<%= aktivitas.id %>" enctype="multipart/form-data">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tanggal -->
+                <div class="md:col-span-2">
+                    <label for="tanggal" class="block text-sm font-medium text-textPrimary mb-2">
+                        Tanggal Aktivitas <span class="text-danger">*</span>
+                    </label>
+                    <input type="date" id="tanggal" name="tanggal" required value="<%= aktivitas.tanggal.toISOString().split('T')[0] %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- Nama Aktivitas -->
+                <div class="md:col-span-2">
+                    <label for="namaAktivitas" class="block text-sm font-medium text-textPrimary mb-2">
+                        Nama Aktivitas <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" id="namaAktivitas" name="namaAktivitas" required value="<%= aktivitas.namaAktivitas %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Contoh: Bermain Puzzle, Menggambar, dll">
+                </div>
+
+                <!-- Deskripsi -->
+                <div class="md:col-span-2">
+                    <label for="deskripsi" class="block text-sm font-medium text-textPrimary mb-2">
+                        Deskripsi Aktivitas <span class="text-danger">*</span>
+                    </label>
+                    <textarea id="deskripsi" name="deskripsi" rows="4" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Jelaskan detail aktivitas yang akan dilakukan..."><%= aktivitas.deskripsi %></textarea>
+                </div>
+
+                <!-- Waktu Mulai -->
+                <div>
+                    <label for="waktuMulai" class="block text-sm font-medium text-textPrimary mb-2">
+                        Waktu Mulai
+                    </label>
+                    <input type="time" id="waktuMulai" name="waktuMulai" value="<%= aktivitas.waktuMulai ? new Date(aktivitas.waktuMulai).toTimeString().slice(0, 5) : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- Waktu Selesai -->
+                <div>
+                    <label for="waktuSelesai" class="block text-sm font-medium text-textPrimary mb-2">
+                        Waktu Selesai
+                    </label>
+                    <input type="time" id="waktuSelesai" name="waktuSelesai" value="<%= aktivitas.waktuSelesai ? new Date(aktivitas.waktuSelesai).toTimeString().slice(0, 5) : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- Foto -->
+                <div class="md:col-span-2">
+                    <label for="foto" class="block text-sm font-medium text-textPrimary mb-2">
+                        Foto Aktivitas
+                    </label>
+
+                    <% if (aktivitas.foto) { %>
+                        <div class="mb-4">
+                            <p class="text-sm text-textSecondary mb-2">Foto saat ini:</p>
+                            <img src="<%= aktivitas.foto %>" alt="Foto Aktivitas" class="w-32 h-32 object-cover rounded-lg border">
+                        </div>
+                        <% } %>
+
+                            <input type="file" id="foto" name="foto" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <p class="mt-1 text-sm text-textSecondary">Format: JPG, PNG, GIF. Maksimal 5MB. Biarkan kosong jika tidak ingin mengubah foto.</p>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                <a href="/admin/aktivitas" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                    Batal
+                </a>
+                <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                    <i class="fas fa-save mr-2"></i>
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Auto-set end time when start time is selected
+    document.getElementById('waktuMulai').addEventListener('change', function() {
+        const startTime = this.value;
+        const endTimeInput = document.getElementById('waktuSelesai');
+
+        if (startTime && !endTimeInput.value) {
+            // Set end time to 1 hour after start time
+            const startDate = new Date(`2000-01-01T${startTime}`);
+            const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // Add 1 hour
+            endTimeInput.value = endDate.toTimeString().slice(0, 5);
+        }
+    });
+
+    // Validate end time is after start time
+    document.getElementById('waktuSelesai').addEventListener('change', function() {
+        const startTime = document.getElementById('waktuMulai').value;
+        const endTime = this.value;
+
+        if (startTime && endTime && startTime >= endTime) {
+            alert('Waktu selesai harus setelah waktu mulai');
+            this.value = '';
+        }
+    });
+</script>

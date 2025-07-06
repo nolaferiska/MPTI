@@ -1,0 +1,119 @@
+<!-- Detail Aktivitas -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-textPrimary">Detail Aktivitas</h2>
+            <p class="text-textSecondary">Informasi lengkap aktivitas harian</p>
+        </div>
+        <div class="flex space-x-2">
+            <a href="/admin/aktivitas/edit/<%= aktivitas.id %>" class="bg-warning text-white px-4 py-2 rounded-lg hover:bg-warning-dark transition-colors">
+                <i class="fas fa-edit mr-2"></i> Edit
+            </a>
+
+            <a href="/admin/aktivitas" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali
+            </a>
+        </div>
+    </div>
+
+    <!-- Activity Info -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Info -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- Basic Info Card -->
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-textPrimary mb-4">Informasi Aktivitas</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-textSecondary mb-1">Nama Aktivitas</label>
+                        <p class="text-lg font-medium text-textPrimary">
+                            <%= aktivitas.namaAktivitas %>
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-textSecondary mb-1">Tanggal</label>
+                        <p class="text-lg font-medium text-textPrimary">
+                            <%= new Date(aktivitas.tanggal).toLocaleDateString('id-ID', { 
+                                weekday: 'long', 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric' 
+                            }) %>
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-textSecondary mb-1">Waktu Mulai</label>
+                        <p class="text-lg font-medium text-textPrimary">
+                            <% if (aktivitas.waktuMulai) { %>
+                                <%= new Date(aktivitas.waktuMulai).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %>
+                                    <% } else { %>
+                                        <span class="text-textSecondary">Belum diatur</span>
+                                        <% } %>
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-textSecondary mb-1">Waktu Selesai</label>
+                        <p class="text-lg font-medium text-textPrimary">
+                            <% if (aktivitas.waktuSelesai) { %>
+                                <%= new Date(aktivitas.waktuSelesai).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %>
+                                    <% } else { %>
+                                        <span class="text-textSecondary">Belum diatur</span>
+                                        <% } %>
+                        </p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-textSecondary mb-1">Durasi</label>
+                        <p class="text-lg font-medium text-textPrimary">
+                            <% if (aktivitas.waktuMulai && aktivitas.waktuSelesai) { %>
+                                <%= aktivitas.getDuration() %> menit
+                                    <% } else { %>
+                                        <span class="text-textSecondary">Tidak dapat dihitung</span>
+                                        <% } %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Card -->
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-textPrimary mb-4">Deskripsi Aktivitas</h3>
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-textPrimary leading-relaxed">
+                        <%= aktivitas.deskripsi %>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Status Card -->
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Photo Card -->
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-textPrimary mb-4">Foto Aktivitas</h3>
+                <% if (aktivitas.foto) { %>
+                    <div class="space-y-4">
+                        <img src="<%= aktivitas.foto %>" alt="Foto Aktivitas" class="w-full h-64 object-cover rounded-lg border">
+                        <div class="text-center">
+                            <a href="<%= aktivitas.foto %>" target="_blank" class="text-primary hover:text-primary-dark text-sm">
+                                <i class="fas fa-external-link-alt mr-1"></i> Lihat Foto Lengkap
+                            </a>
+                        </div>
+                    </div>
+                    <% } else { %>
+                        <div class="text-center py-8">
+                            <i class="fas fa-image text-4xl text-gray-300 mb-4"></i>
+                            <p class="text-textSecondary">Tidak ada foto</p>
+                        </div>
+                        <% } %>
+            </div>
+
+
+            <!-- Activity Stats -->
+
+        </div>
+    </div>
+</div>

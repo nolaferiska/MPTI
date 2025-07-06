@@ -1,0 +1,104 @@
+{
+    "projectName": "Candice Kids",
+    "slogan": "Cerdas Mandiri Ceria",
+    "targetUsers": ["Admin", "Orang Tua"],
+    "features": {
+        "admin": [
+            "Dashboard",
+            "Kelola Data Anak & Orang Tua",
+            "Absensi Anak",
+            "Aktivitas Harian",
+            "Komunikasi ke Orang Tua",
+            "Kelola Data Pengasuh",
+            "Kelola Tagihan & Pembayaran"
+        ],
+        "orangTua": [
+            "Absen Anak",
+            "Aktivitas Harian",
+            "Chat Admin",
+            "Tagihan & Pembayaran",
+            "Notifikasi Darurat"
+        ]
+    },
+    "design": {
+        "theme": "modern,minimalsi, fun, and child-friendly",
+        "responsive": true,
+        "palette": {
+            "primary": "#87CEEB",
+            "secondary": "#B0E0E6",
+            "accent": "#ADD8E6",
+            "success": "#98FB98",
+            "danger": "#F08080",
+            "background": "#F0F8FF",
+            "textPrimary": "#2F4F4F",
+            "textSecondary": "#708090"
+        },
+        "font": {
+            "family": "'Poppins', sans-serif",
+            "sizes": {
+                "heading": "2rem",
+                "subheading": "1.25rem",
+                "body": "1rem",
+                "small": "0.875rem"
+            }
+        },
+        "borderRadius": "1rem",
+        "buttonStyle": {
+            "padding": "0.5rem 1.5rem",
+            "borderRadius": "0.75rem",
+            "hoverEffect": "brightness(95%)"
+        }
+    },
+    "techStack": {
+        "architecture": "Monolith",
+        "backend": "Express.js",
+        "templateEngine": "EJS",
+        "styling": "Tailwind CSS",
+        "database": "MySQL"
+    },
+    "auth": {
+        "roles": ["admin", "orang_tua"],
+        "method": "session-based",
+        "loginPages": {
+            "admin": "/admin/login",
+            "orangTua": "/login"
+        }
+    },
+    "layouts": {
+        "public": "./views/layouts/public.ejs",
+        "admin": "./views/layouts/admin.ejs",
+        "orangTua": "./views/layouts/orangTua.ejs"
+    },
+
+    "routing": {
+        "adminRoutes": [
+            "/admin/dashboard",
+            "/admin/anak",
+            "/admin/pengasuh",
+            "/admin/aktivitas",
+            "/admin/absensi",
+            "/admin/komunikasi",
+            "/admin/tagihan"
+        ],
+        "orangTuaRoutes": [
+            "/dashboard",
+            "/absen",
+            "/aktivitas",
+            "/chat",
+            "/tagihan",
+            "/notifikasi"
+        ],
+        "responsePattern": "res.render(view, data)",
+        "viewsDirectory": "./views",
+        "routesDirectory": "./routes"
+    },
+    "folderStructure": {
+        "views": "./views (EJS templates per role)",
+        "public": "./public (static files: css, images, js)",
+        "routes": "./routes (Express route handlers)",
+        "controllers": "./controllers (business logic)",
+        "models": "./models (MySQL queries/ORM)",
+        "middleware": "./middleware (auth/session)",
+        "config": "./config"
+    }
+}

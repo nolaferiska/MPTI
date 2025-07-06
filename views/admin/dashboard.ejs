@@ -1,0 +1,210 @@
+<div class="min-h-screen bg-background">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="bg-white rounded-3xl shadow-lg p-8 mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-textPrimary mb-2">
+                        Selamat Datang,
+                        <%= user.nama %>!
+                    </h1>
+                    <p class="text-textSecondary">
+                        Dashboard Admin - Candice Kids Daycare
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-3xl shadow-lg p-6">
+                <div class="flex items-center">
+                    <div class="bg-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-child text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-textPrimary">Total Anak</h3>
+                        <p class="text-2xl font-bold text-primary">25</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg p-6">
+                <div class="flex items-center">
+                    <div class="bg-success text-white w-12 h-12 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-users text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-textPrimary">Total Orang Tua</h3>
+                        <p class="text-2xl font-bold text-success">20</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg p-6">
+                <div class="flex items-center">
+                    <div class="bg-info text-white w-12 h-12 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-user-tie text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-textPrimary">Total Pengasuh</h3>
+                        <p class="text-2xl font-bold text-info">8</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg p-6">
+                <div class="flex items-center">
+                    <div class="bg-warning text-white w-12 h-12 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-calendar-check text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-textPrimary">Kehadiran Hari Ini</h3>
+                        <p class="text-2xl font-bold text-warning">22</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Recent Activities -->
+            <div class="bg-white rounded-3xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-textPrimary mb-6">
+                    <i class="fas fa-clock mr-3 text-primary"></i> Aktivitas Terbaru
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-4 p-4 bg-blue-50 rounded-2xl">
+                        <div class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-child text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-textPrimary">Anak Baru Daftar</h4>
+                            <p class="text-sm text-textSecondary">Ahmad Rizki telah didaftarkan oleh orang tua</p>
+                            <p class="text-xs text-textSecondary mt-1">1 jam yang lalu</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-2xl">
+                        <div class="bg-success text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-file-invoice-dollar text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-textPrimary">Pembayaran Diterima</h4>
+                            <p class="text-sm text-textSecondary">Pembayaran tagihan bulanan dari Siti Aminah</p>
+                            <p class="text-xs text-textSecondary mt-1">2 jam yang lalu</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 bg-yellow-50 rounded-2xl">
+                        <div class="bg-warning text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-textPrimary">Notifikasi Darurat</h4>
+                            <p class="text-sm text-textSecondary">Aisyah mengalami demam, telah dihubungi orang tua</p>
+                            <p class="text-xs text-textSecondary mt-1">3 jam yang lalu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-3xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-textPrimary mb-6">
+                    <i class="fas fa-bolt mr-3 text-primary"></i> Akses Cepat
+                </h2>
+
+                <div class="grid grid-cols-1 gap-4">
+                    <a href="/admin/anak" class="bg-primary text-white p-4 rounded-2xl hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        <div class="flex items-center">
+                            <i class="fas fa-child text-2xl mr-4"></i>
+                            <div>
+                                <h3 class="font-semibold text-lg">Kelola Data Anak</h3>
+                                <p class="text-sm opacity-90">Tambah, edit, dan kelola data anak</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/admin/pengasuh" class="bg-primary text-white p-4 rounded-2xl hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        <div class="flex items-center">
+                            <i class="fas fa-user-tie text-2xl mr-4"></i>
+                            <div>
+                                <h3 class="font-semibold text-lg">Kelola Data Pengasuh</h3>
+                                <p class="text-sm opacity-90">Kelola data pengasuh dan staff</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/admin/aktivitas" class="bg-primary text-white p-4 rounded-2xl hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        <div class="flex items-center">
+                            <i class="fas fa-play-circle text-2xl mr-4"></i>
+                            <div>
+                                <h3 class="font-semibold text-lg">Aktivitas Harian</h3>
+                                <p class="text-sm opacity-90">Kelola aktivitas dan jadwal anak</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/admin/absensi" class="bg-primary text-white p-4 rounded-2xl hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar-check text-2xl mr-4"></i>
+                            <div>
+                                <h3 class="font-semibold text-lg">Absensi Anak</h3>
+                                <p class="text-sm opacity-90">Kelola kehadiran dan absensi</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/admin/komunikasi" class="bg-primary text-white p-4 rounded-2xl hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        <div class="flex items-center">
+                            <i class="fas fa-comments text-2xl mr-4"></i>
+                            <div>
+                                <h3 class="font-semibold text-lg">Komunikasi</h3>
+                                <p class="text-sm opacity-90">Kirim pesan ke orang tua</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/admin/tagihan" class="bg-primary text-white p-4 rounded-2xl hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        <div class="flex items-center">
+                            <i class="fas fa-file-invoice-dollar text-2xl mr-4"></i>
+                            <div>
+                                <h3 class="font-semibold text-lg">Tagihan & Pembayaran</h3>
+                                <p class="text-sm opacity-90">Kelola tagihan dan pembayaran</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="bg-white rounded-3xl shadow-lg p-8 mt-8">
+            <h2 class="text-2xl font-bold text-textPrimary mb-6">
+                <i class="fas fa-server mr-3 text-primary"></i> Status Sistem
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center p-6 bg-green-50 rounded-2xl">
+                    <i class="fas fa-database text-3xl text-success mb-4"></i>
+                    <h3 class="font-semibold text-textPrimary mb-2">Database</h3>
+                    <p class="text-success font-bold">Online</p>
+                </div>
+
+                <div class="text-center p-6 bg-blue-50 rounded-2xl">
+                    <i class="fas fa-server text-3xl text-info mb-4"></i>
+                    <h3 class="font-semibold text-textPrimary mb-2">Server</h3>
+                    <p class="text-info font-bold">Running</p>
+                </div>
+
+                <div class="text-center p-6 bg-yellow-50 rounded-2xl">
+                    <i class="fas fa-shield-alt text-3xl text-warning mb-4"></i>
+                    <h3 class="font-semibold text-textPrimary mb-2">Keamanan</h3>
+                    <p class="text-warning font-bold">Active</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

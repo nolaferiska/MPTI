@@ -1,0 +1,164 @@
+<!-- Detail Absensi Page -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-textPrimary">Detail Absensi</h2>
+            <p class="text-textSecondary">
+                Detail absensi untuk tanggal
+                <%= selectedDate.toLocaleDateString('id-ID', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                }) %>
+            </p>
+        </div>
+        <div class="flex space-x-2">
+            <a href="/admin/absensi/edit?date=<%= selectedDate.toISOString().split('T')[0] %>" class="bg-warning text-white px-4 py-2 rounded-lg hover:bg-warning-dark transition-colors">
+                <i class="fas fa-edit mr-2"></i> Edit
+            </a>
+            <a href="/admin/absensi" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali
+            </a>
+        </div>
+    </div>
+
+    <!-- Attendance Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-success bg-opacity-10">
+                    <i class="fas fa-check-circle text-success text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-textSecondary">Hadir</p>
+                    <p class="text-2xl font-bold text-textPrimary">
+                        <%= attendanceSummary.hadir %>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-danger bg-opacity-10">
+                    <i class="fas fa-times-circle text-danger text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-textSecondary">Alpha</p>
+                    <p class="text-2xl font-bold text-textPrimary">
+                        <%= attendanceSummary.alpha %>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-primary bg-opacity-10">
+                    <i class="fas fa-users text-primary text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-textSecondary">Total Anak</p>
+                    <p class="text-2xl font-bold text-textPrimary">
+                        <%= attendanceSummary.total %>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Children Attendance Details -->
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-textPrimary">Daftar Anak dan Status Absensi</h3>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Foto</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Nama</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Orang Tua</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Waktu Input</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <% if (children && children.length > 0) { %>
+                        <% children.forEach(child => { %>
+                            <% const attendance = existingAttendance[child.id]; %>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <% if (child.foto) { %>
+                                                <img class="h-10 w-10 rounded-full object-cover" src="<%= child.foto %>" alt="<%= child.nama %>">
+                                                <% } else { %>
+                                                    <div class="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center">
+                                                        <i class="fas fa-child"></i>
+                                                    </div>
+                                                    <% } %>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-textPrimary">
+                                            <%= child.nama %>
+                                        </div>
+                                        <div class="text-sm text-textSecondary">
+                                            <%= child.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan' %> •
+                                                <%= child.age %> tahun
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-textPrimary">
+                                            <% if (child.orangTua) { %>
+                                                <%= child.orangTua.nama %>
+                                                    <% } else { %>
+                                                        <span class="text-textSecondary">-</span>
+                                                        <% } %>
+                                        </div>
+                                        <div class="text-sm text-textSecondary">
+                                            <% if (child.orangTua && child.orangTua.telepon) { %>
+                                                <%= child.orangTua.telepon %>
+                                                    <% } %>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <% if (attendance) { %>
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                            <%= attendance.status === 'hadir' ? 'bg-success text-white' : 'bg-danger text-white' %>">
+                                            <%= attendance.statusDisplay %>
+                                        </span>
+                                            <% } else { %>
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-300 text-gray-700">
+                                            Belum Absen
+                                        </span>
+                                                <% } %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-textSecondary">
+                                        <% if (attendance) { %>
+                                            <%= new Date(attendance.createdAt).toLocaleString('id-ID') %>
+                                                <% } else { %>
+                                                    -
+                                                    <% } %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="5" class="px-6 py-4 text-center text-textSecondary">
+                                                <div class="flex flex-col items-center py-8">
+                                                    <i class="fas fa-child text-4xl text-gray-300 mb-4"></i>
+                                                    <p class="text-lg font-medium">Tidak ada data anak</p>
+                                                    <p class="text-sm">Belum ada data anak yang ditambahkan</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+
+    <!-- Tailwind CSS - Compiled -->
+    <link href="/css/output.css" rel="stylesheet">
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+    #messagesContainer {
+        scroll-behavior: auto !important; /* Instant scroll, no smooth transition */
+        display: flex;
+        flex-direction: column;
+        height: 100%; /* Ensure full height */
+    }
+    
+    /* Ensure messages container maintains scroll position */
+    .messages-area {
+        position: relative;
+        overflow-y: auto !important;
+        height: 100%;
+    }
+    
+    /* Help with scroll positioning */
+    .chat-message {
+        scroll-margin-bottom: 0.5rem;
+        margin-bottom: 1rem; /* Add spacing between messages */
+    }
+
+    /* Force scroll to show latest messages */
+    .messages-area.force-bottom::after {
+        content: '';
+        height: 1px;
+        width: 1px;
+    }
+</style>
+
+<style>
+.view-toggle.active {
+    background-color: #3B82F6;
+    color: white;
+}
+
+.view-toggle:not(.active) {
+    color: #6B7280;
+}
+
+.view-toggle:not(.active):hover {
+    background-color: #E5E7EB;
+}
+
+.tagihan-card {
+    transition: all 0.2s ease;
+}
+
+.tagihan-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-lunas {
+    background-color: #DEF7EC;
+    color: #03543F;
+}
+
+.status-belum-bayar {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+.status-sebagian {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+</style>
+
+</head>
+
+<body class="font-poppins bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="bg-textPrimary text-white w-64 fixed h-full overflow-y-auto">
+            <div class="p-4">
+                <div class="flex items-center space-x-2 mb-8">
+                    <div class="bg-primary text-white w-10 h-10 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-baby text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg font-bold">Candice Kids</span>
+                        <p class="text-xs text-gray-300">Admin Panel</p>
+                    </div>
+                </div>
+
+                <nav class="space-y-2">
+                    <a href="/admin/dashboard" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a href="/admin/anak" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-child"></i>
+                        <span>Data Anak</span>
+                    </a>
+
+                    <a href="/admin/pengasuh" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-users"></i>
+                        <span>Data Pengasuh</span>
+                    </a>
+
+                    <a href="/admin/absensi" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Absensi</span>
+                    </a>
+
+                    <a href="/admin/aktivitas" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-tasks"></i>
+                        <span>Aktivitas Harian</span>
+                    </a>
+
+                    <a href="/admin/komunikasi" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-comments"></i>
+                        <span>Komunikasi</span>
+                    </a>
+
+                    <a href="/admin/notifikasi-darurat" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Notifikasi Darurat</span>
+                    </a>
+
+                    <a href="/admin/tagihan" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-money-bill"></i>
+                        <span>Tagihan & Pembayaran</span>
+                    </a>
+                </nav>
+
+                <!-- Logout Button -->
+                <div class="mt-8 pt-4 border-t border-gray-600">
+                    <a href="/admin/logout" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-600 transition-colors text-red-300 hover:text-white">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 ml-64">
+            
+
+            <!-- Flash Messages -->
+            <% if (success_msg && success_msg.length > 0) { %>
+                <div class="bg-success text-white p-4 text-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <%= success_msg %>
+                </div>
+                <% } %>
+
+                    <% if (error_msg && error_msg.length > 0) { %>
+                        <div class="bg-danger text-white p-4 text-center">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            <%= error_msg %>
+                        </div>
+                        <% } %>
+
+                            <!-- Page Content -->
+                            <main class="p-6">
+                                <%- body %>
+                            </main>
+        </div>
+    </div>
+
+
+    <script src="/js/admin.js"></script>
+
+<!-- Chat CSS for better scroll behavior -->
+
+
+<!-- Socket.IO -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    // Initialize Socket.IO for communication
+    if (window.location.pathname === '/admin/komunikasi') {
+        const socket = io();
+        let selectedUserId = null;
+        const currentUserId = '<%= user?.id || "" %>';
+        const currentUserRole = 'admin';
+        const currentUserName = '<%= user?.nama || "Admin" %>';
+
+        // Connect to socket
+        socket.emit('join', {
+            userId: parseInt(currentUserId),
+            userRole: currentUserRole,
+            userName: currentUserName
+        });
+
+        // Observer to ensure scroll to bottom when container content changes
+        let observer = null;
+        function setupScrollObserver() {
+            const container = document.getElementById('messagesContainer');
+            if (container && !observer) {
+                observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                            // Ensure scroll to bottom when new messages are added
+                            requestAnimationFrame(() => {
+                                container.scrollTop = container.scrollHeight;
+                            });
+                        }
+                    });
+                });
+                
+                observer.observe(container, {
+                    childList: true,
+                    subtree: false
+                });
+            }
+        }
+
+        // Add click event listeners to user items
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, adding event listeners');
+            const userItems = document.querySelectorAll('.user-item');
+            console.log('Found user items:', userItems.length);
+
+            userItems.forEach((item, index) => {
+                console.log(`Adding click listener to item ${index}:`, item);
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('User item clicked:', this);
+                    
+                    // Remove active class from all items
+                    document.querySelectorAll('.user-item').forEach(i => {
+                        i.classList.remove('bg-primary', 'text-white');
+                        i.classList.add('hover:bg-gray-50');
+                        
+                        // Reset text colors for all child elements
+                        const childElements = i.querySelectorAll('*');
+                        childElements.forEach(child => {
+                            child.classList.remove('text-white');
+                        });
+                    });
+                    
+                    // Add active class to selected item
+                    this.classList.remove('hover:bg-gray-50');
+                    this.classList.add('bg-primary', 'text-white');
+                    
+                    // Make sure all child text is white
+                    const childElements = this.querySelectorAll('*');
+                    childElements.forEach(child => {
+                        child.classList.add('text-white');
+                    });
+                    
+                    const userId = this.getAttribute('data-user-id');
+                    const userName = this.getAttribute('data-user-name');
+                    console.log('Selected user:', userId, userName);
+                    selectUser(userId, userName);
+                });
+            });
+
+            // Message form handling
+            const messageForm = document.getElementById('messageForm');
+            if (messageForm) {
+                messageForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const messageText = document.getElementById('messageText').value.trim();
+                    if (!messageText || !selectedUserId) return;
+
+                    // Send via Socket.IO
+                    socket.emit('send_message', {
+                        pengirimId: parseInt(currentUserId),
+                        penerimaId: parseInt(selectedUserId),
+                        pesan: messageText
+                    });
+
+                    // Clear input
+                    document.getElementById('messageText').value = '';
+                });
+            }
+        });
+
+        async function selectUser(userId, userName) {
+            try {
+                selectedUserId = userId;
+
+                // Update UI
+                const welcomeMessage = document.getElementById('welcomeMessage');
+                const chatHeader = document.getElementById('chatHeader');
+                const messagesArea = document.getElementById('messagesArea');
+                const messageInput = document.getElementById('messageInput');
+                const selectedUserInitial = document.getElementById('selectedUserInitial');
+                const selectedUserNameEl = document.getElementById('selectedUserName');
+
+                if (welcomeMessage) welcomeMessage.classList.add('hidden');
+                if (chatHeader) chatHeader.classList.remove('hidden');
+                if (messagesArea) messagesArea.classList.remove('hidden');
+                if (messageInput) messageInput.classList.remove('hidden');
+
+                if (selectedUserInitial) {
+                    selectedUserInitial.textContent = userName.charAt(0).toUpperCase();
+                }
+                if (selectedUserNameEl) {
+                    selectedUserNameEl.textContent = userName;
+                }
+
+                // Setup scroll observer for this chat
+                setupScrollObserver();
+
+                // Load messages and auto scroll
+                console.log('Loading messages for user:', userId);
+                await loadMessages(userId);
+                
+                // Force scroll to bottom after loading
+                setTimeout(() => {
+                    scrollToBottom();
+                }, 500);
+                
+                // Focus on message input for better UX
+                const messageTextInput = document.getElementById('messageText');
+                if (messageTextInput) {
+                    setTimeout(() => messageTextInput.focus(), 200);
+                }
+            } catch (error) {
+                console.error('Error in selectUser:', error);
+            }
+        }
+
+        async function loadMessages(userId) {
+            try {
+                console.log('Loading messages for user:', userId);
+                const response = await fetch(`/admin/komunikasi/messages/${userId}`);
+                const data = await response.json();
+
+                if (data.messages) {
+                    displayMessages(data.messages);
+                }
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                showAlert('Terjadi kesalahan saat memuat pesan', 'error');
+            }
+        }
+
+        function displayMessages(messages) {
+            const container = document.getElementById('messagesContainer');
+            const messagesArea = document.getElementById('messagesArea');
+            
+            container.innerHTML = '';
+
+            messages.forEach(message => {
+                displayMessage(message, false); // false = don't auto scroll on bulk load
+            });
+
+            // Multiple scroll attempts to ensure we get to bottom
+            const forceScrollBottom = () => {
+                if (container && messagesArea) {
+                    console.log('Scrolling to bottom. Container height:', container.scrollHeight, 'Current scroll:', container.scrollTop);
+                    
+                    // Try multiple scroll methods
+                    container.scrollTop = container.scrollHeight;
+                    messagesArea.scrollTop = messagesArea.scrollHeight;
+                    
+                    // Additional force scroll
+                    setTimeout(() => {
+                        container.scrollTop = container.scrollHeight;
+                        messagesArea.scrollTop = messagesArea.scrollHeight;
+                        console.log('After scroll - Container height:', container.scrollHeight, 'Final scroll:', container.scrollTop);
+                    }, 100);
+                    
+                    // Final check with longer delay
+                    setTimeout(() => {
+                        container.scrollTop = container.scrollHeight;
+                        messagesArea.scrollTop = messagesArea.scrollHeight;
+                    }, 300);
+                }
+            };
+
+            // Use requestAnimationFrame for better timing
+            requestAnimationFrame(() => {
+                forceScrollBottom();
+            });
+        }
+
+        function displayMessage(message, autoScroll = true) {
+            const container = document.getElementById('messagesContainer');
+            const isOwnMessage = message.pengirimId == currentUserId;
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex chat-message ${isOwnMessage ? 'justify-end' : 'justify-start'}`;
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                isOwnMessage 
+                    ? 'bg-primary text-white' 
+                    : 'bg-white text-textPrimary border border-gray-200'
+            }`;
+
+            messageBubble.innerHTML = `
+                <div class="message-text mb-1">${escapeHtml(message.pesan)}</div>
+                <div class="text-xs ${isOwnMessage ? 'text-blue-100' : 'text-textSecondary'}">
+                    ${formatTime(message.createdAt)}
+                </div>
+            `;
+
+            messageDiv.appendChild(messageBubble);
+            container.appendChild(messageDiv);
+
+            // Auto scroll to bottom for new messages
+            if (autoScroll) {
+                console.log('Auto scrolling for new message');
+                scrollToBottom();
+            }
+        }
+
+        function scrollToBottom() {
+            const container = document.getElementById('messagesContainer');
+            const messagesArea = document.getElementById('messagesArea');
+            
+            if (container && messagesArea) {
+                console.log('scrollToBottom called');
+                
+                // Force scroll immediately
+                container.scrollTop = container.scrollHeight;
+                messagesArea.scrollTop = messagesArea.scrollHeight;
+                
+                // Use requestAnimationFrame for better performance and timing
+                requestAnimationFrame(() => {
+                    container.scrollTop = container.scrollHeight;
+                    messagesArea.scrollTop = messagesArea.scrollHeight;
+                    
+                    // Additional check after a small delay for dynamic content
+                    setTimeout(() => {
+                        container.scrollTop = container.scrollHeight;
+                        messagesArea.scrollTop = messagesArea.scrollHeight;
+                    }, 50);
+                });
+            }
+        }
+
+        // Socket event handlers
+        socket.on('message_sent', (data) => {
+            if (data.success) {
+                displayMessage(data.message, true); // Auto scroll for sent messages
+            }
+        });
+
+        socket.on('new_message', (data) => {
+            // Only display if it's from the currently selected user AND not from admin itself
+            if (selectedUserId && 
+                data.message.pengirimId == selectedUserId && 
+                data.message.pengirimId != currentUserId) {
+                displayMessage(data.message, true); // Auto scroll for received messages
+            }
+        });
+
+        socket.on('message_error', (data) => {
+            showAlert(data.error || 'Terjadi kesalahan saat mengirim pesan', 'error');
+        });
+
+        // Online/Offline status handlers
+        socket.on('user_online', (data) => {
+            if (data.userRole === 'orang_tua') {
+                const indicator = document.querySelector(`.online-indicator[data-user-id="${data.userId}"]`);
+                if (indicator) {
+                    indicator.classList.remove('bg-gray-400');
+                    indicator.classList.add('bg-green-500');
+                }
+            }
+        });
+
+        socket.on('user_offline', (data) => {
+            if (data.userRole === 'orang_tua') {
+                const indicator = document.querySelector(`.online-indicator[data-user-id="${data.userId}"]`);
+                if (indicator) {
+                    indicator.classList.remove('bg-green-500');
+                    indicator.classList.add('bg-gray-400');
+                }
+            }
+        });
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function showAlert(message, type) {
+            // Create a simple alert using Tailwind
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                type === 'error' ? 'bg-danger text-white' : 'bg-success text-white'
+            }`;
+            alertDiv.textContent = message;
+
+            document.body.appendChild(alertDiv);
+
+            // Remove alert after 3 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+    }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // View toggle functionality
+    const viewToggles = document.querySelectorAll('.view-toggle');
+    const monthlyView = document.getElementById('monthlyView');
+    const childView = document.getElementById('childView');
+    const monthFilter = document.getElementById('monthFilter');
+    
+    // Initialize
+    updateCurrentMonth();
+    loadData();
+    
+    // View toggle event listeners
+    document.getElementById('viewByMonth').addEventListener('click', () => switchView('month'));
+    document.getElementById('viewByChild').addEventListener('click', () => switchView('child'));
+    
+    // Filter event listeners
+    document.getElementById('statusFilter').addEventListener('change', loadData);
+    document.getElementById('selectedMonth').addEventListener('change', loadData);
+    document.getElementById('sortOrder').addEventListener('change', loadData);
+    document.getElementById('resetFilters').addEventListener('click', resetFilters);
+    
+    // Modal event listeners
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('tagihanModal').addEventListener('click', (e) => {
+        if (e.target.id === 'tagihanModal') closeModal();
+    });
+    
+    function switchView(viewType) {
+        // Update toggle buttons
+        viewToggles.forEach(toggle => toggle.classList.remove('active'));
+        
+        if (viewType === 'month') {
+            document.getElementById('viewByMonth').classList.add('active');
+            monthlyView.classList.remove('hidden');
+            childView.classList.add('hidden');
+            monthFilter.classList.remove('hidden');
+        } else {
+            document.getElementById('viewByChild').classList.add('active');
+            monthlyView.classList.add('hidden');
+            childView.classList.remove('hidden');
+            monthFilter.classList.add('hidden');
+        }
+        
+        loadData();
+    }
+    
+    function updateCurrentMonth() {
+        const selectedMonth = document.getElementById('selectedMonth').value;
+        const date = new Date(selectedMonth + '-01');
+        const monthName = date.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+        document.getElementById('currentMonth').textContent = monthName;
+    }
+    
+    async function loadData() {
+        const activeView = document.querySelector('.view-toggle.active').id;
+        const isMonthly = activeView === 'viewByMonth';
+        
+        showLoading();
+        
+        try {
+            const params = new URLSearchParams({
+                view: isMonthly ? 'monthly' : 'child',
+                status: document.getElementById('statusFilter').value,
+                sort: document.getElementById('sortOrder').value
+            });
+            
+            if (isMonthly) {
+                params.append('month', document.getElementById('selectedMonth').value);
+                updateCurrentMonth();
+            }
+            
+            const response = await fetch(`/admin/tagihan/data?${params}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                updateSummary(data.summary);
+                
+                if (isMonthly) {
+                    renderMonthlyView(data.tagihan);
+                } else {
+                    renderChildView(data.tagihan);
+                }
+                
+                hideLoading();
+            } else {
+                showNoData();
+            }
+        } catch (error) {
+            console.error('Error loading data:', error);
+            showNoData();
+        }
+    }
+    
+    function showLoading() {
+        document.getElementById('contentArea').classList.add('hidden');
+        document.getElementById('noDataState').classList.add('hidden');
+        document.getElementById('loadingState').classList.remove('hidden');
+    }
+    
+    function hideLoading() {
+        document.getElementById('loadingState').classList.add('hidden');
+        document.getElementById('contentArea').classList.remove('hidden');
+    }
+    
+    function showNoData() {
+        document.getElementById('loadingState').classList.add('hidden');
+        document.getElementById('contentArea').classList.add('hidden');
+        document.getElementById('noDataState').classList.remove('hidden');
+    }
+    
+    function updateSummary(summary) {
+        document.getElementById('totalTagihan').textContent = formatCurrency(summary.totalTagihan);
+        document.getElementById('totalLunas').textContent = formatCurrency(summary.totalLunas);
+        document.getElementById('totalBelumBayar').textContent = formatCurrency(summary.totalBelumBayar);
+        document.getElementById('totalAnak').textContent = summary.totalAnak;
+    }
+    
+    function renderMonthlyView(tagihan) {
+        const container = document.getElementById('monthlyContent');
+        
+        if (!tagihan || tagihan.length === 0) {
+            container.innerHTML = '<p class="text-gray-500 text-center py-8">Tidak ada tagihan untuk bulan ini</p>';
+            return;
+        }
+        
+        container.innerHTML = tagihan.map(item => `
+            <div class="tagihan-card border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-all cursor-pointer" onclick="viewTagihanDetail('${item.anakId}', '${item.periode}')">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
+                            ${item.namaAnak.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">${item.namaAnak}</h3>
+                            <p class="text-sm text-gray-600">ID: ${item.anakId}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-gray-800">${formatCurrency(item.jumlah)}</p>
+                        <span class="status-badge status-${item.status}">${getStatusText(item.status)}</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="text-gray-500">Jatuh Tempo:</span>
+                        <p class="font-medium">${formatDate(item.tanggalJatuhTempo)}</p>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Pembayaran:</span>
+                        <p class="font-medium">${item.totalPembayaran} transaksi</p>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function renderChildView(children) {
+        const container = document.getElementById('childContent');
+        
+        if (!children || children.length === 0) {
+            container.innerHTML = '<p class="text-gray-500 text-center py-8">Tidak ada data anak</p>';
+            return;
+        }
+        
+        container.innerHTML = children.map(child => `
+            <div class="tagihan-card border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-all cursor-pointer" onclick="viewChildTagihan('${child.id}')">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
+                            ${child.nama.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">${child.nama}</h3>
+                            <p class="text-sm text-gray-600">Orang Tua: ${child.orangTuaNama}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-gray-800">${formatCurrency(child.totalTagihan)}</p>
+                        <p class="text-sm text-gray-600">${child.totalPeriode} periode</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-2 text-xs">
+                    <div class="text-center p-2 bg-red-50 rounded">
+                        <div class="text-red-600 font-bold">${child.belumBayar}</div>
+                        <div class="text-red-500">Belum Bayar</div>
+                    </div>
+                    <div class="text-center p-2 bg-yellow-50 rounded">
+                        <div class="text-yellow-600 font-bold">${child.sebagian || 0}</div>
+                        <div class="text-yellow-500">Sebagian</div>
+                    </div>
+                    <div class="text-center p-2 bg-green-50 rounded">
+                        <div class="text-green-600 font-bold">${child.lunas}</div>
+                        <div class="text-green-500">Lunas</div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function resetFilters() {
+        document.getElementById('statusFilter').value = 'all';
+        document.getElementById('selectedMonth').value = new Date().toISOString().slice(0, 7);
+        document.getElementById('sortOrder').value = 'newest';
+        loadData();
+    }
+    
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(amount);
+    }
+    
+    function formatDate(dateString) {
+        if (!dateString) return '-';
+        return new Date(dateString).toLocaleDateString('id-ID');
+    }
+    
+    function getStatusText(status) {
+        const statusMap = {
+            'lunas': 'Lunas',
+            'belum_bayar': 'Belum Bayar',
+            'sebagian': 'Sebagian'
+        };
+        return statusMap[status] || status;
+    }
+    
+    async function viewTagihanDetail(anakId, periode) {
+        try {
+            const response = await fetch(`/admin/tagihan/detail/${anakId}/${periode}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('modalTitle').textContent = `Detail Tagihan ${data.anak.nama} - ${data.periodeName}`;
+                document.getElementById('modalContent').innerHTML = renderTagihanDetail(data);
+                document.getElementById('tagihanModal').classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error('Error loading tagihan detail:', error);
+        }
+    }
+    
+    async function viewChildTagihan(anakId) {
+        try {
+            const response = await fetch(`/admin/tagihan/child/${anakId}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('modalTitle').textContent = `Tagihan ${data.anak.nama}`;
+                document.getElementById('modalContent').innerHTML = renderChildTagihanDetail(data);
+                document.getElementById('tagihanModal').classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error('Error loading child tagihan:', error);
+        }
+    }
+    
+    function renderTagihanDetail(data) {
+        return `
+            <div class="space-y-6">
+                <!-- Anak Info -->
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">Informasi Anak</h4>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div><span class="text-gray-500">Nama:</span> <span class="font-medium">${data.anak.nama}</span></div>
+                        <div><span class="text-gray-500">Orang Tua:</span> <span class="font-medium">${data.orangTua.nama}</span></div>
+                        <div><span class="text-gray-500">Periode:</span> <span class="font-medium">${data.periodeName}</span></div>
+                        <div><span class="text-gray-500">Status:</span> <span class="status-badge status-${data.tagihan.status}">${getStatusText(data.tagihan.status)}</span></div>
+                    </div>
+                </div>
+                
+                <!-- Tagihan Info -->
+                <div class="bg-blue-50 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">Detail Tagihan</h4>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div><span class="text-gray-500">Total Tagihan:</span> <span class="font-bold text-lg">${formatCurrency(data.tagihan.jumlah)}</span></div>
+                        <div><span class="text-gray-500">Jatuh Tempo:</span> <span class="font-medium">${formatDate(data.tagihan.tanggalJatuhTempo)}</span></div>
+                        <div><span class="text-gray-500">Total Dibayar:</span> <span class="font-medium text-green-600">${formatCurrency(data.totalPaid)}</span></div>
+                        <div><span class="text-gray-500">Sisa Tagihan:</span> <span class="font-medium text-red-600">${formatCurrency(data.remainingAmount)}</span></div>
+                    </div>
+                </div>
+                
+                <!-- Payment History -->
+                ${data.payments.length > 0 ? `
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-3">Riwayat Pembayaran</h4>
+                        <div class="space-y-2">
+                            ${data.payments.map(payment => `
+                                <div class="border border-gray-200 rounded-lg p-3">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <p class="font-medium">Order ID: ${payment.orderId}</p>
+                                            <p class="text-sm text-gray-600">${formatDate(payment.createdAt)} - ${payment.paymentType || 'N/A'}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-bold">${formatCurrency(payment.jumlahBayar)}</p>
+                                            <span class="status-badge status-${payment.transactionStatus === 'settlement' || payment.transactionStatus === 'capture' ? 'lunas' : 'belum-bayar'}">
+                                                ${payment.transactionStatus === 'settlement' || payment.transactionStatus === 'capture' ? 'Berhasil' : payment.transactionStatus === 'pending' ? 'Pending' : 'Gagal'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : '<p class="text-gray-500 text-center py-4">Belum ada riwayat pembayaran</p>'}
+            </div>
+        `;
+    }
+    
+    function renderChildTagihanDetail(data) {
+        return `
+            <div class="space-y-6">
+                <!-- Anak Info -->
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">Informasi Anak</h4>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div><span class="text-gray-500">Nama:</span> <span class="font-medium">${data.anak.nama}</span></div>
+                        <div><span class="text-gray-500">Orang Tua:</span> <span class="font-medium">${data.orangTua.nama}</span></div>
+                        <div><span class="text-gray-500">Tanggal Masuk:</span> <span class="font-medium">${formatDate(data.anak.tanggalMasuk)}</span></div>
+                        <div><span class="text-gray-500">Total Tagihan:</span> <span class="font-bold text-lg">${formatCurrency(data.totalTagihan)}</span></div>
+                    </div>
+                </div>
+                
+                <!-- Tagihan List -->
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-3">Daftar Tagihan Per Periode</h4>
+                    <div class="space-y-3">
+                        ${data.periods.map(period => `
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h5 class="font-medium">${period.periodeName}</h5>
+                                        <p class="text-sm text-gray-600">Periode: ${period.periode}</p>
+                                        ${period.tagihan && period.tagihan.tanggalJatuhTempo ? `<p class="text-sm text-gray-600">Jatuh Tempo: ${formatDate(period.tagihan.tanggalJatuhTempo)}</p>` : ''}
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-bold text-lg">${formatCurrency(period.jumlah)}</p>
+                                        <span class="status-badge status-${period.status}">${getStatusText(period.status)}</span>
+                                    </div>
+                                </div>
+                                
+                                ${period.tagihan && period.tagihan.pembayaran && period.tagihan.pembayaran.length > 0 ? `
+                                    <div class="mt-3 pt-3 border-t border-gray-100">
+                                        <p class="text-sm text-gray-600 mb-2">Riwayat Pembayaran:</p>
+                                        ${period.tagihan.pembayaran.map(payment => `
+                                            <div class="flex justify-between items-center text-sm">
+                                                <span>${payment.orderId} - ${formatDate(payment.createdAt)}</span>
+                                                <span class="font-medium">${formatCurrency(payment.jumlahBayar)}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    function closeModal() {
+        document.getElementById('tagihanModal').classList.add('hidden');
+    }
+});
+</script>
+
+</body>
+
+</html>

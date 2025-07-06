@@ -1,0 +1,103 @@
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div class="text-center">
+            <div class="flex justify-center">
+                <div class="bg-textPrimary text-white w-16 h-16 rounded-custom flex items-center justify-center">
+                    <i class="fas fa-cog text-2xl"></i>
+                </div>
+            </div>
+            <h2 class="mt-6 text-3xl font-bold text-textPrimary">
+                Login Admin
+            </h2>
+            <p class="mt-2 text-sm text-textSecondary">
+                Akses panel administrasi Candice Kids
+            </p>
+        </div>
+
+        <div class="bg-white rounded-custom shadow-lg p-8">
+            <form class="space-y-6" method="POST" action="/admin/login">
+                <!-- <div>
+                    <label for="username" class="block text-sm font-medium text-textPrimary mb-2">
+                        Username
+                    </label>
+                    <input id="username" name="username" type="text" autocomplete="username" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-textPrimary focus:border-transparent" placeholder="Masukkan username admin">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-textPrimary mb-2">
+                        Password
+                    </label>
+                    <div class="relative">
+                        <input id="password" name="password" type="password" autocomplete="current-password" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-textPrimary focus:border-transparent pr-10" placeholder="Masukkan password admin">
+                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-textSecondary hover:text-textPrimary">
+                            <i id="password-icon" class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-textPrimary focus:ring-textPrimary border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-textSecondary">
+                            Ingat saya
+                        </label>
+                    </div>
+
+                    <div class="text-sm">
+                        <a href="#" class="text-textPrimary hover:underline">
+                            Lupa password?
+                        </a>
+                    </div>
+                </div> -->
+
+                <div>
+                    <button type="submit" class="w-full bg-textPrimary text-white py-3 px-4 rounded-lg font-semibold hover:bg-gray-700 transition-all focus:outline-none focus:ring-2 focus:ring-textPrimary focus:ring-offset-2">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Masuk Admin
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Security Notice -->
+        <div class="bg-danger bg-opacity-10 rounded-custom p-6">
+            <div class="flex items-start space-x-3">
+                <i class="fas fa-shield-alt text-danger mt-1"></i>
+                <div>
+                    <h3 class="text-sm font-medium text-textPrimary mb-1">Keamanan Admin</h3>
+                    <p class="text-xs text-textSecondary">
+                        Panel admin hanya untuk staff yang berwenang. Semua aktivitas login akan dicatat untuk keperluan audit keamanan.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="text-center space-y-2">
+            <a href="/" class="text-textSecondary hover:text-primary text-sm transition-colors">
+                <i class="fas fa-arrow-left mr-1"></i> Kembali ke Beranda
+            </a>
+            <br>
+            <a href="/login" class="text-textSecondary hover:text-primary text-sm transition-colors">
+                Login sebagai Orang Tua
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const passwordIcon = document.getElementById('password-icon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordIcon.classList.remove('fa-eye');
+            passwordIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            passwordIcon.classList.remove('fa-eye-slash');
+            passwordIcon.classList.add('fa-eye');
+        }
+    }
+</script>

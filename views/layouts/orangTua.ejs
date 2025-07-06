@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+
+    <!-- Tailwind CSS - Compiled -->
+    <link href="/css/output.css" rel="stylesheet">
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body class="font-poppins bg-background">
+    <!-- Mobile Navigation Toggle -->
+    <div class="lg:hidden">
+        <button id="mobile-menu-toggle" class="fixed top-4 left-4 z-50 bg-primary text-white p-2 rounded-lg">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="bg-white shadow-lg w-64 fixed h-full overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+            <div class="p-4 h-full flex flex-col">
+                <div class="flex items-center space-x-2 mb-8">
+                    <div class="bg-primary text-white w-10 h-10 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-baby text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg font-bold text-primary">Candice Kids</span>
+                        <p class="text-xs text-textSecondary">Dashboard Orang Tua</p>
+                    </div>
+                </div>
+
+                <nav class="space-y-2 flex-1">
+                    <a href="/dashboard" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
+                        <i class="fas fa-home text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
+                        <span class="group-hover:text-primary transition-colors duration-200">Dashboard</span>
+                    </a>
+
+                    <a href="/kelola-anak" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
+                        <i class="fas fa-child text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
+                        <span class="group-hover:text-primary transition-colors duration-200">Kelola Anak</span>
+                    </a>
+
+                    <a href="/absen" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
+                        <i class="fas fa-calendar-check text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
+                        <span class="group-hover:text-primary transition-colors duration-200">Absen Anak</span>
+                    </a>
+
+                    <a href="/aktivitas" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
+                        <i class="fas fa-tasks text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
+                        <span class="group-hover:text-primary transition-colors duration-200">Aktivitas Harian</span>
+                    </a>
+
+                    <a href="/komunikasi" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
+                        <i class="fas fa-comments text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
+                        <span class="group-hover:text-primary transition-colors duration-200">Komunikasi</span>
+                    </a>
+
+                    <a href="/tagihan" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
+                        <i class="fas fa-money-bill text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
+                        <span class="group-hover:text-primary transition-colors duration-200">Tagihan</span>
+                    </a>
+
+                    <a href="/notifikasi" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
+                        <i class="fas fa-bell text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
+                        <span class="group-hover:text-primary transition-colors duration-200">Notifikasi Darurat</span>
+                    </a>
+                </nav>
+                
+                <!-- Logout Button -->
+                <div class="mt-auto pt-4 border-t border-gray-200">
+                    <a href="/logout" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-50 transition-colors text-textPrimary hover:text-red-600" onclick="return confirm('Apakah Anda yakin ingin logout?')">
+                        <i class="fas fa-sign-out-alt text-red-500"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden hidden"></div>
+
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-64">
+            <!-- Top Bar -->
+            
+            <!-- Flash Messages -->
+            <% if (success_msg && success_msg.length > 0) { %>
+                <div class="bg-success text-white p-4 text-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <%= success_msg %>
+                </div>
+                <% } %>
+
+                    <% if (error_msg && error_msg.length > 0) { %>
+                        <div class="bg-danger text-white p-4 text-center">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            <%= error_msg %>
+                        </div>
+                        <% } %>
+
+                            <% if (info_msg && info_msg.length > 0) { %>
+                                <div class="bg-blue-500 text-white p-4 text-center">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    <%= info_msg %>
+                                </div>
+                                <% } %>
+
+                            <!-- Page Content -->
+                            <main class="p-6">
+                                <%- body %>
+                            </main>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+                sidebarOverlay.classList.toggle('hidden');
+            });
+        }
+
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('hidden');
+            });
+        }
+
+        // Add active state to current menu item
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const menuItems = document.querySelectorAll('.nav-link');
+            
+            menuItems.forEach(item => {
+                const href = item.getAttribute('href');
+                if (href === currentPath) {
+                    // Add active state
+                    item.classList.add('bg-primary', 'text-white', 'border-l-4', 'border-white');
+                    item.classList.remove('text-textPrimary', 'hover:bg-blue-50', 'hover:border-primary');
+                    
+                    // Style the icon and text for active state
+                    const icon = item.querySelector('i');
+                    const span = item.querySelector('span');
+                    if (icon) {
+                        icon.classList.remove('text-gray-500', 'group-hover:text-primary');
+                        icon.classList.add('text-white');
+                    }
+                    if (span) {
+                        span.classList.remove('group-hover:text-primary');
+                        span.classList.add('text-white');
+                    }
+                }
+            });
+        });
+
+    </script>
+    <script src="/js/orangTua.js"></script>
+    
+    <!-- Chat CSS for better scroll behavior -->
+    <style>
+        #messagesContainer {
+            scroll-behavior: auto !important; /* Instant scroll, no smooth transition */
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Ensure full height */
+        }
+        
+        /* Ensure messages container maintains scroll position */
+        .messages-area {
+            position: relative;
+            overflow-y: auto !important;
+            height: 100%;
+        }
+        
+        /* Help with scroll positioning */
+        .chat-message {
+            scroll-margin-bottom: 0.5rem;
+            margin-bottom: 1rem; /* Add spacing between messages */
+        }
+
+        /* Force scroll to show latest messages */
+        .messages-area.force-bottom::after {
+            content: '';
+            height: 1px;
+            width: 1px;
+        }
+    </style>
+    
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Initialize Socket.IO for communication
+        if (window.location.pathname === '/komunikasi') {
+            const socket = io();
+            let selectedAdminId = null;
+            // Get current user ID from a data attribute or global variable
+            const currentUserId = document.querySelector('[data-user-id]')?.getAttribute('data-user-id') || null;
+            const currentUserRole = 'orang_tua';
+            const currentUserName = '<%= user?.nama || "Orang Tua" %>';
+
+            if (currentUserId) {
+                // Connect to socket
+                socket.emit('join', {
+                    userId: parseInt(currentUserId),
+                    userRole: currentUserRole,
+                    userName: currentUserName
+                });
+
+                // Observer to ensure scroll to bottom when container content changes
+                let observer = null;
+                function setupScrollObserver() {
+                    const container = document.getElementById('messagesContainer');
+                    if (container && !observer) {
+                        observer = new MutationObserver((mutations) => {
+                            mutations.forEach((mutation) => {
+                                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                                    // Ensure scroll to bottom when new messages are added
+                                    requestAnimationFrame(() => {
+                                        container.scrollTop = container.scrollHeight;
+                                    });
+                                }
+                            });
+                        });
+                        
+                        observer.observe(container, {
+                            childList: true,
+                            subtree: false
+                        });
+                    }
+                }
+
+                // Admin selection
+                document.querySelectorAll('.admin-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        // Remove active class from all items
+                        document.querySelectorAll('.admin-item').forEach(i => i.classList.remove('bg-blue-50', 'border-primary'));
+                        
+                        // Add active class to selected item
+                        item.classList.add('bg-blue-50', 'border-primary');
+                        
+                        // Select admin
+                        selectAdmin(item.dataset.adminId, item.dataset.adminName);
+                    });
+                });
+
+                // Quick message buttons
+                document.querySelectorAll('.quick-message').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        if (selectedAdminId) {
+                            const messageText = btn.dataset.message;
+                            document.getElementById('messageText').value = messageText;
+                            document.getElementById('messageText').focus();
+                        } else {
+                            showAlert('Pilih admin terlebih dahulu', 'error');
+                        }
+                    });
+                });
+
+                async function selectAdmin(adminId, adminName) {
+                    try {
+                        selectedAdminId = adminId;
+
+                        // Update UI
+                        document.getElementById('welcomeMessage').classList.add('hidden');
+                        document.getElementById('chatHeader').classList.remove('hidden');
+                        document.getElementById('messagesArea').classList.remove('hidden');
+                        document.getElementById('messageInput').classList.remove('hidden');
+
+                        // Update header
+                        document.getElementById('selectedAdminName').textContent = adminName;
+                        document.getElementById('selectedAdminInitial').textContent = adminName.charAt(0).toUpperCase();
+
+                        // Setup scroll observer for this chat
+                        setupScrollObserver();
+
+                        // Load messages and auto scroll
+                        await loadMessages(adminId);
+                        
+                        // Focus on message input for better UX
+                        const messageTextInput = document.getElementById('messageText');
+                        if (messageTextInput) {
+                            setTimeout(() => messageTextInput.focus(), 200);
+                        }
+                    } catch (error) {
+                        console.error('Error in selectAdmin:', error);
+                    }
+                }
+
+                async function loadMessages(adminId) {
+                    try {
+                        console.log('Loading messages for admin:', adminId);
+                        const response = await fetch(`/komunikasi/messages/${adminId}`);
+                        const data = await response.json();
+
+                        if (data.messages) {
+                            displayMessages(data.messages);
+                        }
+                    } catch (error) {
+                        console.error('Error loading messages:', error);
+                        showAlert('Terjadi kesalahan saat memuat pesan', 'error');
+                    }
+                }
+
+                function displayMessages(messages) {
+                    const container = document.getElementById('messagesContainer');
+                    const messagesArea = document.getElementById('messagesArea');
+                    
+                    container.innerHTML = '';
+
+                    messages.forEach(message => {
+                        displayMessage(message, false); // false = don't auto scroll on bulk load
+                    });
+
+                    // Multiple scroll attempts to ensure we get to bottom
+                    const forceScrollBottom = () => {
+                        if (container && messagesArea) {
+                            console.log('Scrolling to bottom. Container height:', container.scrollHeight, 'Current scroll:', container.scrollTop);
+                            
+                            // Try multiple scroll methods
+                            container.scrollTop = container.scrollHeight;
+                            messagesArea.scrollTop = messagesArea.scrollHeight;
+                            
+                            // Additional force scroll
+                            setTimeout(() => {
+                                container.scrollTop = container.scrollHeight;
+                                messagesArea.scrollTop = messagesArea.scrollHeight;
+                                console.log('After scroll - Container height:', container.scrollHeight, 'Final scroll:', container.scrollTop);
+                            }, 100);
+                            
+                            // Final check with longer delay
+                            setTimeout(() => {
+                                container.scrollTop = container.scrollHeight;
+                                messagesArea.scrollTop = messagesArea.scrollHeight;
+                            }, 300);
+                        }
+                    };
+
+                    // Use requestAnimationFrame for better timing
+                    requestAnimationFrame(() => {
+                        forceScrollBottom();
+                    });
+                }
+
+                function displayMessage(message, autoScroll = true) {
+                    const container = document.getElementById('messagesContainer');
+                    const isOwnMessage = message.pengirimId == currentUserId;
+
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `flex chat-message ${isOwnMessage ? 'justify-end' : 'justify-start'}`;
+
+                    const messageBubble = document.createElement('div');
+                    messageBubble.className = `max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                        isOwnMessage 
+                            ? 'bg-primary text-white' 
+                            : 'bg-white text-textPrimary border border-gray-200'
+                    }`;
+
+                    messageBubble.innerHTML = `
+                        <div class="message-text mb-1">${escapeHtml(message.pesan)}</div>
+                        <div class="text-xs ${isOwnMessage ? 'text-blue-100' : 'text-textSecondary'}">
+                            ${formatTime(message.createdAt)}
+                        </div>
+                    `;
+
+                    messageDiv.appendChild(messageBubble);
+                    container.appendChild(messageDiv);
+
+                    // Auto scroll to bottom for new messages
+                    if (autoScroll) {
+                        scrollToBottom();
+                    }
+                }
+
+                function scrollToBottom() {
+                    const container = document.getElementById('messagesContainer');
+                    const messagesArea = document.getElementById('messagesArea');
+                    
+                    if (container && messagesArea) {
+                        console.log('scrollToBottom called');
+                        
+                        // Force scroll immediately
+                        container.scrollTop = container.scrollHeight;
+                        messagesArea.scrollTop = messagesArea.scrollHeight;
+                        
+                        // Use requestAnimationFrame for better performance and timing
+                        requestAnimationFrame(() => {
+                            container.scrollTop = container.scrollHeight;
+                            messagesArea.scrollTop = messagesArea.scrollHeight;
+                            
+                            // Additional check after a small delay for dynamic content
+                            setTimeout(() => {
+                                container.scrollTop = container.scrollHeight;
+                                messagesArea.scrollTop = messagesArea.scrollHeight;
+                            }, 50);
+                        });
+                    }
+                }
+
+                // Message form handling
+                const messageForm = document.getElementById('messageForm');
+                if (messageForm) {
+                    messageForm.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+
+                        const messageText = document.getElementById('messageText').value.trim();
+                        if (!messageText || !selectedAdminId) return;
+
+                        // Send via Socket.IO
+                        socket.emit('send_message', {
+                            pengirimId: parseInt(currentUserId),
+                            penerimaId: parseInt(selectedAdminId),
+                            pesan: messageText
+                        });
+
+                        // Clear input
+                        document.getElementById('messageText').value = '';
+                    });
+                }
+
+                // Socket event handlers
+                socket.on('message_sent', (data) => {
+                    if (data.success) {
+                        displayMessage(data.message, true); // Auto scroll for sent messages
+                    }
+                });
+
+                socket.on('new_message', (data) => {
+                    // Only display if it's from the currently selected admin
+                    if (selectedAdminId && data.message.pengirimId == selectedAdminId) {
+                        displayMessage(data.message, true); // Auto scroll for received messages
+                    }
+                });
+
+                socket.on('message_error', (data) => {
+                    showAlert(data.error || 'Terjadi kesalahan saat mengirim pesan', 'error');
+                });
+
+                // Online/Offline status handlers
+                socket.on('user_online', (data) => {
+                    const indicator = document.querySelector(`.online-indicator[data-admin-id="${data.userId}"]`);
+                    if (indicator) {
+                        indicator.classList.remove('bg-gray-400');
+                        indicator.classList.add('bg-green-500');
+                    }
+                });
+
+                socket.on('user_offline', (data) => {
+                    const indicator = document.querySelector(`.online-indicator[data-admin-id="${data.userId}"]`);
+                    if (indicator) {
+                        indicator.classList.remove('bg-green-500');
+                        indicator.classList.add('bg-gray-400');
+                    }
+                });
+
+                function escapeHtml(text) {
+                    const div = document.createElement('div');
+                    div.textContent = text;
+                    return div.innerHTML;
+                }
+
+                function formatTime(dateString) {
+                    const date = new Date(dateString);
+                    return date.toLocaleTimeString('id-ID', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                }
+
+                function showAlert(message, type) {
+                    // Create a simple alert using Tailwind
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                        type === 'error' ? 'bg-danger text-white' : 'bg-success text-white'
+                    }`;
+                    alertDiv.textContent = message;
+
+                    document.body.appendChild(alertDiv);
+
+                    // Remove alert after 3 seconds
+                    setTimeout(() => {
+                        alertDiv.remove();
+                    }, 3000);
+                }
+            }
+        }
+    </script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<%= process.env.MIDTRANS_CLIENT_KEY %>"></script>
+<script>
+function payNow(tagihanId, anakId, periode, amount, anakNama) {
+    const paymentData = {};
+
+    // If tagihanId is provided, use existing tagihan
+    if (tagihanId) {
+        paymentData.tagihanId = tagihanId;
+        paymentData.amount = amount;
+        paymentData.anakNama = anakNama;
+    } 
+    // If anakId and periode are provided, create new tagihan
+    else if (anakId && periode) {
+        paymentData.anakId = anakId;
+        paymentData.periode = periode;
+        paymentData.amount = amount;
+        paymentData.anakNama = anakNama;
+    } else {
+        alert('Data pembayaran tidak lengkap');
+        return;
+    }
+
+    fetch('/payment/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Payment response received:', data);
+        
+        if (data.success) {
+            if (data.snapToken) {
+                // New payment - use Snap
+                console.log('Using Snap payment with token:', data.snapToken);
+                snap.pay(data.snapToken, {
+                    onSuccess: function(result) {
+                        console.log('Payment success:', result);
+                        window.location.href = '/payment/finish?order_id=' + result.order_id;
+                    },
+                    onPending: function(result) {
+                        console.log('Payment pending:', result);
+                        window.location.href = '/payment/unfinish?order_id=' + result.order_id;
+                    },
+                    onError: function(result) {
+                        console.log('Payment error:', result);
+                        window.location.href = '/payment/error?order_id=' + result.order_id;
+                    },
+                    onClose: function() {
+                        console.log('Payment popup closed');
+                    }
+                });
+            } else if (data.redirectUrl || data.redirect_url) {
+                // Existing payment - redirect directly
+                const redirectUrl = data.redirectUrl || data.redirect_url;
+                console.log('Redirecting to existing payment:', redirectUrl);
+                
+                // Show success message for reused payment
+                if (data.message) {
+                    alert('Info: ' + data.message + '\n\nAnda akan diarahkan ke halaman pembayaran yang sudah ada.');
+                }
+                
+                window.location.href = redirectUrl;
+            } else {
+                console.error('Invalid response - no snapToken or redirectUrl:', data);
+                alert('Response tidak valid dari server');
+            }
+        } else {
+            console.error('Payment creation failed:', data);
+            alert('Gagal membuat pembayaran: ' + (data.message || 'Error tidak diketahui'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat membuat pembayaran');
+    });
+}
+
+// Add event listeners for payment buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentButtons = document.querySelectorAll('.pay-now-btn');
+    paymentButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tagihanId = this.getAttribute('data-tagihan-id');
+            const anakId = this.getAttribute('data-anak-id');
+            const periode = this.getAttribute('data-periode');
+            const amount = parseInt(this.getAttribute('data-amount'));
+            const anakNama = this.getAttribute('data-anak-nama');
+            
+            payNow(tagihanId, anakId, periode, amount, anakNama);
+        });
+    });
+});
+</script>
+
+<script>
+// Filter and UI functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const statusFilter = document.getElementById('statusFilter');
+    const sortOrder = document.getElementById('sortOrder');
+    const resetFilters = document.getElementById('resetFilters');
+    
+    // Event listeners
+    statusFilter.addEventListener('change', applyFilters);
+    sortOrder.addEventListener('change', applyFilters);
+    resetFilters.addEventListener('click', resetAllFilters);
+    
+    function applyFilters() {
+        const statusValue = statusFilter.value;
+        const sortValue = sortOrder.value;
+        
+        const periodCards = document.querySelectorAll('.period-card');
+        
+        let visibleCount = 0;
+        
+        periodCards.forEach(card => {
+            const cardStatus = card.getAttribute('data-status');
+            const shouldShow = statusValue === 'all' || statusValue === cardStatus;
+            
+            if (shouldShow) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        // Apply sorting
+        applySorting(sortValue);
+        
+        // Show/hide no results message
+        const noResults = document.getElementById('noResults');
+        if (visibleCount === 0) {
+            document.getElementById('tagihanContent').style.display = 'none';
+            noResults.style.display = 'block';
+        } else {
+            document.getElementById('tagihanContent').style.display = 'block';
+            noResults.style.display = 'none';
+        }
+        
+        updateSummaryStats();
+    }
+    
+    function applySorting(sortValue) {
+        const container = document.querySelector('#tagihanContent .grid');
+        const periods = Array.from(document.querySelectorAll('.period-card'));
+        
+        periods.sort((a, b) => {
+            const aPeriode = a.getAttribute('data-periode');
+            const bPeriode = b.getAttribute('data-periode');
+            const aAmount = parseInt(a.getAttribute('data-amount'));
+            const bAmount = parseInt(b.getAttribute('data-amount'));
+            
+            switch(sortValue) {
+                case 'oldest':
+                    return aPeriode.localeCompare(bPeriode);
+                case 'newest':
+                    return bPeriode.localeCompare(aPeriode);
+                case 'amount-high':
+                    return bAmount - aAmount;
+                case 'amount-low':
+                    return aAmount - bAmount;
+                default:
+                    return bPeriode.localeCompare(aPeriode);
+            }
+        });
+        
+        // Re-append sorted elements
+        periods.forEach(period => {
+            container.appendChild(period);
+        });
+    }
+    
+    function resetAllFilters() {
+        statusFilter.value = 'all';
+        sortOrder.value = 'newest';
+        applyFilters();
+    }
+    
+    function updateSummaryStats() {
+        const visibleCards = Array.from(document.querySelectorAll('.period-card')).filter(card => 
+            card.style.display !== 'none'
+        );
+        
+        let totalPeriods = 0;
+        let belumBayar = 0;
+        let sudahLunas = 0;
+        let totalAmount = 0;
+        
+        visibleCards.forEach(card => {
+            totalPeriods++;
+            const status = card.getAttribute('data-status');
+            const amount = parseInt(card.getAttribute('data-amount'));
+            
+            if (status === 'belum_bayar' || status === 'belum_ada') {
+                belumBayar++;
+            }
+            if (status === 'lunas') {
+                sudahLunas++;
+            }
+            
+            totalAmount += amount;
+        });
+        
+        document.getElementById('totalPeriods').textContent = totalPeriods;
+        document.getElementById('belumBayar').textContent = belumBayar;
+        document.getElementById('sudahLunas').textContent = sudahLunas;
+        document.getElementById('totalAmount').textContent = 'Rp ' + totalAmount.toLocaleString('id-ID');
+    }
+
+    // Payment button functionality
+    const payButtons = document.querySelectorAll('.pay-now-btn');
+    const paymentModal = document.getElementById('paymentModal');
+
+    payButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tagihanId = this.dataset.tagihanId;
+            const anakId = this.dataset.anakId;
+            const periode = this.dataset.periode;
+            const amount = this.dataset.amount;
+            const anakNama = this.dataset.anakNama;
+
+            // Show loading modal
+            paymentModal.classList.remove('hidden');
+
+            // Prepare payment data
+            const paymentData = {
+                amount: amount,
+                customer_details: {
+                    first_name: anakNama
+                }
+            };
+
+            if (tagihanId) {
+                paymentData.tagihan_id = tagihanId;
+            } else if (anakId && periode) {
+                paymentData.anak_id = anakId;
+                paymentData.periode = periode;
+            }
+
+            // Send payment request
+            fetch('/payment/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(paymentData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                paymentModal.classList.add('hidden');
+                
+           
+            })
+            .catch(error => {
+                paymentModal.classList.add('hidden');
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat memproses pembayaran');
+            });
+        });
+    });
+});
+</script>
+
+</body>
+
+</html>

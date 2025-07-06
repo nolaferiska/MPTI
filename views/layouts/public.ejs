@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+
+    <!-- Tailwind CSS - Compiled -->
+    <link href="/css/output.css" rel="stylesheet">
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="font-poppins bg-background text-textPrimary">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-3 group">
+                        <div class="bg-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-baby text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-2xl font-bold text-primary">Candice Kids</span>
+                            <p class="text-xs text-textSecondary font-medium">Cerdas Mandiri Ceria</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    
+
+                    <% if (user) { %>
+                        <% if (user.role === 'admin') { %>
+                            <a href="/admin/dashboard" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard Admin
+                            </a>
+                            <% } else { %>
+                                <a href="/dashboard" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                    <i class="fas fa-user mr-2"></i>Dashboard
+                                </a>
+                                <% } %>
+                                    <a href="/logout" class="text-textSecondary hover:text-danger transition-colors font-medium">
+                                        <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                                    </a>
+                                    <% } else { %>
+                                        <a href="/login" class="text-textPrimary hover:text-primary transition-colors font-medium">
+                                            <i class="fas fa-user mr-1"></i>Login Orang Tua
+                                        </a>
+                                        <a href="/admin/login" class="bg-secondary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                            <i class="fas fa-cog mr-2"></i>Login Admin
+                                        </a>
+                                        <% } %>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-textPrimary hover:text-primary transition-colors">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200 py-4">
+                <div class="space-y-4 px-4">
+                    <a href="/" class="block text-textPrimary hover:text-primary transition-colors font-medium">Beranda</a>
+                    <a href="/about" class="block text-textPrimary hover:text-primary transition-colors font-medium">Tentang</a>
+                    <a href="/contact" class="block text-textPrimary hover:text-primary transition-colors font-medium">Kontak</a>
+
+                    <% if (user) { %>
+                        <% if (user.role === 'admin') { %>
+                            <a href="/admin/dashboard" class="block bg-primary text-white px-4 py-3 rounded-xl font-semibold text-center">Dashboard Admin</a>
+                            <% } else { %>
+                                <a href="/dashboard" class="block bg-primary text-white px-4 py-3 rounded-xl font-semibold text-center">Dashboard</a>
+                                <% } %>
+                                    <a href="/logout" class="block text-textSecondary hover:text-danger transition-colors font-medium text-center">Logout</a>
+                                    <% } else { %>
+                                        <a href="/login" class="block text-textPrimary hover:text-primary transition-colors font-medium text-center">Login Orang Tua</a>
+                                        <a href="/admin/login" class="block bg-secondary text-white px-4 py-3 rounded-xl font-semibold text-center">Login Admin</a>
+                                        <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <% if (success_msg && success_msg.length > 0) { %>
+        <div class="bg-success text-white p-4 text-center shadow-lg">
+            <i class="fas fa-check-circle mr-2"></i>
+            <%= success_msg %>
+        </div>
+        <% } %>
+
+            <% if (error_msg && error_msg.length > 0) { %>
+                <div class="bg-danger text-white p-4 text-center shadow-lg">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <%= error_msg %>
+                </div>
+                <% } %>
+
+                    <% if (error && error.length > 0) { %>
+                        <div class="bg-danger text-white p-4 text-center shadow-lg">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            <%= error %>
+                        </div>
+                        <% } %>
+
+                            <!-- Main Content -->
+                            <main>
+                                <%- body %>
+                            </main>
+
+                            <!-- Footer -->
+                            <footer class="bg-textPrimary text-white py-12 mt-16">
+                                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                        <div>
+                                            <div class="flex items-center space-x-3 mb-6">
+                                                <div class="bg-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg">
+                                                    <i class="fas fa-baby text-xl"></i>
+                                                </div>
+                                                <div>
+                                                    <span class="text-2xl font-bold">Candice Kids</span>
+                                                    <p class="text-sm text-gray-300 font-medium">Cerdas Mandiri Ceria</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-300 leading-relaxed">
+                                                Daycare terpercaya untuk tumbuh kembang anak yang optimal dengan pendekatan yang penuh kasih sayang dan teknologi modern.
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h3 class="text-xl font-semibold mb-6">Quick Links</h3>
+                                            <ul class="space-y-3">
+                                                <li><a href="/" class="text-gray-300 hover:text-white transition-colors font-medium">Beranda</a></li>
+                                                <li><a href="/about" class="text-gray-300 hover:text-white transition-colors font-medium">Tentang Kami</a></li>
+                                                <li><a href="/contact" class="text-gray-300 hover:text-white transition-colors font-medium">Kontak</a></li>
+                                                <li><a href="/login" class="text-gray-300 hover:text-white transition-colors font-medium">Login</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div>
+                                            <h3 class="text-xl font-semibold mb-6">Kontak Info</h3>
+                                            <ul class="space-y-4 text-gray-300">
+                                                <li class="flex items-center space-x-3">
+                                                    <div class="bg-primary bg-opacity-20 w-10 h-10 rounded-full flex items-center justify-center">
+                                                        <i class="fas fa-phone text-primary"></i>
+                                                    </div>
+                                                    <div>
+                                                        <p class="font-medium">+62 123 456 7890</p>
+                                                        <p class="text-sm text-gray-400">Telepon</p>
+                                                    </div>
+                                                </li>
+                                                <li class="flex items-center space-x-3">
+                                                    <div class="bg-secondary bg-opacity-20 w-10 h-10 rounded-full flex items-center justify-center">
+                                                        <i class="fas fa-envelope text-secondary"></i>
+                                                    </div>
+                                                    <div>
+                                                        <p class="font-medium">info@candicekids.com</p>
+                                                        <p class="text-sm text-gray-400">Email</p>
+                                                    </div>
+                                                </li>
+                                                <li class="flex items-center space-x-3">
+                                                    <div class="bg-accent bg-opacity-20 w-10 h-10 rounded-full flex items-center justify-center">
+                                                        <i class="fas fa-map-marker-alt text-accent"></i>
+                                                    </div>
+                                                    <div>
+                                                        <p class="font-medium">Jakarta, Indonesia</p>
+                                                        <p class="text-sm text-gray-400">Lokasi</p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-t border-gray-600 mt-12 pt-8 text-center">
+                                        <p class="text-gray-300">&copy; 2024 Candice Kids. All rights reserved.</p>
+                                    </div>
+                                </div>
+                            </footer>
+
+                            <!-- Custom JS -->
+                            <script src="/js/main.js"></script>
+
+                            <!-- Mobile menu script -->
+                            <script>
+                                document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+                                    const mobileMenu = document.getElementById('mobile-menu');
+                                    mobileMenu.classList.toggle('hidden');
+                                });
+                            </script>
+</body>
+
+</html>

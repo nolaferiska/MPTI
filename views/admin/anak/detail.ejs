@@ -1,0 +1,196 @@
+<!-- Anak Detail Page -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-textPrimary">Detail Anak</h2>
+            <p class="text-textSecondary">Informasi lengkap data anak</p>
+        </div>
+        <div class="flex space-x-2">
+            <a href="/admin/anak/edit/<%= anak.id %>" class="bg-warning text-white px-4 py-2 rounded-lg hover:bg-warning-dark transition-colors">
+                <i class="fas fa-edit mr-2"></i> Edit
+            </a>
+            <a href="/admin/anak" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali
+            </a>
+        </div>
+    </div>
+
+    <!-- Basic Information -->
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+        <div class="flex items-start space-x-6">
+            <!-- Info -->
+            <div class="flex-1">
+                <h3 class="text-2xl font-bold text-textPrimary mb-2">
+                    <%= anak.nama %>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-textSecondary">Jenis Kelamin</p>
+                        <p class="font-medium">
+                            <%= anak.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan' %>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-textSecondary">Usia</p>
+                        <p class="font-medium">
+                            <%= anak.age %> tahun (
+                                <%= anak.ageInMonths %> bulan)</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-textSecondary">Tanggal Lahir</p>
+                        <p class="font-medium">
+                            <%= new Date(anak.tanggalLahir).toLocaleDateString('id-ID') %>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-textSecondary">Status</p>
+                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full <%= anak.status === 'aktif' ? 'bg-success text-white' : 'bg-danger text-white' %>">
+                            <%= anak.status === 'aktif' ? 'Aktif' : 'Nonaktif' %>
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-sm text-textSecondary">Tanggal Masuk</p>
+                        <p class="font-medium">
+                            <%= new Date(anak.tanggalMasuk).toLocaleDateString('id-ID') %>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-textSecondary">Durasi Bergabung</p>
+                        <p class="font-medium">
+                            <%= anak.enrollmentDuration %> hari</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact & Health Information -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Contact Information -->
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h4 class="text-lg font-semibold text-textPrimary mb-4">Informasi Kontak</h4>
+            <div class="space-y-3">
+                <div>
+                    <p class="text-sm text-textSecondary">Orang Tua</p>
+                    <p class="font-medium">
+                        <%= anak.orangTua ? anak.orangTua.nama : 'N/A' %>
+                    </p>
+                </div>
+                <div>
+                    <p class="text-sm text-textSecondary">Telepon Orang Tua</p>
+                    <p class="font-medium">
+                        <%= anak.orangTua ? anak.orangTua.telepon : 'N/A' %>
+                    </p>
+                </div>
+                <div>
+                    <p class="text-sm text-textSecondary">Telepon Darurat</p>
+                    <p class="font-medium">
+                        <%= anak.teleponDarurat || 'Tidak ada' %>
+                    </p>
+                </div>
+                <div>
+                    <p class="text-sm text-textSecondary">Alamat</p>
+                    <p class="font-medium">
+                        <%= anak.alamat %>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Information -->
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h4 class="text-lg font-semibold text-textPrimary mb-4">Informasi Kesehatan</h4>
+            <div class="space-y-3">
+                <div>
+                    <p class="text-sm text-textSecondary">Kondisi Kesehatan</p>
+                    <p class="font-medium">
+                        <%= anak.kondisiKesehatan || 'Tidak ada kondisi khusus' %>
+                    </p>
+                </div>
+                <div>
+                    <p class="text-sm text-textSecondary">Alergi</p>
+                    <p class="font-medium">
+                        <%= anak.alergi || 'Tidak ada alergi' %>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+        <h4 class="text-lg font-semibold text-textPrimary mb-4">Statistik Bulan Ini</h4>
+        <div class="grid grid-cols-3 md:grid-cols-3 gap-3">
+            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                <div class="text-2xl font-bold text-blue-600">
+                    <%= attendanceStats.total %>
+                </div>
+                <div class="text-sm text-blue-600">Total Hari</div>
+            </div>
+            <div class="text-center p-4 bg-green-50 rounded-lg">
+                <div class="text-2xl font-bold text-green-600">
+                    <%= attendanceStats.hadir %>
+                </div>
+                <div class="text-sm text-green-600">Hadir</div>
+            </div>
+            <div class="text-center p-4 bg-red-50 rounded-lg">
+                <div class="text-2xl font-bold text-red-600">
+                    <%= attendanceStats.alpha %>
+                </div>
+                <div class="text-sm text-red-600">Alpha</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
+        <!-- Recent Attendance -->
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h4 class="text-lg font-semibold text-textPrimary mb-4">Absensi Terbaru</h4>
+            <% if (recentAttendance && recentAttendance.length > 0) { %>
+                <div class="space-y-3">
+                    <% recentAttendance.forEach(attendance => { %>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div>
+                                <p class="font-medium">
+                                    <%= new Date(attendance.tanggal).toLocaleDateString('id-ID') %>
+                                </p>
+                                <p class="text-sm text-textSecondary">
+                                    <%= attendance.createdByUser ? attendance.createdByUser.nama : 'Admin' %>
+                                </p>
+                            </div>
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                <%= attendance.status === 'hadir' ? 'bg-success text-white' : 
+                                    attendance.status === 'alpha' ? 'bg-danger text-white' %>">
+                                <%= attendance.status.charAt(0).toUpperCase() + attendance.status.slice(1) %>
+                            </span>
+                        </div>
+                        <% }) %>
+                </div>
+                <% } else { %>
+                    <p class="text-textSecondary text-center py-4">Belum ada data absensi</p>
+                    <% } %>
+        </div>
+        
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+        <h4 class="text-lg font-semibold text-textPrimary mb-4">Aksi Cepat</h4>
+        <div class="flex flex-wrap gap-3">
+            <a href="/admin/absensi?anak=<%= anak.id %>" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                <i class="fas fa-calendar-check mr-2"></i> Catat Absensi
+            </a>
+            <a href="/admin/aktivitas?anak=<%= anak.id %>" class="bg-success text-white px-4 py-2 rounded-lg hover:bg-success-dark transition-colors">
+                <i class="fas fa-tasks mr-2"></i> Tambah Aktivitas
+            </a>
+            <a href="/admin/komunikasi?anak=<%= anak.id %>" class="bg-info text-white px-4 py-2 rounded-lg hover:bg-info-dark transition-colors">
+                <i class="fas fa-comments mr-2"></i> Kirim Pesan
+            </a>
+            <a href="/admin/tagihan?anak=<%= anak.id %>" class="bg-warning text-white px-4 py-2 rounded-lg hover:bg-warning-dark transition-colors">
+                <i class="fas fa-money-bill mr-2"></i> Kelola Tagihan
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<%- contentFor('styles') %>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<% %>
+
+<div class="container mx-auto px-4 py-6">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 text-center">
+        <div class="mb-6">
+            <i class="fas fa-times-circle text-red-500 text-6xl mb-4"></i>
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Pembayaran Gagal</h1>
+            <p class="text-gray-600">Maaf, terjadi kesalahan dalam memproses pembayaran Anda.</p>
+        </div>
+
+        <% if (paymentDetails) { %>
+            <div class="bg-gray-50 rounded-lg p-4 mb-6 text-left">
+                <h3 class="font-semibold text-gray-800 mb-3">Detail Pembayaran:</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Order ID:</span>
+                        <span class="font-medium"><%= paymentDetails.orderId %></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Jumlah:</span>
+                        <span class="font-medium">Rp <%= paymentDetails.jumlah.toLocaleString('id-ID') %></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Status:</span>
+                        <span class="font-medium text-red-600">Gagal</span>
+                    </div>
+                    <% if (paymentDetails.tagihan && paymentDetails.tagihan.anak) { %>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Untuk:</span>
+                        <span class="font-medium"><%= paymentDetails.tagihan.anak.nama %></span>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <p class="text-red-800 text-sm">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                Pembayaran tidak dapat diproses. Silakan coba lagi atau hubungi administrator jika masalah berlanjut.
+            </p>
+        </div>
+
+        <div class="space-y-3">
+            <a href="/tagihan" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                <i class="fas fa-redo mr-2"></i>
+                Coba Bayar Lagi
+            </a>
+            <a href="/komunikasi" class="block w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                <i class="fas fa-comments mr-2"></i>
+                Hubungi Admin
+            </a>
+            <a href="/dashboard" class="block w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg transition duration-200">
+                <i class="fas fa-home mr-2"></i>
+                Kembali ke Dashboard
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,157 @@
+<!-- Add Anak Form -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center space-x-4">
+        <a href="/kelola-anak" class="text-primary hover:text-primary-dark">
+            <i class="fas fa-arrow-left text-xl"></i>
+        </a>
+        <div>
+            <h2 class="text-2xl font-bold text-textPrimary">Tambah Data Anak</h2>
+            <p class="text-textSecondary">Tambahkan data anak baru</p>
+        </div>
+    </div>
+
+    <!-- Add Form -->
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+        <form method="POST" action="/kelola-anak/add" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nama -->
+                <div>
+                    <label for="nama" class="block text-sm font-medium text-textPrimary mb-2">
+                        Nama Lengkap <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" 
+                           id="nama" 
+                           name="nama" 
+                           required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                           placeholder="Masukkan nama lengkap anak">
+                </div>
+
+                <!-- Tanggal Lahir -->
+                <div>
+                    <label for="tanggalLahir" class="block text-sm font-medium text-textPrimary mb-2">
+                        Tanggal Lahir <span class="text-danger">*</span>
+                    </label>
+                    <input type="date" 
+                           id="tanggalLahir" 
+                           name="tanggalLahir" 
+                           required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- Jenis Kelamin -->
+                <div>
+                    <label for="jenisKelamin" class="block text-sm font-medium text-textPrimary mb-2">
+                        Jenis Kelamin <span class="text-danger">*</span>
+                    </label>
+                    <select id="jenisKelamin" 
+                            name="jenisKelamin" 
+                            required 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="">Pilih jenis kelamin</option>
+                        <option value="L">Laki-laki</option>
+                        <option value="P">Perempuan</option>
+                    </select>
+                </div>
+
+                <!-- Tanggal Masuk -->
+                <div>
+                    <label for="tanggalMasuk" class="block text-sm font-medium text-textPrimary mb-2">
+                        Tanggal Masuk Daycare
+                    </label>
+                    <input type="date" 
+                           id="tanggalMasuk" 
+                           name="tanggalMasuk" 
+                           value="<%= new Date().toISOString().split('T')[0] %>"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+            </div>
+
+            <!-- Alamat -->
+            <div>
+                <label for="alamat" class="block text-sm font-medium text-textPrimary mb-2">
+                    Alamat <span class="text-danger">*</span>
+                </label>
+                <textarea id="alamat" 
+                          name="alamat" 
+                          required 
+                          rows="3" 
+                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                          placeholder="Masukkan alamat lengkap"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Telepon Darurat -->
+                <div>
+                    <label for="teleponDarurat" class="block text-sm font-medium text-textPrimary mb-2">
+                        Telepon Darurat
+                    </label>
+                    <input type="tel" 
+                           id="teleponDarurat" 
+                           name="teleponDarurat" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                           placeholder="Contoh: 08123456789">
+                </div>
+
+                <!-- Kondisi Kesehatan -->
+                <div>
+                    <label for="kondisiKesehatan" class="block text-sm font-medium text-textPrimary mb-2">
+                        Kondisi Kesehatan Khusus
+                    </label>
+                    <input type="text" 
+                           id="kondisiKesehatan" 
+                           name="kondisiKesehatan" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                           placeholder="Contoh: Asma, Diabetes, dll">
+                </div>
+            </div>
+
+            <!-- Alergi -->
+            <div>
+                <label for="alergi" class="block text-sm font-medium text-textPrimary mb-2">
+                    Alergi
+                </label>
+                <textarea id="alergi" 
+                          name="alergi" 
+                          rows="2" 
+                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                          placeholder="Sebutkan alergi yang dimiliki anak (makanan, obat, dll)"></textarea>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 pt-6">
+                <button type="submit" 
+                        class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                    <i class="fas fa-save mr-2"></i>
+                    Simpan Data
+                </button>
+                <a href="/kelola-anak" 
+                   class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-center">
+                    <i class="fas fa-times mr-2"></i>
+                    Batal
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Information Card -->
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <i class="fas fa-info-circle text-blue-400"></i>
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-blue-800">Informasi Penting</h3>
+                <div class="mt-2 text-sm text-blue-700">
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Field yang bertanda (*) wajib diisi</li>
+                        <li>Pastikan data yang dimasukkan sudah benar</li>
+                        <li>Data anak dapat diubah setelah disimpan</li>
+                        <li>Informasi alergi dan kondisi kesehatan sangat penting untuk keamanan anak</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

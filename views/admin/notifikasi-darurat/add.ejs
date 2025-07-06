@@ -1,0 +1,125 @@
+<!-- Add Notifikasi Darurat Form -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-2xl font-bold text-textPrimary">Tambah Notifikasi Darurat</h2>
+            <p class="text-textSecondary">Buat notifikasi darurat baru untuk anak</p>
+        </div>
+        <a href="/admin/notifikasi-darurat" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Kembali
+        </a>
+    </div>
+
+    <!-- Form -->
+    <div class="bg-white rounded-lg shadow-sm">
+        <form action="/admin/notifikasi-darurat/add" method="POST" class="p-6 space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Pilih Anak -->
+                <div class="md:col-span-2">
+                    <label for="anakId" class="block text-sm font-medium text-textPrimary mb-2">
+                        Pilih Anak <span class="text-danger">*</span>
+                    </label>
+                    <select name="anakId" id="anakId" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="">-- Pilih Anak --</option>
+                        <% anakList.forEach(anak => { %>
+                            <option value="<%= anak.id %>">
+                                <%= anak.nama %> - Orang Tua: <%= anak.orangTua ? anak.orangTua.nama : 'Tidak tersedia' %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <!-- Deskripsi -->
+                <div class="md:col-span-2">
+                    <label for="deskripsi" class="block text-sm font-medium text-textPrimary mb-2">
+                        Deskripsi Darurat <span class="text-danger">*</span>
+                    </label>
+                    <textarea name="deskripsi" id="deskripsi" rows="6" required
+                              placeholder="Jelaskan situasi darurat yang terjadi secara detail..."
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-vertical"></textarea>
+                    <p class="text-xs text-textSecondary mt-1">Berikan informasi yang jelas dan detail mengenai situasi darurat</p>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                <a href="/admin/notifikasi-darurat" 
+                   class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                    Batal
+                </a>
+                <button type="submit" 
+                        class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                    <i class="fas fa-save mr-2"></i>
+                    Simpan Notifikasi
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Validation Scripts -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const anakSelect = document.getElementById('anakId');
+    const deskripsiTextarea = document.getElementById('deskripsi');
+
+    form.addEventListener('submit', function(e) {
+        let isValid = true;
+
+        // Validate anak selection
+        if (!anakSelect.value) {
+            isValid = false;
+            anakSelect.classList.add('border-danger');
+            showFieldError(anakSelect, 'Pilih anak terlebih dahulu');
+        } else {
+            anakSelect.classList.remove('border-danger');
+            hideFieldError(anakSelect);
+        }
+
+        // Validate deskripsi
+        if (!deskripsiTextarea.value.trim()) {
+            isValid = false;
+            deskripsiTextarea.classList.add('border-danger');
+            showFieldError(deskripsiTextarea, 'Deskripsi darurat harus diisi');
+        } else if (deskripsiTextarea.value.trim().length < 10) {
+            isValid = false;
+            deskripsiTextarea.classList.add('border-danger');
+            showFieldError(deskripsiTextarea, 'Deskripsi minimal 10 karakter');
+        } else {
+            deskripsiTextarea.classList.remove('border-danger');
+            hideFieldError(deskripsiTextarea);
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+
+    // Remove error styling on input
+    [anakSelect, deskripsiTextarea].forEach(element => {
+        element.addEventListener('input', function() {
+            this.classList.remove('border-danger');
+            hideFieldError(this);
+        });
+    });
+
+    function showFieldError(field, message) {
+        hideFieldError(field);
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error text-danger text-xs mt-1';
+        errorDiv.textContent = message;
+        field.parentNode.appendChild(errorDiv);
+    }
+
+    function hideFieldError(field) {
+        const existingError = field.parentNode.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
+        }
+    }
+});
+</script>

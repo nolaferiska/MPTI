@@ -1,0 +1,247 @@
+<!-- Anak Detail Page -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+            <a href="/kelola-anak" class="text-primary hover:text-primary-dark">
+                <i class="fas fa-arrow-left text-xl"></i>
+            </a>
+            <div>
+                <h2 class="text-2xl font-bold text-textPrimary">Detail Anak</h2>
+                <p class="text-textSecondary">Informasi lengkap <%= anak.nama %></p>
+            </div>
+        </div>
+        <div class="flex space-x-2">
+            <a href="/kelola-anak/edit/<%= anak.id %>" class="bg-warning text-white px-4 py-2 rounded-lg hover:bg-warning-dark transition-colors">
+                <i class="fas fa-edit mr-2"></i> Edit
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Profile Card -->
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="bg-gradient-to-r from-primary to-primary-dark p-6 text-white">
+            <div class="flex items-center space-x-6">
+                <div class="flex-shrink-0">
+                    <% if (anak.foto) { %>
+                        <img class="h-24 w-24 rounded-full object-cover border-4 border-white" src="<%= anak.foto %>" alt="<%= anak.nama %>">
+                    <% } else { %>
+                        <div class="h-24 w-24 rounded-full bg-white text-primary flex items-center justify-center border-4 border-white">
+                            <i class="fas fa-child text-4xl"></i>
+                        </div>
+                    <% } %>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold"><%= anak.nama %></h3>
+                    <p class="text-primary-light"><%= anak.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan' %></p>
+                    <div class="flex items-center space-x-4 mt-2">
+                        <div class="text-sm">
+                            <i class="fas fa-birthday-cake mr-1"></i>
+                            <%= anak.age %> tahun (<%= anak.ageInMonths %> bulan)
+                        </div>
+                        <div class="text-sm">
+                            <i class="fas fa-calendar mr-1"></i>
+                            <%= anak.enrollmentDuration %> hari bersekolah
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Personal Information -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold text-textPrimary">Informasi Pribadi</h4>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-sm font-medium text-textSecondary">Tanggal Lahir</label>
+                            <p class="text-textPrimary"><%= new Date(anak.tanggalLahir).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm font-medium text-textSecondary">Alamat</label>
+                            <p class="text-textPrimary"><%= anak.alamat %></p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm font-medium text-textSecondary">Telepon Darurat</label>
+                            <p class="text-textPrimary">
+                                <% if (anak.teleponDarurat) { %>
+                                    <a href="tel:<%= anak.teleponDarurat %>" class="text-primary hover:text-primary-dark">
+                                        <i class="fas fa-phone mr-1"></i>
+                                        <%= anak.teleponDarurat %>
+                                    </a>
+                                <% } else { %>
+                                    <span class="text-gray-400">Tidak ada</span>
+                                <% } %>
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm font-medium text-textSecondary">Status</label>
+                            <p>
+                                <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full <%= anak.status === 'aktif' ? 'bg-success text-white' : 'bg-danger text-white' %>">
+                                    <%= anak.status === 'aktif' ? 'Aktif' : 'Nonaktif' %>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daycare Information -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold text-textPrimary">Informasi Daycare</h4>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-sm font-medium text-textSecondary">Tanggal Masuk</label>
+                            <p class="text-textPrimary">
+                                <% if (anak.tanggalMasuk) { %>
+                                    <%= new Date(anak.tanggalMasuk).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+                                <% } else { %>
+                                    <span class="text-gray-400">Tidak ada</span>
+                                <% } %>
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm font-medium text-textSecondary">Kondisi Kesehatan</label>
+                            <p class="text-textPrimary">
+                                <% if (anak.kondisiKesehatan) { %>
+                                    <span class="inline-flex px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                                        <i class="fas fa-heartbeat mr-1"></i>
+                                        <%= anak.kondisiKesehatan %>
+                                    </span>
+                                <% } else { %>
+                                    <span class="text-gray-400">Tidak ada</span>
+                                <% } %>
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm font-medium text-textSecondary">Alergi</label>
+                            <p class="text-textPrimary">
+                                <% if (anak.alergi) { %>
+                                    <span class="inline-flex px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                                        <%= anak.alergi %>
+                                    </span>
+                                <% } else { %>
+                                    <span class="text-gray-400">Tidak ada</span>
+                                <% } %>
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm font-medium text-textSecondary">Data Dibuat</label>
+                            <p class="text-textPrimary text-sm"><%= new Date(anak.createdAt).toLocaleDateString('id-ID') %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Stats Card -->
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h4 class="text-lg font-semibold text-textPrimary mb-4">
+                <i class="fas fa-chart-bar mr-2"></i>
+                Statistik Kehadiran Bulan Ini
+            </h4>
+            
+            <% if (attendanceStats) { %>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="text-center p-3 bg-green-50 rounded-lg">
+                        <div class="text-2xl font-bold text-green-600"><%= attendanceStats.hadir %></div>
+                        <div class="text-sm text-green-700">Hadir</div>
+                    </div>
+                    
+                    </div>
+                    <div class="text-center p-3 bg-red-50 rounded-lg">
+                        <div class="text-2xl font-bold text-red-600"><%= attendanceStats.alpha %></div>
+                        <div class="text-sm text-red-700">Alpha</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <div class="text-center">
+                        <span class="text-sm text-gray-600">Total Kehadiran: </span>
+                        <span class="font-semibold text-textPrimary"><%= attendanceStats.total %> hari</span>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-chart-bar text-4xl mb-2"></i>
+                    <p>Belum ada data kehadiran</p>
+                </div>
+            <% } %>
+        </div>
+
+        <!-- Recent Attendance -->
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h4 class="text-lg font-semibold text-textPrimary mb-4">
+                <i class="fas fa-clock mr-2"></i>
+                Kehadiran Terbaru
+            </h4>
+            
+            <% if (recentAttendance && recentAttendance.length > 0) { %>
+                <div class="space-y-3">
+                    <% recentAttendance.forEach(attendance => { %>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div>
+                                <div class="font-medium text-textPrimary">
+                                    <%= new Date(attendance.tanggal).toLocaleDateString('id-ID') %>
+                                </div>
+                                <div class="text-sm text-textSecondary">
+                                    <% if (attendance.jamMasuk) { %>
+                                        Masuk: <%= attendance.jamMasuk %>
+                                    <% } %>
+                                    <% if (attendance.jamKeluar) { %>
+                                        | Keluar: <%= attendance.jamKeluar %>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full
+                                    <%= attendance.status === 'hadir' ? 'bg-green-100 text-green-800' : 
+                                        attendance.status === 'alpha' ? 'bg-red-100 text-red-800' %>">
+                                    <%= attendance.status.charAt(0).toUpperCase() + attendance.status.slice(1) %>
+                                </span>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-clock text-4xl mb-2"></i>
+                    <p>Belum ada data kehadiran</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+        <h4 class="text-lg font-semibold text-textPrimary mb-4">Aksi</h4>
+        <div class="flex flex-wrap gap-3">
+            <a href="/kelola-anak/edit/<%= anak.id %>" class="bg-warning text-white px-4 py-2 rounded-lg hover:bg-warning-dark transition-colors">
+                <i class="fas fa-edit mr-2"></i>
+                Edit Data
+            </a>
+            <a href="/kelola-anak" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Kembali ke Daftar
+            </a>
+            <a href="/kelola-anak/delete/<%= anak.id %>" 
+               class="bg-danger text-white px-4 py-2 rounded-lg hover:bg-danger-dark transition-colors"
+               onclick="return confirm('Apakah Anda yakin ingin menghapus data <%= anak.nama %>? Tindakan ini tidak dapat dibatalkan.')">
+                <i class="fas fa-trash mr-2"></i>
+                Hapus Data
+            </a>
+        </div>
+    </div>
+</div>

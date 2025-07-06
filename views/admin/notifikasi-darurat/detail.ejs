@@ -1,0 +1,222 @@
+<!-- Detail Notifikasi Darurat -->
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-textPrimary">Detail Notifikasi Darurat</h2>
+            <p class="text-textSecondary text-sm sm:text-base">Informasi lengkap notifikasi darurat</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2">
+            <a href="/admin/notifikasi-darurat/edit/<%= notifikasi.id %>" 
+               class="bg-warning text-white px-4 py-2 rounded-lg hover:bg-warning-dark transition-colors text-center text-sm sm:text-base">
+                <i class="fas fa-edit mr-2"></i>
+                <span class="hidden sm:inline">Edit</span>
+                <span class="sm:hidden">Edit Notifikasi</span>
+            </a>
+            <a href="/admin/notifikasi-darurat" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors text-center text-sm sm:text-base">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Kembali
+            </a>
+        </div>
+    </div>
+
+    
+
+    <!-- Main Content -->
+    <div class="space-y-6">
+        <!-- Top Section - Emergency Description -->
+        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+            <h3 class="text-base sm:text-lg font-medium text-textPrimary mb-3 sm:mb-4">
+                <i class="fas fa-exclamation-triangle text-danger mr-2"></i>
+                Deskripsi Darurat
+            </h3>
+            <div class="prose prose-sm max-w-none">
+                <p class="text-textPrimary whitespace-pre-wrap text-sm sm:text-base leading-relaxed bg-red-50 p-4 rounded-lg border-l-4 border-danger">
+                    <%= notifikasi.deskripsi %>
+                </p>
+            </div>
+        </div>
+
+        <!-- Two Column Layout for Info Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+            <!-- Left Column - Child Information -->
+            <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                <h3 class="text-base sm:text-lg font-medium text-textPrimary mb-3 sm:mb-4">
+                    <i class="fas fa-child text-primary mr-2"></i>
+                    Informasi Anak
+                </h3>
+                <div class="space-y-3 sm:space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-semibold text-base sm:text-lg">
+                                <%= notifikasi.anak && notifikasi.anak.nama ? notifikasi.anak.nama.charAt(0).toUpperCase() : 'N' %>
+                            </span>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <h4 class="font-semibold text-textPrimary text-base sm:text-lg truncate">
+                                <%= notifikasi.anak && notifikasi.anak.nama ? notifikasi.anak.nama : 'Anak tidak ditemukan' %>
+                            </h4>
+                            <p class="text-sm text-textSecondary">
+                                <%= notifikasi.anak && notifikasi.anak.jenisKelamin ? 
+                                    (notifikasi.anak.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan') : 
+                                    'Jenis kelamin tidak tersedia' %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <span class="text-sm font-medium text-textSecondary">Tanggal Lahir:</span>
+                            <p class="text-sm text-textPrimary mt-1">
+                                <%= notifikasi.anak && notifikasi.anak.tanggalLahir ? 
+                                    new Date(notifikasi.anak.tanggalLahir).toLocaleDateString('id-ID', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    }) : 'Tidak tersedia' %>
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <span class="text-sm font-medium text-textSecondary">Alamat:</span>
+                            <p class="text-sm text-textPrimary mt-1 break-words">
+                                <%= notifikasi.anak && notifikasi.anak.alamat ? notifikasi.anak.alamat : 'Tidak tersedia' %>
+                            </p>
+                        </div>
+
+                        <% if (notifikasi.anak && notifikasi.anak.teleponDarurat) { %>
+                            <div class="bg-red-50 p-3 rounded-lg border border-red-200">
+                                <span class="text-sm font-medium text-danger">Telepon Darurat:</span>
+                                <p class="text-sm text-textPrimary mt-1">
+                                    <a href="tel:<%= notifikasi.anak.teleponDarurat %>" class="text-danger hover:underline font-semibold break-all">
+                                        <%= notifikasi.anak.teleponDarurat %>
+                                    </a>
+                                </p>
+                            </div>
+                        <% } %>
+
+                        <% if (notifikasi.anak && notifikasi.anak.kondisiKesehatan) { %>
+                            <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                                <span class="text-sm font-medium text-warning">Kondisi Kesehatan:</span>
+                                <p class="text-sm text-textPrimary mt-1 break-words"><%= notifikasi.anak.kondisiKesehatan %></p>
+                            </div>
+                        <% } %>
+
+                        <% if (notifikasi.anak && notifikasi.anak.alergi) { %>
+                            <div class="bg-orange-50 p-3 rounded-lg border border-orange-200">
+                                <span class="text-sm font-medium text-warning">Alergi:</span>
+                                <p class="text-sm text-textPrimary mt-1 break-words"><%= notifikasi.anak.alergi %></p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Parent Contact & Notification Info -->
+            <div class="space-y-4 sm:space-y-6">
+                <!-- Parent Contact -->
+                <% if (notifikasi.anak && notifikasi.anak.orangTua) { %>
+                    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-medium text-textPrimary mb-3 sm:mb-4">
+                            <i class="fas fa-users text-secondary mr-2"></i>
+                            Kontak Orang Tua
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-user text-white text-sm sm:text-base"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <h4 class="font-semibold text-textPrimary text-sm sm:text-base truncate"><%= notifikasi.anak.orangTua.nama %></h4>
+                                    <p class="text-xs sm:text-sm text-textSecondary">Orang Tua</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <span class="text-sm font-medium text-textSecondary">Email:</span>
+                                    <p class="text-sm text-textPrimary mt-1">
+                                        <a href="mailto:<%= notifikasi.anak.orangTua.email %>" class="text-primary hover:underline break-all">
+                                            <%= notifikasi.anak.orangTua.email %>
+                                        </a>
+                                    </p>
+                                </div>
+
+                                <% if (notifikasi.anak.orangTua.telepon) { %>
+                                    <div class="bg-gray-50 p-3 rounded-lg">
+                                        <span class="text-sm font-medium text-textSecondary">Telepon:</span>
+                                        <p class="text-sm text-textPrimary mt-1">
+                                            <a href="tel:<%= notifikasi.anak.orangTua.telepon %>" class="text-primary hover:underline break-all">
+                                                <%= notifikasi.anak.orangTua.telepon %>
+                                            </a>
+                                        </p>
+                                    </div>
+                                <% } %>
+                            </div>
+
+                            <!-- Quick Contact Actions -->
+                            <div class="flex flex-col sm:flex-row gap-2 pt-3 border-t border-gray-200">
+                                <a href="mailto:<%= notifikasi.anak.orangTua.email %>" 
+                                   class="flex-1 bg-primary text-white py-2 px-3 rounded-lg text-center text-sm font-medium hover:bg-primary-dark transition-colors">
+                                    <i class="fas fa-envelope mr-2"></i>
+                                    Kirim Email
+                                </a>
+                                <% if (notifikasi.anak.orangTua.telepon) { %>
+                                    <a href="tel:<%= notifikasi.anak.orangTua.telepon %>" 
+                                       class="flex-1 bg-success text-white py-2 px-3 rounded-lg text-center text-sm font-medium hover:bg-success-dark transition-colors">
+                                        <i class="fas fa-phone mr-2"></i>
+                                        Telepon
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- Notification Info -->
+                <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                    <h3 class="text-base sm:text-lg font-medium text-textPrimary mb-3 sm:mb-4">
+                        <i class="fas fa-info-circle text-info mr-2"></i>
+                        Informasi Notifikasi
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <span class="text-sm font-medium text-textSecondary">Dibuat pada:</span>
+                            <p class="text-sm text-textPrimary mt-1">
+                                <%= new Date(notifikasi.createdAt).toLocaleDateString('id-ID', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                }) %>
+                            </p>
+                        </div>
+
+                        <% if (notifikasi.updatedAt && notifikasi.updatedAt !== notifikasi.createdAt) { %>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <span class="text-sm font-medium text-textSecondary">Terakhir diperbarui:</span>
+                                <p class="text-sm text-textPrimary mt-1">
+                                    <%= new Date(notifikasi.updatedAt).toLocaleDateString('id-ID', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    }) %>
+                                </p>
+                            </div>
+                        <% } %>
+
+                        <% if (notifikasi.createdByUser) { %>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <span class="text-sm font-medium text-textSecondary">Dibuat oleh:</span>
+                                <p class="text-sm text-textPrimary mt-1"><%= notifikasi.createdByUser.nama || 'Admin' %></p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

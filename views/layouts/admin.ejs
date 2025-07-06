@@ -18,6 +18,58 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+<style>
+.tab-button {
+    transition: all 0.2s ease-in-out;
+}
+
+.tab-button:hover {
+    cursor: pointer;
+}
+
+/* Sidebar enhancements */
+.sidebar-nav-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s;
+}
+
+.sidebar-nav-item:hover::before {
+    left: 100%;
+}
+
+/* Active menu item - Light theme */
+.sidebar-nav-item.active {
+    background: rgba(59, 130, 246, 0.1) !important;
+    border-left: 4px solid #3B82F6;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+}
+
+.sidebar-nav-item.active .nav-icon-bg {
+    background: rgba(102, 160, 254, 0.2) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.sidebar-nav-item.active .nav-icon {
+    color: #3B82F6 !important;
+}
+
+.sidebar-nav-item.active span {
+    color: #1E40AF !important;
+    font-weight: 600;
+}
+</style>
     <style>
     #messagesContainer {
         scroll-behavior: auto !important; /* Instant scroll, no smooth transition */
@@ -98,65 +150,83 @@
 <body class="font-poppins bg-gray-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="bg-textPrimary text-white w-64 fixed h-full overflow-y-auto">
+        <div class="bg-white border-r border-gray-200 text-gray-700 w-64 fixed h-full overflow-y-auto shadow-lg">
             <div class="p-4">
-                <div class="flex items-center space-x-2 mb-8">
-                    <div class="bg-primary text-white w-10 h-10 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-baby text-lg"></i>
+                <div class="flex items-center space-x-3 mb-8 p-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl text-white shadow-md">
+                    <div class="bg-white/30 backdrop-blur-sm text-white w-12 h-12 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-baby text-xl"></i>
                     </div>
                     <div>
-                        <span class="text-lg font-bold">Candice Kids</span>
-                        <p class="text-xs text-gray-300">Admin Panel</p>
+                        <span class="text-xl font-bold text-white">Candice Kids</span>
+                        <p class="text-sm text-blue-100">Admin Panel</p>
                     </div>
                 </div>
 
-                <nav class="space-y-2">
-                    <a href="/admin/dashboard" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
+                <nav class="space-y-2 mt-6">
+                    <a href="/admin/dashboard" class="sidebar-nav-item flex items-center space-x-3 p-3 rounded-xl hover:bg-blue-50 hover:shadow-sm transition-all duration-200 group text-gray-600 hover:text-blue-700">
+                        <div class="nav-icon-bg w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 group-hover:shadow-sm transition-all duration-200">
+                            <i class="nav-icon fas fa-tachometer-alt text-blue-500 group-hover:text-blue-600 text-lg"></i>
+                        </div>
+                        <span class="font-medium">Dashboard</span>
                     </a>
 
-                    <a href="/admin/anak" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        <i class="fas fa-child"></i>
-                        <span>Data Anak</span>
+                    <a href="/admin/anak" class="sidebar-nav-item flex items-center space-x-3 p-3 rounded-xl hover:bg-blue-50 hover:shadow-sm transition-all duration-200 group text-gray-600 hover:text-blue-700">
+                        <div class="nav-icon-bg w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 group-hover:shadow-sm transition-all duration-200">
+                            <i class="nav-icon fas fa-child text-blue-500 group-hover:text-blue-600 text-lg"></i>
+                        </div>
+                        <span class="font-medium">Data Anak</span>
                     </a>
 
-                    <a href="/admin/pengasuh" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        <i class="fas fa-users"></i>
-                        <span>Data Pengasuh</span>
+                    <a href="/admin/pengasuh" class="sidebar-nav-item flex items-center space-x-3 p-3 rounded-xl hover:bg-blue-50 hover:shadow-sm transition-all duration-200 group text-gray-600 hover:text-blue-700">
+                        <div class="nav-icon-bg w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 group-hover:shadow-sm transition-all duration-200">
+                            <i class="nav-icon fas fa-users text-blue-500 group-hover:text-blue-600 text-lg"></i>
+                        </div>
+                        <span class="font-medium">Data Pengasuh</span>
                     </a>
 
-                    <a href="/admin/absensi" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        <i class="fas fa-calendar-check"></i>
-                        <span>Absensi</span>
+                    <a href="/admin/absensi" class="sidebar-nav-item flex items-center space-x-3 p-3 rounded-xl hover:bg-blue-50 hover:shadow-sm transition-all duration-200 group text-gray-600 hover:text-blue-700">
+                        <div class="nav-icon-bg w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 group-hover:shadow-sm transition-all duration-200">
+                            <i class="nav-icon fas fa-calendar-check text-blue-500 group-hover:text-blue-600 text-lg"></i>
+                        </div>
+                        <span class="font-medium">Absensi</span>
                     </a>
 
-                    <a href="/admin/aktivitas" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        <i class="fas fa-tasks"></i>
-                        <span>Aktivitas Harian</span>
+                    <a href="/admin/aktivitas" class="sidebar-nav-item flex items-center space-x-3 p-3 rounded-xl hover:bg-blue-50 hover:shadow-sm transition-all duration-200 group text-gray-600 hover:text-blue-700">
+                        <div class="nav-icon-bg w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 group-hover:shadow-sm transition-all duration-200">
+                            <i class="nav-icon fas fa-tasks text-blue-500 group-hover:text-blue-600 text-lg"></i>
+                        </div>
+                        <span class="font-medium">Aktivitas Harian</span>
                     </a>
 
-                    <a href="/admin/komunikasi" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        <i class="fas fa-comments"></i>
-                        <span>Komunikasi</span>
+                    <a href="/admin/komunikasi" class="sidebar-nav-item flex items-center space-x-3 p-3 rounded-xl hover:bg-blue-50 hover:shadow-sm transition-all duration-200 group text-gray-600 hover:text-blue-700">
+                        <div class="nav-icon-bg w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 group-hover:shadow-sm transition-all duration-200">
+                            <i class="nav-icon fas fa-comments text-blue-500 group-hover:text-blue-600 text-lg"></i>
+                        </div>
+                        <span class="font-medium">Komunikasi</span>
                     </a>
 
-                    <a href="/admin/notifikasi-darurat" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span>Notifikasi Darurat</span>
+                    <a href="/admin/notifikasi-darurat" class="sidebar-nav-item flex items-center space-x-3 p-3 rounded-xl hover:bg-blue-50 hover:shadow-sm transition-all duration-200 group text-gray-600 hover:text-blue-700">
+                        <div class="nav-icon-bg w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 group-hover:shadow-sm transition-all duration-200">
+                            <i class="nav-icon fas fa-exclamation-triangle text-blue-500 group-hover:text-blue-600 text-lg"></i>
+                        </div>
+                        <span class="font-medium">Notifikasi Darurat</span>
                     </a>
 
-                    <a href="/admin/tagihan" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        <i class="fas fa-money-bill"></i>
-                        <span>Tagihan & Pembayaran</span>
+                    <a href="/admin/tagihan" class="sidebar-nav-item flex items-center space-x-3 p-3 rounded-xl hover:bg-blue-50 hover:shadow-sm transition-all duration-200 group text-gray-600 hover:text-blue-700">
+                        <div class="nav-icon-bg w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 group-hover:shadow-sm transition-all duration-200">
+                            <i class="nav-icon fas fa-money-bill text-blue-500 group-hover:text-blue-600 text-lg"></i>
+                        </div>
+                        <span class="font-medium">Tagihan & Pembayaran</span>
                     </a>
                 </nav>
 
                 <!-- Logout Button -->
-                <div class="mt-8 pt-4 border-t border-gray-600">
-                    <a href="/admin/logout" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-600 transition-colors text-red-300 hover:text-white">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
+                <div class="mt-8 pt-4 border-t border-gray-200">
+                    <a href="/admin/logout" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-blue-50 hover:shadow-sm transition-all duration-200 text-gray-600 hover:text-blue-700 group">
+                        <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center group-hover:bg-blue-100 group-hover:shadow-sm transition-all duration-200">
+                            <i class="fas fa-sign-out-alt text-blue-500 group-hover:text-blue-600"></i>
+                        </div>
+                        <span class="font-medium">Logout</span>
                     </a>
                 </div>
             </div>
@@ -898,6 +968,37 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script>
+function showTab(status) {
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab-button').forEach(tab => {
+        tab.classList.remove('border-blue-500', 'text-blue-600');
+        tab.classList.add('border-transparent', 'text-gray-500');
+    });
+    
+    // Add active class to selected tab
+    const activeTab = document.getElementById(`tab-${status}`);
+    activeTab.classList.remove('border-transparent', 'text-gray-500');
+    activeTab.classList.add('border-blue-500', 'text-blue-600');
+    
+    // Show/hide rows based on status
+    const rows = document.querySelectorAll('.student-row');
+    rows.forEach(row => {
+        const rowStatus = row.getAttribute('data-status');
+        
+        if (status === 'all') {
+            row.style.display = '';
+        } else {
+            row.style.display = rowStatus === status ? '' : 'none';
+        }
+    });
+}
+
+// Initialize with 'all' tab active
+document.addEventListener('DOMContentLoaded', function() {
+    showTab('all');
+});
+</script>
 </body>
 
 </html>

@@ -118,3 +118,4 @@ config/local.js
 
 # Tailwind output (generated file)
 public/css/output.css
+.vercel

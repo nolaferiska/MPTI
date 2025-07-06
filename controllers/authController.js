@@ -13,9 +13,9 @@ class AuthController {
     // Process login
     static async processLogin(req, res) {
         try {
-            // const { email, password } = req.body;
-            const email = "user@example.com"
-            const password = "123"; 
+            const { email, password } = req.body;
+            // const email = "user@example.com"
+            // const password = "123"; 
             // Validate input
             if (!email || !password) {
                 req.flash('error_msg', 'Email dan password harus diisi');

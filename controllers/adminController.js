@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { User, Anak, Pengasuh, Absensi, Aktivitas, Komunikasi, NotifikasiDarurat, Tagihan, Pembayaran } = require('../models');
 const prisma = require('../lib/prisma');
+const emailService = require('../lib/emailService');
 
 class AdminController {
     // Display admin login page
@@ -19,9 +20,9 @@ class AdminController {
     // Process admin login
     static async processLogin(req, res) {
         try {
-            // const { username, password } = req.body;
-            const username = "admin"
-            const password = "123"
+            const { username, password } = req.body;
+            // const username = "admin"
+            // const password = "123"
                 // Validate input
             if (!username || !password) {
                 req.flash('error_msg', 'Username dan password harus diisi');
@@ -1581,8 +1582,28 @@ class AdminController {
                 createdBy: req.session.user.id
             };
 
-            await NotifikasiDarurat.create(notifikasiData);
-            req.flash('success_msg', 'Notifikasi darurat berhasil ditambahkan');
+            // Create notifikasi darurat with full relations
+            const notifikasi = await NotifikasiDarurat.create(notifikasiData);
+            
+            // Send email notification to parent
+            try {
+                if (notifikasi.anak && notifikasi.anak.orangTua && notifikasi.anak.orangTua.email) {
+                    await emailService.sendEmergencyNotification(
+                        notifikasi, 
+                        notifikasi.anak, 
+                        notifikasi.anak.orangTua
+                    );
+                    console.log('Emergency email sent successfully to:', notifikasi.anak.orangTua.email);
+                    req.flash('success_msg', 'Notifikasi darurat berhasil ditambahkan dan email telah dikirim ke orang tua');
+                } else {
+                    console.log('No email found for parent, notification created without email');
+                    req.flash('success_msg', 'Notifikasi darurat berhasil ditambahkan (email orang tua tidak ditemukan)');
+                }
+            } catch (emailError) {
+                console.error('Error sending emergency email:', emailError);
+                req.flash('success_msg', 'Notifikasi darurat berhasil ditambahkan (gagal mengirim email ke orang tua)');
+            }
+            
             res.redirect('/admin/notifikasi-darurat');
         } catch (error) {
             console.error('Error adding notifikasi darurat:', error);

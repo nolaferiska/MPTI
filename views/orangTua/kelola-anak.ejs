@@ -6,7 +6,7 @@
             <h2 class="text-2xl font-bold text-textPrimary">Kelola Data Anak</h2>
             <p class="text-textSecondary">Manajemen data anak Anda</p>
         </div>
-        <a href="/kelola-anak/add" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+        <a href="/kelola-anak/add" class="bg-secondary text-textPrimary px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
             <i class="fas fa-plus mr-2"></i> Tambah Anak
         </a>
     </div>
@@ -46,9 +46,7 @@
             <table class="w-full">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Foto</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Nama</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Usia</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Jenis Kelamin</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Status</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Tanggal Masuk</th>
@@ -60,28 +58,11 @@
                         <% anakList.forEach(anak => { %>
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <% if (anak.foto) { %>
-                                            <img class="h-10 w-10 rounded-full object-cover" src="<%= anak.foto %>" alt="<%= anak.nama %>">
-                                        <% } else { %>
-                                            <div class="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center">
-                                                <i class="fas fa-child"></i>
-                                            </div>
-                                        <% } %>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm font-medium text-textPrimary">
                                         <%= anak.nama %>
                                     </div>
-                                    <div class="text-sm text-textSecondary">
-                                        <%= anak.alamat %>
-                                    </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-textPrimary"><%= anak.age %> tahun</div>
-                                    <div class="text-sm text-textSecondary"><%= anak.ageInMonths %> bulan</div>
-                                </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-textPrimary">
                                         <%= anak.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan' %>
@@ -109,21 +90,21 @@
                                     </div>
                                 </td>
                             </tr>
-                        <% }) %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-textSecondary">
-                                <div class="flex flex-col items-center py-8">
-                                    <i class="fas fa-child text-4xl text-gray-300 mb-4"></i>
-                                    <p class="text-lg font-medium">Tidak ada data anak</p>
-                                    <p class="text-sm">Belum ada data anak yang ditambahkan</p>
-                                    <a href="/kelola-anak/add" class="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
-                                        <i class="fas fa-plus mr-2"></i> Tambah Anak Pertama
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    <% } %>
+                            <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="7" class="px-6 py-4 text-center text-textSecondary">
+                                            <div class="flex flex-col items-center py-8">
+                                                <i class="fas fa-child text-4xl text-gray-300 mb-4"></i>
+                                                <p class="text-lg font-medium">Tidak ada data anak</p>
+                                                <p class="text-sm">Belum ada data anak yang ditambahkan</p>
+                                                <a href="/kelola-anak/add" class="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                                                    <i class="fas fa-plus mr-2"></i> Tambah Anak Pertama
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% } %>
                 </tbody>
             </table>
         </div>
@@ -136,12 +117,12 @@
                         <a href="/kelola-anak?page=<%= pagination.currentPage - 1 %>&search=<%= filters.search || '' %>&status=<%= filters.status || '' %>" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                             Sebelumnya
                         </a>
-                    <% } %>
-                    <% if (pagination.hasNext) { %>
-                        <a href="/kelola-anak?page=<%= pagination.currentPage + 1 %>&search=<%= filters.search || '' %>&status=<%= filters.status || '' %>" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        <% } %>
+                            <% if (pagination.hasNext) { %>
+                                <a href="/kelola-anak?page=<%= pagination.currentPage + 1 %>&search=<%= filters.search || '' %>&status=<%= filters.status || '' %>" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                             Selanjutnya
                         </a>
-                    <% } %>
+                                <% } %>
                 </div>
                 <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                     <div>
@@ -155,23 +136,23 @@
                                 <a href="/kelola-anak?page=<%= pagination.currentPage - 1 %>&search=<%= filters.search || '' %>&status=<%= filters.status || '' %>" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                     <i class="fas fa-chevron-left"></i>
                                 </a>
-                            <% } %>
+                                <% } %>
 
-                            <% for (let i = 1; i <= pagination.totalPages; i++) { %>
-                                <a href="/kelola-anak?page=<%= i %>&search=<%= filters.search || '' %>&status=<%= filters.status || '' %>" class="relative inline-flex items-center px-4 py-2 border text-sm font-medium <%= i === pagination.currentPage ? 'z-10 bg-primary border-primary text-white' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50' %>">
-                                    <%= i %>
-                                </a>
-                            <% } %>
+                                    <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+                                        <a href="/kelola-anak?page=<%= i %>&search=<%= filters.search || '' %>&status=<%= filters.status || '' %>" class="relative inline-flex items-center px-4 py-2 border text-sm font-medium <%= i === pagination.currentPage ? 'z-10 bg-primary border-primary text-white' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50' %>">
+                                            <%= i %>
+                                        </a>
+                                        <% } %>
 
-                            <% if (pagination.hasNext) { %>
-                                <a href="/kelola-anak?page=<%= pagination.currentPage + 1 %>&search=<%= filters.search || '' %>&status=<%= filters.status || '' %>" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            <% } %>
+                                            <% if (pagination.hasNext) { %>
+                                                <a href="/kelola-anak?page=<%= pagination.currentPage + 1 %>&search=<%= filters.search || '' %>&status=<%= filters.status || '' %>" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                                    <i class="fas fa-chevron-right"></i>
+                                                </a>
+                                                <% } %>
                         </nav>
                     </div>
                 </div>
             </div>
-        <% } %>
+            <% } %>
     </div>
 </div>

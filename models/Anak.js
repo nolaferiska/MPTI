@@ -11,6 +11,7 @@ class Anak {
         this.kondisiKesehatan = data.kondisiKesehatan;
         this.alergi = data.alergi;
         this.foto = data.foto;
+        this.dokumenAnak = data.dokumenAnak;
         this.orangTuaId = data.orangTuaId;
         this.tanggalMasuk = data.tanggalMasuk;
         this.status = data.status;
@@ -317,6 +318,7 @@ class Anak {
             kondisiKesehatan: this.kondisiKesehatan,
             alergi: this.alergi,
             foto: this.foto,
+            dokumenAnak: this.dokumenAnak,
             orangTuaId: this.orangTuaId,
             tanggalMasuk: this.tanggalMasuk,
             status: this.status,

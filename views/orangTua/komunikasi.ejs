@@ -23,7 +23,6 @@
                                 <div class="flex items-center space-x-3">
                                     <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center relative">
                                         <span class="text-white font-semibold text-sm"><%= admin.nama.charAt(0).toUpperCase() %></span>
-                                        <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-full border-2 border-white online-indicator" data-admin-id="<%= admin.id %>"></div>
                                     </div>
                                     <div class="flex-1">
                                         <h4 class="font-medium text-textPrimary">
@@ -32,22 +31,18 @@
                                         <p class="text-sm text-textSecondary">
                                             <%= admin.email %>
                                         </p>
-                                        <div class="flex items-center mt-1">
-                                            <div class="w-2 h-2 bg-success rounded-full mr-2"></div>
-                                            <span class="text-xs text-success">Online</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        <% }); %>
-                    <% } else { %>
-                        <div class="p-8 text-center text-textSecondary">
-                            <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-user-shield text-2xl text-gray-400"></i>
-                            </div>
-                            <p>Tidak ada admin tersedia</p>
-                        </div>
-                    <% } %>
+                            <% }); %>
+                                <% } else { %>
+                                    <div class="p-8 text-center text-textSecondary">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-user-shield text-2xl text-gray-400"></i>
+                                        </div>
+                                        <p>Tidak ada admin tersedia</p>
+                                    </div>
+                                    <% } %>
                 </div>
             </div>
 
@@ -79,8 +74,7 @@
                         <p class="text-textSecondary">Pilih admin dari daftar di sebelah kiri untuk memulai percakapan</p>
                         <div class="mt-4 p-4 bg-blue-50 rounded-lg">
                             <p class="text-sm text-blue-700">
-                                <i class="fas fa-info-circle mr-2"></i>
-                                Anda dapat bertanya tentang perkembangan anak, jadwal, atau hal lainnya kepada admin
+                                <i class="fas fa-info-circle mr-2"></i> Anda dapat bertanya tentang perkembangan anak, jadwal, atau hal lainnya kepada admin
                             </p>
                         </div>
                     </div>
@@ -132,7 +126,6 @@
                     <span class="text-sm text-textPrimary">Tanya perkembangan</span>
                 </div>
             </button>
-
         </div>
     </div>
 </div>

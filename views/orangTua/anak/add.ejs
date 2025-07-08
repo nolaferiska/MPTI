@@ -13,19 +13,21 @@
 
     <!-- Add Form -->
     <div class="bg-white p-6 rounded-lg shadow-sm">
-        <form method="POST" action="/kelola-anak/add" class="space-y-6">
+        <!-- Download Template Form -->
+        <div class="mb-6">
+            <a href="/template/form_candicekids.txt" download class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors">
+                <i class="fas fa-download mr-2"></i> Download Template Form Candice Kids
+            </a>
+            <p class="text-xs text-textSecondary mt-2">Silakan download, isi, lalu upload kembali form ini dalam format PDF/DOC/DOCX.</p>
+        </div>
+        <form method="POST" action="/kelola-anak/add" class="space-y-6" enctype="multipart/form-data">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Nama -->
                 <div>
                     <label for="nama" class="block text-sm font-medium text-textPrimary mb-2">
                         Nama Lengkap <span class="text-danger">*</span>
                     </label>
-                    <input type="text" 
-                           id="nama" 
-                           name="nama" 
-                           required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                           placeholder="Masukkan nama lengkap anak">
+                    <input type="text" id="nama" name="nama" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Masukkan nama lengkap anak">
                 </div>
 
                 <!-- Tanggal Lahir -->
@@ -33,11 +35,7 @@
                     <label for="tanggalLahir" class="block text-sm font-medium text-textPrimary mb-2">
                         Tanggal Lahir <span class="text-danger">*</span>
                     </label>
-                    <input type="date" 
-                           id="tanggalLahir" 
-                           name="tanggalLahir" 
-                           required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <input type="date" id="tanggalLahir" name="tanggalLahir" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                 </div>
 
                 <!-- Jenis Kelamin -->
@@ -45,10 +43,7 @@
                     <label for="jenisKelamin" class="block text-sm font-medium text-textPrimary mb-2">
                         Jenis Kelamin <span class="text-danger">*</span>
                     </label>
-                    <select id="jenisKelamin" 
-                            name="jenisKelamin" 
-                            required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <select id="jenisKelamin" name="jenisKelamin" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         <option value="">Pilih jenis kelamin</option>
                         <option value="L">Laki-laki</option>
                         <option value="P">Perempuan</option>
@@ -60,11 +55,7 @@
                     <label for="tanggalMasuk" class="block text-sm font-medium text-textPrimary mb-2">
                         Tanggal Masuk Daycare
                     </label>
-                    <input type="date" 
-                           id="tanggalMasuk" 
-                           name="tanggalMasuk" 
-                           value="<%= new Date().toISOString().split('T')[0] %>"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <input type="date" id="tanggalMasuk" name="tanggalMasuk" value="<%= new Date().toISOString().split('T')[0] %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                 </div>
             </div>
 
@@ -73,12 +64,7 @@
                 <label for="alamat" class="block text-sm font-medium text-textPrimary mb-2">
                     Alamat <span class="text-danger">*</span>
                 </label>
-                <textarea id="alamat" 
-                          name="alamat" 
-                          required 
-                          rows="3" 
-                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Masukkan alamat lengkap"></textarea>
+                <textarea id="alamat" name="alamat" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Masukkan alamat lengkap"></textarea>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -87,11 +73,7 @@
                     <label for="teleponDarurat" class="block text-sm font-medium text-textPrimary mb-2">
                         Telepon Darurat
                     </label>
-                    <input type="tel" 
-                           id="teleponDarurat" 
-                           name="teleponDarurat" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                           placeholder="Contoh: 08123456789">
+                    <input type="tel" id="teleponDarurat" name="teleponDarurat" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Contoh: 08123456789">
                 </div>
 
                 <!-- Kondisi Kesehatan -->
@@ -99,11 +81,7 @@
                     <label for="kondisiKesehatan" class="block text-sm font-medium text-textPrimary mb-2">
                         Kondisi Kesehatan Khusus
                     </label>
-                    <input type="text" 
-                           id="kondisiKesehatan" 
-                           name="kondisiKesehatan" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                           placeholder="Contoh: Asma, Diabetes, dll">
+                    <input type="text" id="kondisiKesehatan" name="kondisiKesehatan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Contoh: Asma, Diabetes, dll">
                 </div>
             </div>
 
@@ -112,24 +90,26 @@
                 <label for="alergi" class="block text-sm font-medium text-textPrimary mb-2">
                     Alergi
                 </label>
-                <textarea id="alergi" 
-                          name="alergi" 
-                          rows="2" 
-                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Sebutkan alergi yang dimiliki anak (makanan, obat, dll)"></textarea>
+                <textarea id="alergi" name="alergi" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Sebutkan alergi yang dimiliki anak (makanan, obat, dll)"></textarea>
+            </div>
+
+            <!-- Upload Dokumen Form Anak -->
+            <div>
+                <label for="dokumenAnak" class="block text-sm font-medium text-textPrimary mb-2">
+                    <i class="fas fa-file-upload mr-2 text-accent"></i>Upload Dokumen Form Anak (PDF/DOC/DOCX)
+                </label>
+                <input type="file" id="dokumenAnak" name="dokumenAnak" accept=".pdf,.doc,.docx" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                <p class="text-xs text-textSecondary mt-1">Wajib upload form yang sudah diisi dan ditandatangani. Maksimal 2MB.</p>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                <button type="submit" 
-                        class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
                     <i class="fas fa-save mr-2"></i>
                     Simpan Data
                 </button>
-                <a href="/kelola-anak" 
-                   class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-center">
-                    <i class="fas fa-times mr-2"></i>
-                    Batal
+                <a href="/kelola-anak" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-center">
+                    <i class="fas fa-times mr-2"></i> Batal
                 </a>
             </div>
         </form>

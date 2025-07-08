@@ -7,26 +7,29 @@
         </a>
         <div>
             <h2 class="text-2xl font-bold text-textPrimary">Edit Data Anak</h2>
-            <p class="text-textSecondary">Edit data <%= anak.nama %></p>
+            <p class="text-textSecondary">Edit data
+                <%= anak.nama %>
+            </p>
         </div>
     </div>
 
     <!-- Edit Form -->
     <div class="bg-white p-6 rounded-lg shadow-sm">
-        <form method="POST" action="/kelola-anak/edit/<%= anak.id %>" class="space-y-6">
+        <!-- Download Template Form -->
+        <div class="mb-6">
+            <a href="/template/form_candicekids.txt" download class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors">
+                <i class="fas fa-download mr-2"></i> Download Template Form Candice Kids
+            </a>
+            <p class="text-xs text-textSecondary mt-2">Silakan download, isi, lalu upload kembali form ini dalam format PDF/DOC/DOCX.</p>
+        </div>
+        <form method="POST" action="/kelola-anak/edit/<%= anak.id %>" class="space-y-6" enctype="multipart/form-data">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Nama -->
                 <div>
                     <label for="nama" class="block text-sm font-medium text-textPrimary mb-2">
                         Nama Lengkap <span class="text-danger">*</span>
                     </label>
-                    <input type="text" 
-                           id="nama" 
-                           name="nama" 
-                           value="<%= anak.nama %>"
-                           required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                           placeholder="Masukkan nama lengkap anak">
+                    <input type="text" id="nama" name="nama" value="<%= anak.nama %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Masukkan nama lengkap anak">
                 </div>
 
                 <!-- Tanggal Lahir -->
@@ -34,12 +37,7 @@
                     <label for="tanggalLahir" class="block text-sm font-medium text-textPrimary mb-2">
                         Tanggal Lahir <span class="text-danger">*</span>
                     </label>
-                    <input type="date" 
-                           id="tanggalLahir" 
-                           name="tanggalLahir" 
-                           value="<%= new Date(anak.tanggalLahir).toISOString().split('T')[0] %>"
-                           required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <input type="date" id="tanggalLahir" name="tanggalLahir" value="<%= new Date(anak.tanggalLahir).toISOString().split('T')[0] %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                 </div>
 
                 <!-- Jenis Kelamin -->
@@ -47,10 +45,7 @@
                     <label for="jenisKelamin" class="block text-sm font-medium text-textPrimary mb-2">
                         Jenis Kelamin <span class="text-danger">*</span>
                     </label>
-                    <select id="jenisKelamin" 
-                            name="jenisKelamin" 
-                            required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <select id="jenisKelamin" name="jenisKelamin" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         <option value="">Pilih jenis kelamin</option>
                         <option value="L" <%= anak.jenisKelamin === 'L' ? 'selected' : '' %>>Laki-laki</option>
                         <option value="P" <%= anak.jenisKelamin === 'P' ? 'selected' : '' %>>Perempuan</option>
@@ -62,11 +57,7 @@
                     <label for="tanggalMasuk" class="block text-sm font-medium text-textPrimary mb-2">
                         Tanggal Masuk Daycare
                     </label>
-                    <input type="date" 
-                           id="tanggalMasuk" 
-                           name="tanggalMasuk" 
-                           value="<%= anak.tanggalMasuk ? new Date(anak.tanggalMasuk).toISOString().split('T')[0] : '' %>"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <input type="date" id="tanggalMasuk" name="tanggalMasuk" value="<%= anak.tanggalMasuk ? new Date(anak.tanggalMasuk).toISOString().split('T')[0] : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                 </div>
             </div>
 
@@ -75,12 +66,7 @@
                 <label for="alamat" class="block text-sm font-medium text-textPrimary mb-2">
                     Alamat <span class="text-danger">*</span>
                 </label>
-                <textarea id="alamat" 
-                          name="alamat" 
-                          required 
-                          rows="3" 
-                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Masukkan alamat lengkap"><%= anak.alamat %></textarea>
+                <textarea id="alamat" name="alamat" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Masukkan alamat lengkap"><%= anak.alamat %></textarea>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -89,12 +75,7 @@
                     <label for="teleponDarurat" class="block text-sm font-medium text-textPrimary mb-2">
                         Telepon Darurat
                     </label>
-                    <input type="tel" 
-                           id="teleponDarurat" 
-                           name="teleponDarurat" 
-                           value="<%= anak.teleponDarurat || '' %>"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                           placeholder="Contoh: 08123456789">
+                    <input type="tel" id="teleponDarurat" name="teleponDarurat" value="<%= anak.teleponDarurat || '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Contoh: 08123456789">
                 </div>
 
                 <!-- Kondisi Kesehatan -->
@@ -102,12 +83,7 @@
                     <label for="kondisiKesehatan" class="block text-sm font-medium text-textPrimary mb-2">
                         Kondisi Kesehatan Khusus
                     </label>
-                    <input type="text" 
-                           id="kondisiKesehatan" 
-                           name="kondisiKesehatan" 
-                           value="<%= anak.kondisiKesehatan || '' %>"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                           placeholder="Contoh: Asma, Diabetes, dll">
+                    <input type="text" id="kondisiKesehatan" name="kondisiKesehatan" value="<%= anak.kondisiKesehatan || '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Contoh: Asma, Diabetes, dll">
                 </div>
             </div>
 
@@ -116,29 +92,36 @@
                 <label for="alergi" class="block text-sm font-medium text-textPrimary mb-2">
                     Alergi
                 </label>
-                <textarea id="alergi" 
-                          name="alergi" 
-                          rows="2" 
-                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Sebutkan alergi yang dimiliki anak (makanan, obat, dll)"><%= anak.alergi || '' %></textarea>
+                <textarea id="alergi" name="alergi" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Sebutkan alergi yang dimiliki anak (makanan, obat, dll)"><%= anak.alergi || '' %></textarea>
+            </div>
+
+            <!-- Upload Dokumen Form Anak -->
+            <div>
+                <% if (anak.dokumenAnak) { %>
+                    <div class="mb-2">
+                        <a href="<%= anak.dokumenAnak %>" target="_blank" class="inline-flex items-center px-3 py-1 bg-success text-white rounded font-semibold hover:bg-success-dark transition-colors">
+                            <i class="fas fa-file-alt mr-2"></i> Lihat Dokumen Saat Ini
+                        </a>
+                    </div>
+                    <% } %>
+                        <label for="dokumenAnak" class="block text-sm font-medium text-textPrimary mb-2">
+                    <i class="fas fa-file-upload mr-2 text-accent"></i>Upload Ulang Dokumen Form Anak (PDF/DOC/DOCX)
+                </label>
+                        <input type="file" id="dokumenAnak" name="dokumenAnak" accept=".pdf,.doc,.docx" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <p class="text-xs text-textSecondary mt-1">Upload ulang jika ingin mengganti dokumen. Maksimal 2MB.</p>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                <button type="submit" 
-                        class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
                     <i class="fas fa-save mr-2"></i>
                     Update Data
                 </button>
-                <a href="/kelola-anak" 
-                   class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-center">
-                    <i class="fas fa-times mr-2"></i>
-                    Batal
+                <a href="/kelola-anak" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-center">
+                    <i class="fas fa-times mr-2"></i> Batal
                 </a>
-                <a href="/kelola-anak/detail/<%= anak.id %>" 
-                   class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors text-center">
-                    <i class="fas fa-eye mr-2"></i>
-                    Lihat Detail
+                <a href="/kelola-anak/detail/<%= anak.id %>" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors text-center">
+                    <i class="fas fa-eye mr-2"></i> Lihat Detail
                 </a>
             </div>
         </form>
@@ -169,19 +152,23 @@
         <h3 class="text-sm font-medium text-gray-800 mb-2">Informasi Saat Ini</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
             <div>
-                <span class="font-medium">Usia:</span> <%= anak.age %> tahun (<%= anak.ageInMonths %> bulan)
+                <span class="font-medium">Usia:</span>
+                <%= anak.age %> tahun (
+                    <%= anak.ageInMonths %> bulan)
             </div>
             <div>
-                <span class="font-medium">Lama bersekolah:</span> <%= anak.enrollmentDuration %> hari
+                <span class="font-medium">Lama bersekolah:</span>
+                <%= anak.enrollmentDuration %> hari
             </div>
             <div>
-                <span class="font-medium">Status:</span> 
+                <span class="font-medium">Status:</span>
                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full <%= anak.status === 'aktif' ? 'bg-success text-white' : 'bg-danger text-white' %>">
                     <%= anak.status === 'aktif' ? 'Aktif' : 'Nonaktif' %>
                 </span>
             </div>
             <div>
-                <span class="font-medium">Terakhir diupdate:</span> <%= new Date(anak.updatedAt).toLocaleDateString('id-ID') %>
+                <span class="font-medium">Terakhir diupdate:</span>
+                <%= new Date(anak.updatedAt).toLocaleDateString('id-ID') %>
             </div>
         </div>
     </div>

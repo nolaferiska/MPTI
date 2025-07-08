@@ -24,7 +24,9 @@ class PaymentController {
                     totalPeriods,
                     belumBayar,
                     lunas,
-                    totalTagihan
+                    totalTagihan,
+                    currentUserId: req.session.user.id
+
                 };
             });
 
@@ -40,7 +42,7 @@ class PaymentController {
                 totalBelumBayar: totalBelumBayar,
                 totalLunas: totalLunas,
                 totalTagihan: totalTagihan,
-                // Keep for backward compatibility
+                currentUserId: req.session.user.id,
                 tagihanPeriods: tagihanPeriods
             });
         } catch (error) {
@@ -543,7 +545,8 @@ class PaymentController {
                 title: `Tagihan ${anakData.anak.nama} - Candice Kids`,
                 layout: 'layouts/orangTua',
                 anak: anakData.anak,
-                periods: anakData.periods
+                periods: anakData.periods,
+                currentUserId: req.session.user.id
             });
         } catch (error) {
             console.error('Error fetching tagihan anak:', error);

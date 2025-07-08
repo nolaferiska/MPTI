@@ -1,4 +1,3 @@
-<!-- Data Tagihan Detail Page -->
 <div class="space-y-6">
     <!-- Header -->
     <div class="flex justify-between items-center">
@@ -11,8 +10,8 @@
                 <i class="fas fa-chevron-right text-gray-400"></i>
                 <span class="text-gray-800"><%= periodeName %></span>
             </nav>
-            <h2 class="text-2xl font-bold text-textPrimary">Detail Tagihan <%= periodeName %></h2>
-            <p class="text-textSecondary">Detail tagihan dan pembayaran untuk periode <%= periode %></p>
+            <h1 class="text-3xl font-bold text-gray-800">Detail Tagihan <%= periodeName %></h1>
+            <p class="text-gray-600 mt-2">Detail tagihan dan pembayaran untuk periode <%= periode %></p>
         </div>
         <a href="/admin/tagihan" class="inline-flex items-center px-4 py-2 bg-gray-500 text-white font-medium rounded-lg hover:bg-gray-600 transition duration-200">
             <i class="fas fa-arrow-left mr-2"></i>
@@ -21,39 +20,53 @@
     </div>
 
     <!-- Summary Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-blue-100 text-blue-600">
                     <i class="fas fa-users text-xl"></i>
                 </div>
                 <div class="ml-4">
-                    <p class="text-sm font-medium text-textSecondary">Total Siswa</p>
-                    <p class="text-2xl font-semibold text-textPrimary"><%= summary.total %></p>
+                    <p class="text-sm font-medium text-gray-500">Total Siswa</p>
+                    <p class="text-2xl font-semibold text-gray-900"><%= summary.total %></p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-gray-100 text-gray-600">
+                    <i class="fas fa-file-plus text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-500">Belum Ada Tagihan</p>
+                    <p class="text-2xl font-semibold text-gray-900"><%= summary.belumAda %></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-red-100 text-red-600">
                     <i class="fas fa-exclamation-circle text-xl"></i>
                 </div>
                 <div class="ml-4">
-                    <p class="text-sm font-medium text-textSecondary">Belum Bayar</p>
-                    <p class="text-2xl font-semibold text-textPrimary"><%= summary.belumBayar %></p>
+                    <p class="text-sm font-medium text-gray-500">Belum Bayar</p>
+                    <p class="text-2xl font-semibold text-gray-900"><%= summary.belumBayar %></p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+       
+
+        <div class="bg-white rounded-lg shadow p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-green-100 text-green-600">
                     <i class="fas fa-check-circle text-xl"></i>
                 </div>
                 <div class="ml-4">
-                    <p class="text-sm font-medium text-textSecondary">Lunas</p>
-                    <p class="text-2xl font-semibold text-textPrimary"><%= summary.lunas %></p>
+                    <p class="text-sm font-medium text-gray-500">Lunas</p>
+                    <p class="text-2xl font-semibold text-gray-900"><%= summary.lunas %></p>
                 </div>
             </div>
         </div>
@@ -66,9 +79,13 @@
                 <button onclick="showTab('all')" id="tab-all" class="tab-button py-4 px-1 border-b-2 border-blue-500 font-medium text-sm text-blue-600">
                     Semua (<%= summary.total %>)
                 </button>
+                <button onclick="showTab('belumAda')" id="tab-belumAda" class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                    Belum Ada Tagihan (<%= summary.belumAda %>)
+                </button>
                 <button onclick="showTab('belumBayar')" id="tab-belumBayar" class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
                     Belum Bayar (<%= summary.belumBayar %>)
                 </button>
+      
                 <button onclick="showTab('lunas')" id="tab-lunas" class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
                     Lunas (<%= summary.lunas %>)
                 </button>
@@ -87,6 +104,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Masuk</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Tagihan</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jatuh Tempo</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pembayaran Terakhir</th>
                     </tr>
                 </thead>
@@ -134,7 +152,9 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                    <%= data.status === 'lunas' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                                    <%= data.status === 'lunas' ? 'bg-green-100 text-green-800' : 
+                                        data.status === 'belum_bayar' ? 'bg-red-100 text-red-800' : 
+                                        'bg-gray-100 text-gray-800' %>">
                                     <%= data.statusDisplay %>
                                 </span>
                             </td>
@@ -143,7 +163,25 @@
                                     Rp <%= data.amount.toLocaleString('id-ID') %>
                                 </div>
                             </td>
-                            
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <% if (data.tagihan && data.tagihan.tanggalJatuhTempo) { %>
+                                    <div class="text-sm text-gray-900">
+                                        <%= new Date(data.tagihan.tanggalJatuhTempo).toLocaleDateString('id-ID', { 
+                                            day: 'numeric', 
+                                            month: 'short', 
+                                            year: 'numeric' 
+                                        }) %>
+                                    </div>
+                                    <% if (new Date(data.tagihan.tanggalJatuhTempo) < new Date() && data.status !== 'lunas') { %>
+                                        <div class="text-xs text-red-500">
+                                            <i class="fas fa-exclamation-triangle mr-1"></i>
+                                            Terlambat
+                                        </div>
+                                    <% } %>
+                                <% } else { %>
+                                    <span class="text-sm text-gray-400">-</span>
+                                <% } %>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <% if (data.tagihan && data.tagihan.pembayaran && data.tagihan.pembayaran.length > 0) { %>
                                     <% const lastPayment = data.tagihan.pembayaran[0]; %>
@@ -188,4 +226,47 @@
     <% } %>
 </div>
 </div>
+<script>
+function showTab(status) {
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab-button').forEach(tab => {
+        tab.classList.remove('border-blue-500', 'text-blue-600');
+        tab.classList.add('border-transparent', 'text-gray-500');
+    });
+    
+    // Add active class to selected tab
+    const activeTab = document.getElementById(`tab-${status}`);
+    activeTab.classList.remove('border-transparent', 'text-gray-500');
+    activeTab.classList.add('border-blue-500', 'text-blue-600');
+    
+    // Show/hide rows based on status
+    const rows = document.querySelectorAll('.student-row');
+    rows.forEach(row => {
+        const rowStatus = row.getAttribute('data-status');
+        const hasTagihan = row.getAttribute('data-has-tagihan') === 'true';
+        
+        if (status === 'all') {
+            row.style.display = '';
+        } else if (status === 'belumAda') {
+            row.style.display = !hasTagihan ? '' : 'none';
+        } else {
+            row.style.display = rowStatus === status ? '' : 'none';
+        }
+    });
+}
 
+// Initialize with 'all' tab active
+document.addEventListener('DOMContentLoaded', function() {
+    showTab('all');
+});
+</script>
+
+<style>
+.tab-button {
+    transition: all 0.2s ease-in-out;
+}
+
+.tab-button:hover {
+    cursor: pointer;
+}
+</style>

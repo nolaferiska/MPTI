@@ -44,6 +44,8 @@ class Komunikasi {
         }
     }
 
+    
+
     // Get all komunikasi
     static async findAll(options = {}) {
         try {

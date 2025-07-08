@@ -126,23 +126,4 @@ router.get('/notifikasi-darurat/detail/:id', AdminController.showNotifikasiDarur
 router.get('/tagihan', AdminController.showTagihan);
 router.get('/tagihan/detail/:periode', AdminController.showTagihanDetail);
 
-// Test email route (only for development)
-router.get('/test-email', requireAdmin, async (req, res) => {
-    try {
-        const emailService = require('../lib/emailService');
-        const result = await emailService.testConnection();
-        
-        if (result.success) {
-            req.flash('success_msg', 'Email service is working correctly!');
-        } else {
-            req.flash('error_msg', `Email service error: ${result.message}`);
-        }
-        
-        res.redirect('/admin/dashboard');
-    } catch (error) {
-        req.flash('error_msg', `Email test failed: ${error.message}`);
-        res.redirect('/admin/dashboard');
-    }
-});
-
 module.exports = router;

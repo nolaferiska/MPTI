@@ -1,4 +1,5 @@
 const prisma = require('../lib/prisma');
+const crypto = require('crypto');
 
 class User {
     constructor(data) {
@@ -12,19 +13,103 @@ class User {
         this.alamat = data.alamat;
         this.foto = data.foto;
         this.status = data.status;
+        this.emailVerified = data.emailVerified;
+        this.emailVerificationToken = data.emailVerificationToken;
+        this.emailVerificationExpires = data.emailVerificationExpires;
         this.createdAt = data.createdAt;
         this.updatedAt = data.updatedAt;
     }
 
-    // Create new user
+    // Create new user with email verification
     static async create(userData) {
         try {
+            // Generate email verification token
+            const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+            const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
             const user = await prisma.user.create({
-                data: userData
+                data: {
+                    ...userData,
+                    emailVerified: false,
+                    emailVerificationToken,
+                    emailVerificationExpires,
+                    status: 'pending' // Set status to pending until email is verified
+                }
             });
             return new User(user);
         } catch (error) {
             throw new Error(`Error creating user: ${error.message}`);
+        }
+    }
+
+    // Verify email with token
+    static async verifyEmail(token) {
+        try {
+            const user = await prisma.user.findFirst({
+                where: {
+                    emailVerificationToken: token,
+                    emailVerificationExpires: {
+                        gt: new Date()
+                    },
+                    emailVerified: false
+                }
+            });
+
+            if (!user) {
+                throw new Error('Invalid or expired verification token');
+            }
+
+            const updatedUser = await prisma.user.update({
+                where: { id: user.id },
+                data: {
+                    emailVerified: true,
+                    emailVerificationToken: null,
+                    emailVerificationExpires: null,
+                    status: 'aktif'
+                }
+            });
+
+            return new User(updatedUser);
+        } catch (error) {
+            throw new Error(`Error verifying email: ${error.message}`);
+        }
+    }
+
+    // Resend verification email
+    async resendVerificationEmail() {
+        try {
+            const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+            const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+            const updatedUser = await prisma.user.update({
+                where: { id: this.id },
+                data: {
+                    emailVerificationToken,
+                    emailVerificationExpires
+                }
+            });
+
+            Object.assign(this, updatedUser);
+            return this;
+        } catch (error) {
+            throw new Error(`Error resending verification email: ${error.message}`);
+        }
+    }
+
+    // Find user by verification token
+    static async findByVerificationToken(token) {
+        try {
+            const user = await prisma.user.findFirst({
+                where: {
+                    emailVerificationToken: token,
+                    emailVerificationExpires: {
+                        gt: new Date()
+                    }
+                }
+            });
+            return user ? new User(user) : null;
+        } catch (error) {
+            throw new Error(`Error finding user by verification token: ${error.message}`);
         }
     }
 
@@ -39,7 +124,6 @@ class User {
                     komunikasiAsPengirim: true,
                     komunikasiAsPenerima: true,
                     tagihan: true,
-                    pembayaranVerified: true,
                     notifikasiDaruratCreated: true
                 }
             });
@@ -217,10 +301,26 @@ class User {
         return this.status === 'aktif';
     }
 
+    // Check if email is verified
+    isEmailVerified() {
+        return this.emailVerified === true;
+    }
+
+    // Check if user can login (active and email verified)
+    canLogin() {
+        return this.isActive() && this.isEmailVerified();
+    }
+
     // Get user info without sensitive data
     toJSON() {
-        const { password, ...userInfo } = this;
+        const { password, emailVerificationToken, ...userInfo } = this;
         return userInfo;
+    }
+
+    // Send emergency notification to this user
+    async sendEmergencyNotification(anak, notifikasi) {
+        const emailService = require('../lib/emailService');
+        return emailService.sendEmergencyNotificationEmail(this, anak, notifikasi);
     }
 }
 

@@ -1,3 +1,4 @@
+// app.js - Fixed Socket.IO implementation
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
@@ -10,6 +11,7 @@ require('dotenv').config();
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+app.set('io', io);
 const PORT = process.env.PORT || 3000;
 
 // Import routes
@@ -24,22 +26,14 @@ app.use(express.json());
 // Static files MUST be before routes
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Debug middleware untuk static files
-app.use((req, res, next) => {
-    if (req.url.startsWith('/css/') || req.url.startsWith('/js/') || req.url.startsWith('/images/')) {
-        console.log(`📁 Static file request: ${req.url}`);
-    }
-    next();
-});
-
 // Session configuration
 app.use(session({
     secret: process.env.SESSION_SECRET || 'candice-kids-secret',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // Set to true in production with HTTPS
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000
     }
 }));
 
@@ -51,7 +45,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Configure express-ejs-layouts
 app.use(expressLayouts);
-app.set('layout', 'layouts/public'); // default layout
+app.set('layout', 'layouts/public');
 app.set("layout extractScripts", true);
 app.set("layout extractStyles", true);
 
@@ -87,104 +81,94 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Socket.IO configuration
-const { Komunikasi } = require('./models');
-
-// Store connected users
-const connectedUsers = new Map();
+// --- FIXED SOCKET.IO CHAT HANDLER ---
+const connectedUsers = new Map(); // userId -> socket.id
+const onlineUsers = new Set();
 
 io.on('connection', (socket) => {
-    console.log('New client connected:', socket.id);
+    console.log('New socket connection:', socket.id);
 
-    // Handle user joining
-    socket.on('join', (userData) => {
-        console.log('User joined:', userData);
-        socket.userId = userData.userId;
-        socket.userRole = userData.userRole;
-        socket.userName = userData.userName;
-        
-        // Store user connection
-        connectedUsers.set(userData.userId, {
-            socketId: socket.id,
-            userId: userData.userId,
-            userRole: userData.userRole,
-            userName: userData.userName
-        });
+    // User joins their own room
+    socket.on('join_room', ({ userId }) => {
+        if (userId) {
+            console.log(`User ${userId} joining room user_${userId}`);
+            socket.join(`user_${userId}`);
+            socket.userId = userId; // Store userId on socket for cleanup
+            connectedUsers.set(String(userId), socket.id);
+            onlineUsers.add(String(userId));
 
-        // Join user to their own room
-        socket.join(`user_${userData.userId}`);
-        
-        // Send current online users to the newly connected user
-        const onlineUsers = Array.from(connectedUsers.values()).filter(user => user.userId !== userData.userId);
-        socket.emit('online_users', onlineUsers);
-        
-        // Broadcast user online status to others
-        socket.broadcast.emit('user_online', {
-            userId: userData.userId,
-            userRole: userData.userRole,
-            userName: userData.userName
-        });
-        
-        console.log(`User ${userData.userName} (${userData.userRole}) connected`);
+            // Broadcast to all clients that user is online
+            io.emit('user_online', { userId: String(userId) });
+            console.log(`User ${userId} is now online`);
+        }
     });
 
-    // Handle sending messages
-    socket.on('send_message', async (messageData) => {
-        try {
-            console.log('Received message:', messageData);
-            
-            // Save message to database
-            const newMessage = await Komunikasi.create({
-                pengirimId: messageData.pengirimId,
-                penerimaId: messageData.penerimaId,
-                pesan: messageData.pesan
-            });
+    // Handle message sending (unified handler for both admin and orangtua)
+    socket.on('send_message', (data) => {
+        console.log('Received send_message:', data);
 
-            // Get full message data with relations
-            const fullMessage = await Komunikasi.findById(newMessage.id);
-            
-            // Send to sender
-            socket.emit('message_sent', {
-                success: true,
-                message: fullMessage.toJSON()
-            });
+        if (data && data.pengirimId && data.penerimaId && data.pesan) {
+            // Create message object with timestamp
+            const messageData = {
+                id: Date.now(), // Temporary ID
+                pengirimId: String(data.pengirimId),
+                penerimaId: String(data.penerimaId),
+                pesan: data.pesan,
+                createdAt: new Date().toISOString(),
+                pengirim: data.pengirim || { id: data.pengirimId, role: data.senderRole || 'orangtua' }
+            };
 
-            // Send to receiver if they're online
-            const receiverConnection = connectedUsers.get(messageData.penerimaId);
-            if (receiverConnection) {
-                io.to(`user_${messageData.penerimaId}`).emit('new_message', {
-                    message: fullMessage.toJSON()
-                });
-                console.log(`Message delivered to online user ${messageData.penerimaId}`);
-            } else {
-                console.log(`User ${messageData.penerimaId} is offline, message saved to database`);
-            }
+            // Send to both sender and receiver rooms
+            io.to(`user_${data.penerimaId}`).emit('new_message', messageData);
+            io.to(`user_${data.pengirimId}`).emit('new_message', messageData);
 
-            console.log(`Message sent from ${messageData.pengirimId} to ${messageData.penerimaId}`);
-        } catch (error) {
-            console.error('Error sending message:', error);
-            socket.emit('message_error', {
-                error: 'Failed to send message'
-            });
+            console.log(`Message sent from ${data.pengirimId} to ${data.penerimaId}`);
         }
+    });
+
+    // Handle admin sending message (separate handler for clarity)
+    socket.on('admin_send_message', (data) => {
+        console.log('Received admin_send_message:', data);
+
+        if (data && data.penerimaId && data.pesan) {
+            const messageData = {
+                id: Date.now(), // Temporary ID
+                pengirimId: String(socket.userId),
+                penerimaId: String(data.penerimaId),
+                pesan: data.pesan,
+                createdAt: new Date().toISOString(),
+                pengirim: { id: socket.userId, role: 'admin' }
+            };
+
+            // Send to both admin and parent
+            io.to(`user_${data.penerimaId}`).emit('new_message', messageData);
+            io.to(`user_${socket.userId}`).emit('new_message', messageData);
+
+            console.log(`Admin message sent from ${socket.userId} to ${data.penerimaId}`);
+        }
+    });
+
+    // Get online users
+    socket.on('get_online_users', () => {
+        console.log('Sending online users:', Array.from(onlineUsers));
+        socket.emit('online_users', Array.from(onlineUsers));
     });
 
     // Handle disconnect
     socket.on('disconnect', () => {
-        console.log('Client disconnected:', socket.id);
-        
-        // Remove user from connected users and broadcast offline status
+        console.log('Socket disconnected:', socket.id);
+
         if (socket.userId) {
-            connectedUsers.delete(socket.userId);
-            
-            // Broadcast user offline status
-            socket.broadcast.emit('user_offline', {
-                userId: socket.userId,
-                userRole: socket.userRole,
-                userName: socket.userName
-            });
-            
-            console.log(`User ${socket.userName} disconnected`);
+            // Remove from connected users
+            connectedUsers.delete(String(socket.userId));
+
+            // Check if user still has other connections
+            const userRoom = io.sockets.adapter.rooms.get(`user_${socket.userId}`);
+            if (!userRoom || userRoom.size === 0) {
+                onlineUsers.delete(String(socket.userId));
+                io.emit('user_offline', { userId: String(socket.userId) });
+                console.log(`User ${socket.userId} is now offline`);
+            }
         }
     });
 });
@@ -194,6 +178,3 @@ server.listen(PORT, () => {
     console.log(`📱 Admin: http://localhost:${PORT}/admin/login`);
     console.log(`👨‍👩‍👧‍👦 Orang Tua: http://localhost:${PORT}/login`);
 });
-
-// Export for Vercel
-module.exports = app;

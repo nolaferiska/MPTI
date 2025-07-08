@@ -11,18 +11,21 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  username  String?    @unique @db.VarChar(50)
-  email     String     @unique @db.VarChar(100)
-  password  String     @db.VarChar(255)
-  role      UserRole
-  nama      String     @db.VarChar(100)
-  telepon   String?    @db.VarChar(20)
-  alamat    String?    @db.Text
-  foto      String?    @db.VarChar(255)
-  status    UserStatus @default(aktif)
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @updatedAt @map("updated_at")
+  id                      Int        @id @default(autoincrement())
+  username                String?    @unique @db.VarChar(50)
+  email                   String     @unique @db.VarChar(100)
+  password                String     @db.VarChar(255)
+  role                    UserRole
+  nama                    String     @db.VarChar(100)
+  telepon                 String?    @db.VarChar(20)
+  alamat                  String?    @db.Text
+  foto                    String?    @db.VarChar(255)
+  status                  UserStatus @default(aktif)
+  emailVerified           Boolean    @default(false) @map("email_verified")
+  emailVerificationToken  String?    @map("email_verification_token") @db.VarChar(255)
+  emailVerificationExpires DateTime? @map("email_verification_expires")
+  createdAt               DateTime   @default(now()) @map("created_at")
+  updatedAt               DateTime   @updatedAt @map("updated_at")
 
   // Relations
   anakAsOrangTua           Anak[]
@@ -64,6 +67,7 @@ model Anak {
   kondisiKesehatan String?      @map("kondisi_kesehatan") @db.Text
   alergi           String?      @db.Text
   foto             String?      @db.VarChar(255)
+  dokumenAnak      String?      @db.VarChar(255) // path dokumen upload
   orangTuaId       Int?         @map("orang_tua_id")
   tanggalMasuk     DateTime?    @map("tanggal_masuk") @db.Date
   status           AnakStatus   @default(aktif)
@@ -200,6 +204,7 @@ enum UserRole {
 enum UserStatus {
   aktif
   nonaktif
+  pending
 }
 
 enum JenisKelamin {
@@ -220,73 +225,64 @@ enum AnakStatus {
 enum AbsensiStatus {
   hadir
   alpha
+  sakit
+  izin
 }
 
 enum JenisKomunikasi {
   chat
   notifikasi
-  pengumuman
 }
 
 enum StatusKomunikasi {
   terkirim
   dibaca
+  dibalas
 }
 
 enum StatusTagihan {
   belum_bayar
-  sebagian
   lunas
+  sebagian
 }
 
 enum MetodePembayaran {
-  credit_card
-  bank_transfer
-  bca_va
-  bni_va
-  bri_va
-  permata_va
-  other_va
-  gopay
-  shopeepay
-  qris
-  indomaret
-  alfamart
-  akulaku
-  kredivo
+  tunai
+  transfer
+  kartu_kredit
+  e_wallet
 }
 
 enum StatusPembayaran {
   pending
-  settlement
-  capture
-  deny
-  cancel
-  expire
-  failure
+  berhasil
+  gagal
+  dibatalkan
 }
 
 enum MidtransStatus {
   pending
-  settlement
   capture
+  settlement
   deny
   cancel
   expire
-  failure
   refund
   partial_refund
+  chargeback
+  partial_chargeback
+  authorize
 }
 
 enum JenisDarurat {
   kesehatan
+  keamanan
   kecelakaan
-  kehilangan
   lainnya
 }
 
 enum StatusNotifikasiDarurat {
   aktif
-  ditangani
   selesai
+  dibatalkan
 }

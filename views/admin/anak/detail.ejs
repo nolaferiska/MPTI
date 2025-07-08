@@ -35,7 +35,8 @@
                         <p class="text-sm text-textSecondary">Usia</p>
                         <p class="font-medium">
                             <%= anak.age %> tahun (
-                                <%= anak.ageInMonths %> bulan)</p>
+                                <%= anak.ageInMonths %> bulan)
+                        </p>
                     </div>
                     <div>
                         <p class="text-sm text-textSecondary">Tanggal Lahir</p>
@@ -58,7 +59,8 @@
                     <div>
                         <p class="text-sm text-textSecondary">Durasi Bergabung</p>
                         <p class="font-medium">
-                            <%= anak.enrollmentDuration %> hari</p>
+                            <%= anak.enrollmentDuration %> hari
+                        </p>
                     </div>
                 </div>
             </div>
@@ -143,7 +145,6 @@
         </div>
     </div>
 
-
     <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
         <!-- Recent Attendance -->
         <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -162,7 +163,7 @@
                             </div>
                             <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
                                 <%= attendance.status === 'hadir' ? 'bg-success text-white' : 
-                                    attendance.status === 'alpha' ? 'bg-danger text-white' %>">
+                                    attendance.status === 'alpha' ? 'bg-danger text-white' : 'bg-gray-500 text-white' %>">
                                 <%= attendance.status.charAt(0).toUpperCase() + attendance.status.slice(1) %>
                             </span>
                         </div>
@@ -172,7 +173,6 @@
                     <p class="text-textSecondary text-center py-4">Belum ada data absensi</p>
                     <% } %>
         </div>
-        
     </div>
 
     <!-- Action Buttons -->

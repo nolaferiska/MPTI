@@ -8,8 +8,13 @@ module.exports = {
         extend: {
             colors: {
                 // Custom Candice Kids colors
-                primary: '#FF6B9D',
-                secondary: '#4ECDC4',
+                primary: '#91edf9',
+                secondary: '#fcf8d2',
+                tertiary: '#f4e55e',
+                quaternary: '#b1e2e8',
+
+
+
                 accent: '#FFE66D',
                 success: '#95E1D3',
                 danger: '#FF8A80',

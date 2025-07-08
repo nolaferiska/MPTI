@@ -8,7 +8,7 @@ class NotifikasiDarurat {
         this.createdBy = data.createdBy;
         this.createdAt = data.createdAt;
         this.updatedAt = data.updatedAt;
-        
+
         // Include relational data
         this.anak = data.anak;
         this.createdByUser = data.createdByUser;
@@ -28,6 +28,12 @@ class NotifikasiDarurat {
                     createdByUser: true
                 }
             });
+            // Kirim email ke orang tua jika ada relasi anak dan orangTua
+            if (notifikasi.anak && notifikasi.anak.orangTua) {
+                const User = require('./User');
+                const user = new User(notifikasi.anak.orangTua);
+                await user.sendEmergencyNotification(notifikasi.anak, notifikasi);
+            }
             return new NotifikasiDarurat(notifikasi);
         } catch (error) {
             throw new Error(`Error creating notifikasi darurat: ${error.message}`);

@@ -1,26 +1,32 @@
 <!-- Child Registration Page -->
-<div class="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center p-4">
+<div class="min-h-screen bg-primary flex items-center justify-center p-4">
     <div class="w-full max-w-4xl">
         <!-- Header -->
         <div class="text-center mb-8">
-            <div class="bg-white text-primary w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div class="bg-white/90 text-primary w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg border border-white/30">
                 <i class="fas fa-baby text-3xl"></i>
             </div>
-            <h1 class="text-3xl font-bold text-white mb-3">Daftarkan Anak Anda</h1>
-            <p class="text-blue-100 text-lg">Silakan lengkapi data anak untuk mendaftar di Candice Kids</p>
+            <h1 class="text-3xl font-bold text-textPrimary mb-3">Daftarkan Anak Anda</h1>
+            <p class="text-textPrimary text-lg">Silakan lengkapi data anak untuk mendaftar di Candice Kids</p>
         </div>
 
         <!-- Child Registration Form -->
-        <div class="bg-white rounded-2xl shadow-2xl p-8 mx-auto">
-            <form action="/anak/register" method="POST" class="space-y-6">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mx-auto border border-white/30">
+            <!-- Download Template Form -->
+            <div class="mb-6">
+                <a href="/template/form_candicekids.doc" download class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors">
+                    <i class="fas fa-download mr-2"></i> Download Template Form Candice Kids
+                </a>
+                <p class="text-xs text-textSecondary mt-2">Silakan download, isi, lalu upload kembali form ini dalam format PDF/DOC/DOCX.</p>
+            </div>
+            <form action="/anak/register" method="POST" class="space-y-6" enctype="multipart/form-data">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Nama Anak -->
                     <div class="md:col-span-2">
                         <label for="nama" class="block text-sm font-medium text-textPrimary mb-2">
                             <i class="fas fa-user mr-2 text-primary"></i>Nama Lengkap Anak
                         </label>
-                        <input type="text" id="nama" name="nama" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                        <input type="text" id="nama" name="nama" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-white text-textPrimary placeholder:text-textSecondary"
                             placeholder="Masukkan nama lengkap anak">
                     </div>
 
@@ -29,8 +35,7 @@
                         <label for="tanggalLahir" class="block text-sm font-medium text-textPrimary mb-2">
                             <i class="fas fa-calendar mr-2 text-secondary"></i>Tanggal Lahir
                         </label>
-                        <input type="date" id="tanggalLahir" name="tanggalLahir" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                        <input type="date" id="tanggalLahir" name="tanggalLahir" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-white text-textPrimary placeholder:text-textSecondary">
                     </div>
 
                     <!-- Jenis Kelamin -->
@@ -58,8 +63,7 @@
                     <label for="alamat" class="block text-sm font-medium text-textPrimary mb-2">
                         <i class="fas fa-map-marker-alt mr-2 text-danger"></i>Alamat Lengkap
                     </label>
-                    <textarea id="alamat" name="alamat" required rows="3"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+                    <textarea id="alamat" name="alamat" required rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none bg-white text-textPrimary placeholder:text-textSecondary"
                         placeholder="Masukkan alamat lengkap tempat tinggal anak"></textarea>
                 </div>
 
@@ -68,8 +72,7 @@
                     <label for="teleponDarurat" class="block text-sm font-medium text-textPrimary mb-2">
                         <i class="fas fa-phone mr-2 text-success"></i>Telepon Darurat
                     </label>
-                    <input type="tel" id="teleponDarurat" name="teleponDarurat"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                    <input type="tel" id="teleponDarurat" name="teleponDarurat" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-white text-textPrimary placeholder:text-textSecondary"
                         placeholder="Nomor telepon yang bisa dihubungi saat darurat">
                     <p class="text-xs text-textSecondary mt-1">Opsional - Nomor yang dapat dihubungi jika terjadi keadaan darurat</p>
                 </div>
@@ -80,8 +83,7 @@
                         <label for="kondisiKesehatan" class="block text-sm font-medium text-textPrimary mb-2">
                             <i class="fas fa-heartbeat mr-2 text-danger"></i>Kondisi Kesehatan Khusus
                         </label>
-                        <textarea id="kondisiKesehatan" name="kondisiKesehatan" rows="3"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+                        <textarea id="kondisiKesehatan" name="kondisiKesehatan" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none bg-white text-textPrimary placeholder:text-textSecondary"
                             placeholder="Kondisi kesehatan khusus yang perlu diperhatikan"></textarea>
                         <p class="text-xs text-textSecondary mt-1">Opsional - Seperti asma, diabetes, dll.</p>
                     </div>
@@ -91,40 +93,42 @@
                         <label for="alergi" class="block text-sm font-medium text-textPrimary mb-2">
                             <i class="fas fa-exclamation-triangle mr-2 text-warning"></i>Alergi
                         </label>
-                        <textarea id="alergi" name="alergi" rows="3"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+                        <textarea id="alergi" name="alergi" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none bg-white text-textPrimary placeholder:text-textSecondary"
                             placeholder="Alergi makanan, obat, atau bahan lainnya"></textarea>
                         <p class="text-xs text-textSecondary mt-1">Opsional - Seperti alergi kacang, susu, dll.</p>
                     </div>
                 </div>
 
+                <!-- Upload Dokumen Form Anak -->
+                <div>
+                    <label for="dokumenAnak" class="block text-sm font-medium text-textPrimary mb-2">
+                        <i class="fas fa-file-upload mr-2 text-accent"></i>Upload Dokumen Form Anak (PDF/DOC/DOCX)
+                    </label>
+                    <input type="file" id="dokumenAnak" name="dokumenAnak" accept=".pdf,.doc,.docx" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-white text-textPrimary placeholder:text-textSecondary">
+                    <p class="text-xs text-textSecondary mt-1">Wajib upload form yang sudah diisi dan ditandatangani. Maksimal 2MB.</p>
+                </div>
+
                 <!-- Submit Button -->
                 <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                    <button type="submit"
-                        class="flex-1 bg-primary text-white py-4 px-8 rounded-lg font-semibold hover:bg-primary-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 text-lg">
+                    <button type="submit" class="flex-1 bg-primary text-white py-4 px-8 rounded-lg font-semibold hover:bg-primary-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 text-lg">
                         <i class="fas fa-user-plus mr-3"></i>
                         Daftarkan Anak
                     </button>
-                    
-                    <a href="/logout" 
-                        class="flex-1 sm:flex-none bg-gray-100 text-textSecondary py-4 px-8 rounded-lg font-semibold hover:bg-gray-200 transition-colors text-center text-lg">
-                        <i class="fas fa-sign-out-alt mr-3"></i>
-                        Logout
+                    <a href="/logout" class="flex-1 sm:flex-none bg-gray-100 text-textSecondary py-4 px-8 rounded-lg font-semibold hover:bg-gray-200 transition-colors text-center text-lg">
+                        <i class="fas fa-sign-out-alt mr-3"></i> Logout
                     </a>
                 </div>
             </form>
         </div>
 
         <!-- Information Box -->
-        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 mt-8 mx-auto">
+        <div class="bg-white backdrop-blur-sm border border-white/30 rounded-xl p-6 mt-8 mx-auto">
             <div class="flex items-start space-x-3">
-                <i class="fas fa-info-circle text-white text-xl mt-1"></i>
+                <i class="fas fa-info-circle text-textPrimary text-xl mt-1"></i>
                 <div>
-                    <h3 class="font-semibold text-white mb-2">Informasi Penting</h3>
-                    <ul class="text-blue-100 text-sm space-y-1">
-                        <li>• Data anak akan diverifikasi oleh admin sebelum disetujui</li>
+                    <h3 class="font-semibold text-textPrimary mb-2">Informasi Penting</h3>
+                    <ul class="text-textPrimary text-sm space-y-1">
                         <li>• Pastikan semua informasi yang dimasukkan benar dan akurat</li>
-                        <li>• Anda akan mendapat notifikasi setelah pendaftaran disetujui</li>
                         <li>• Setelah mendaftar, Anda dapat mengakses dashboard orang tua</li>
                     </ul>
                 </div>

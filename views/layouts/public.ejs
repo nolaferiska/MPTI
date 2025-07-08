@@ -23,25 +23,18 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body class="font-poppins bg-background text-textPrimary">
+<body class="font-poppins bg-primary text-textPrimary">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <nav class="bg-primary shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
-                <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-3 group">
-                        <div class="bg-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-baby text-xl"></i>
-                        </div>
-                        <div>
-                            <span class="text-2xl font-bold text-primary">Candice Kids</span>
-                            <p class="text-xs text-textSecondary font-medium">Cerdas Mandiri Ceria</p>
-                        </div>
-                    </a>
-                </div>
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/images/logo.png" alt="Candice Kids Logo" class="w-auto h-12 " />
+
+                </a>
 
                 <div class="hidden md:flex items-center space-x-8">
-                    
+
 
                     <% if (user) { %>
                         <% if (user.role === 'admin') { %>
@@ -57,10 +50,10 @@
                                         <i class="fas fa-sign-out-alt mr-1"></i>Logout
                                     </a>
                                     <% } else { %>
-                                        <a href="/login" class="text-textPrimary hover:text-primary transition-colors font-medium">
+                                        <a href="/login" class="text-textPrimary hover:text-secondary transition-colors font-medium">
                                             <i class="fas fa-user mr-1"></i>Login Orang Tua
                                         </a>
-                                        <a href="/admin/login" class="bg-secondary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                        <a href="/admin/login" class="bg-secondary text-[#3CB1E7] px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
                                             <i class="fas fa-cog mr-2"></i>Login Admin
                                         </a>
                                         <% } %>
@@ -204,62 +197,62 @@
                                 });
                             </script>
                             <script>
-    function togglePassword(inputId) {
-        const passwordInput = document.getElementById(inputId);
-        const passwordIcon = document.getElementById(inputId + '-icon');
+                                function togglePassword(inputId) {
+                                    const passwordInput = document.getElementById(inputId);
+                                    const passwordIcon = document.getElementById(inputId + '-icon');
 
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            passwordIcon.classList.remove('fa-eye');
-            passwordIcon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            passwordIcon.classList.remove('fa-eye-slash');
-            passwordIcon.classList.add('fa-eye');
-        }
-    }
+                                    if (passwordInput.type === 'password') {
+                                        passwordInput.type = 'text';
+                                        passwordIcon.classList.remove('fa-eye');
+                                        passwordIcon.classList.add('fa-eye-slash');
+                                    } else {
+                                        passwordInput.type = 'password';
+                                        passwordIcon.classList.remove('fa-eye-slash');
+                                        passwordIcon.classList.add('fa-eye');
+                                    }
+                                }
 
-    // Add some interactive effects
-    document.addEventListener('DOMContentLoaded', function() {
-        const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea');
+                                // Add some interactive effects
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea');
 
-        inputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.classList.add('ring-2', 'ring-primary');
-            });
+                                    inputs.forEach(input => {
+                                        input.addEventListener('focus', function() {
+                                            this.parentElement.classList.add('ring-2', 'ring-primary');
+                                        });
 
-            input.addEventListener('blur', function() {
-                this.parentElement.classList.remove('ring-2', 'ring-primary');
-            });
-        });
+                                        input.addEventListener('blur', function() {
+                                            this.parentElement.classList.remove('ring-2', 'ring-primary');
+                                        });
+                                    });
 
-        // Password strength indicator
-        const passwordInput = document.getElementById('password');
-        passwordInput.addEventListener('input', function() {
-            const password = this.value;
-            const strength = getPasswordStrength(password);
-            updatePasswordStrengthIndicator(strength);
-        });
-    });
+                                    // Password strength indicator
+                                    const passwordInput = document.getElementById('password');
+                                    passwordInput.addEventListener('input', function() {
+                                        const password = this.value;
+                                        const strength = getPasswordStrength(password);
+                                        updatePasswordStrengthIndicator(strength);
+                                    });
+                                });
 
-    function getPasswordStrength(password) {
-        let strength = 0;
-        if (password.length >= 6) strength++;
-        if (password.match(/[a-z]/)) strength++;
-        if (password.match(/[A-Z]/)) strength++;
-        if (password.match(/[0-9]/)) strength++;
-        if (password.match(/[^a-zA-Z0-9]/)) strength++;
-        return strength;
-    }
+                                function getPasswordStrength(password) {
+                                    let strength = 0;
+                                    if (password.length >= 6) strength++;
+                                    if (password.match(/[a-z]/)) strength++;
+                                    if (password.match(/[A-Z]/)) strength++;
+                                    if (password.match(/[0-9]/)) strength++;
+                                    if (password.match(/[^a-zA-Z0-9]/)) strength++;
+                                    return strength;
+                                }
 
-    function updatePasswordStrengthIndicator(strength) {
-        const strengthText = ['Sangat Lemah', 'Lemah', 'Sedang', 'Kuat', 'Sangat Kuat'];
-        const strengthColor = ['text-red-500', 'text-orange-500', 'text-yellow-500', 'text-green-500', 'text-green-600'];
+                                function updatePasswordStrengthIndicator(strength) {
+                                    const strengthText = ['Sangat Lemah', 'Lemah', 'Sedang', 'Kuat', 'Sangat Kuat'];
+                                    const strengthColor = ['text-red-500', 'text-orange-500', 'text-yellow-500', 'text-green-500', 'text-green-600'];
 
-        // You can add a strength indicator element if needed
-        console.log(`Password strength: ${strengthText[strength - 1] || 'Sangat Lemah'}`);
-    }
-</script>
+                                    // You can add a strength indicator element if needed
+                                    console.log(`Password strength: ${strengthText[strength - 1] || 'Sangat Lemah'}`);
+                                }
+                            </script>
 </body>
 
 </html>

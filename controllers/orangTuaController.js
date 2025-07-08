@@ -20,7 +20,7 @@ class OrangTuaController {
             const where = {
                 orangTuaId: orangTuaId
             };
-            
+
             if (search) {
                 where.OR = [
                     { nama: { contains: search, mode: 'insensitive' } },
@@ -71,7 +71,8 @@ class OrangTuaController {
         try {
             res.render('orangTua/anak/add', {
                 title: 'Tambah Data Anak - Candice Kids',
-                layout: 'layouts/orangTua'
+                layout: 'layouts/orangTua',
+                currentUserId: req.session.user.id,
             });
         } catch (error) {
             console.error('Error loading add anak form:', error);
@@ -93,10 +94,17 @@ class OrangTuaController {
                 alergi,
                 tanggalMasuk
             } = req.body;
+            const dokumenAnak = req.file ? `/uploads/dokumen-anak/${req.file.filename}` : null;
 
             // Validate required fields
             if (!nama || !tanggalLahir || !jenisKelamin || !alamat) {
                 req.flash('error_msg', 'Semua field wajib diisi');
+                return res.redirect('/kelola-anak/add');
+            }
+
+            // Validate file upload
+            if (!req.file) {
+                req.flash('error_msg', 'Dokumen form anak wajib diupload');
                 return res.redirect('/kelola-anak/add');
             }
 
@@ -109,6 +117,7 @@ class OrangTuaController {
                 teleponDarurat: teleponDarurat || null,
                 kondisiKesehatan: kondisiKesehatan || null,
                 alergi: alergi || null,
+                dokumenAnak,
                 orangTuaId: req.session.user.id, // Use current parent's ID
                 tanggalMasuk: tanggalMasuk ? new Date(tanggalMasuk) : new Date(),
                 status: 'aktif'
@@ -129,7 +138,7 @@ class OrangTuaController {
         try {
             const { id } = req.params;
             const orangTuaId = req.session.user.id;
-            
+
             const anak = await Anak.findById(id);
 
             if (!anak) {
@@ -152,7 +161,8 @@ class OrangTuaController {
                 layout: 'layouts/orangTua',
                 anak,
                 attendanceStats,
-                recentAttendance
+                recentAttendance,
+                currentUserId: req.session.user.id,
             });
         } catch (error) {
             console.error('Error loading anak detail:', error);
@@ -166,7 +176,7 @@ class OrangTuaController {
         try {
             const { id } = req.params;
             const orangTuaId = req.session.user.id;
-            
+
             const anak = await Anak.findById(id);
 
             if (!anak) {
@@ -183,6 +193,7 @@ class OrangTuaController {
             res.render('orangTua/anak/edit', {
                 title: 'Edit Data Anak - Candice Kids',
                 layout: 'layouts/orangTua',
+                currentUserId: req.session.user.id,
                 anak
             });
         } catch (error) {
@@ -207,6 +218,9 @@ class OrangTuaController {
                 alergi,
                 tanggalMasuk
             } = req.body;
+
+            const dokumenAnak = req.file ? `/uploads/dokumen-anak/${req.file.filename}` : null;
+
 
             // Validate required fields
             if (!nama || !tanggalLahir || !jenisKelamin || !alamat) {
@@ -238,6 +252,11 @@ class OrangTuaController {
                 tanggalMasuk: tanggalMasuk ? new Date(tanggalMasuk) : anak.tanggalMasuk
             };
 
+            // Update dokumenAnak if new file is uploaded
+            if (req.file) {
+                updateData.dokumenAnak = dokumenAnak;
+            }
+
             await anak.update(updateData);
             req.flash('success_msg', 'Data anak berhasil diperbarui');
             res.redirect('/kelola-anak');
@@ -253,7 +272,7 @@ class OrangTuaController {
         try {
             const { id } = req.params;
             const orangTuaId = req.session.user.id;
-            
+
             const anak = await Anak.findById(id);
 
             if (!anak) {
@@ -300,6 +319,7 @@ class OrangTuaController {
                         hasNext: false,
                         hasPrev: false
                     },
+                    currentUserId: req.session.user.id,
                     filters: { anakId, status, tanggal }
                 });
             }
@@ -379,6 +399,7 @@ class OrangTuaController {
                     hasNext: parseInt(page) < totalPages,
                     hasPrev: parseInt(page) > 1
                 },
+                currentUserId: req.session.user.id,
                 filters: { anakId, status, tanggal }
             });
         } catch (error) {
@@ -393,7 +414,7 @@ class OrangTuaController {
         try {
             const { id } = req.params;
             const orangTuaId = req.session.user.id;
-            
+
             const absensi = await Absensi.findById(id);
 
             if (!absensi) {
@@ -412,6 +433,7 @@ class OrangTuaController {
                 title: `Detail Absensi ${anak.nama} - Candice Kids`,
                 layout: 'layouts/orangTua',
                 absensi,
+                currentUserId: req.session.user.id,
                 anak
             });
         } catch (error) {
@@ -459,6 +481,7 @@ class OrangTuaController {
                 title: 'Aktivitas Harian - Candice Kids',
                 layout: 'layouts/orangTua',
                 aktivitasList,
+                currentUserId: req.session.user.id,
                 pagination: {
                     currentPage: parseInt(page),
                     totalPages,
@@ -487,9 +510,10 @@ class OrangTuaController {
                 return res.redirect('/orangTua/aktivitas');
             }
 
-            res.render('aktivitas/detail', {
+            res.render('orangTua/aktivitas/detail', {
                 title: `Detail Aktivitas - Candice Kids`,
                 layout: 'layouts/orangTua',
+                currentUserId: req.session.user.id,
                 aktivitas
             });
         } catch (error) {
@@ -499,7 +523,7 @@ class OrangTuaController {
         }
     }
 
- 
+
 
     // Communication with admin
     static async showKomunikasi(req, res) {
@@ -526,76 +550,71 @@ class OrangTuaController {
         }
     }
 
-    // Get chat messages between parent and admin
+    // Ambil pesan chat antara orang tua dan admin tertentu
     static async getChatMessages(req, res) {
         try {
-            const { adminId } = req.params;
-
-            // Verify admin exists
-            const admin = await User.findById(adminId);
-            if (!admin || !admin.isAdmin()) {
-                return res.status(404).json({ error: 'Admin tidak ditemukan' });
-            }
-
-            // Get chat messages between parent and admin
-            const messages = await Komunikasi.findByUsers(req.session.user.id, adminId, {
-                orderBy: { createdAt: 'asc' }
-            });
-
-            res.json({ messages: messages.map(m => m.toJSON()) });
+            const orangTuaId = req.session.user.id;
+            const adminId = parseInt(req.params.adminId);
+            if (!adminId) return res.status(400).json({ success: false, error: 'Admin ID tidak valid' });
+            const messages = await Komunikasi.findByUsers(orangTuaId, adminId);
+            res.json({ success: true, messages: messages.map(m => m.toJSON()) });
         } catch (error) {
-            console.error('Error getting chat messages:', error);
-            res.status(500).json({ error: 'Terjadi kesalahan saat mengambil pesan' });
+            console.error('Error getChatMessages:', error);
+            res.status(500).json({ success: false, error: 'Gagal mengambil pesan' });
         }
     }
 
-    // Send message from parent to admin
+    // Orang tua kirim pesan ke admin
     static async sendMessage(req, res) {
-        try {
-            const { penerimaId, pesan } = req.body;
-
-            if (!penerimaId || !pesan) {
-                return res.status(400).json({ error: 'Penerima dan pesan harus diisi' });
-            }
-
-            // Verify admin exists
-            const admin = await User.findById(penerimaId);
-            if (!admin || !admin.isAdmin()) {
-                return res.status(404).json({ error: 'Admin tidak ditemukan' });
-            }
-
-            // Create message
-            const messageData = {
-                pengirimId: req.session.user.id,
-                penerimaId: parseInt(penerimaId),
-                pesan: pesan.trim()
-            };
-
-            const newMessage = await Komunikasi.create(messageData);
-
-            res.json({
-                success: true,
-                message: newMessage.toJSON()
-            });
-        } catch (error) {
-            console.error('Error sending message:', error);
-            res.status(500).json({ error: 'Terjadi kesalahan saat mengirim pesan' });
+    try {
+        const pengirimId = req.session.user.id;
+        const { penerimaId, pesan } = req.body;
+        
+        console.log('ORANGTUA SEND MESSAGE:', { pengirimId, penerimaId, pesan });
+        
+        if (!penerimaId || !pesan) {
+            return res.status(400).json({ success: false, error: 'Data tidak lengkap' });
         }
+        
+        const komunikasiData = {
+            pengirimId: parseInt(pengirimId),
+            penerimaId: parseInt(penerimaId),
+            pesan: pesan.trim(),
+        };
+        
+        const savedMessage = await Komunikasi.create(komunikasiData);
+        
+        // Get the saved message with relations
+        const messageWithRelations = await Komunikasi.findById(savedMessage.id, {
+            include: [
+                {
+                    model: User,
+                    as: 'pengirim',
+                    attributes: ['id', 'nama', 'role']
+                },
+                {
+                    model: User,
+                    as: 'penerima',
+                    attributes: ['id', 'nama', 'role']
+                }
+            ]
+        });
+        console.log('SAVED MESSAGE:', messageWithRelations.toJSON());
+        
+        res.json({ success: true, message: messageWithRelations.toJSON() });
+    } catch (error) {
+        console.error('Error sendMessage (orang tua):', error);
+        res.status(500).json({ success: false, error: 'Gagal mengirim pesan' });
+    }
     }
 
-    // Display chat dengan admin page
-    static showChat(req, res) {
-        res.render('orangTua/chat', {
-            title: 'Chat Admin - Candice Kids',
-            layout: 'layouts/orangTua'
-        });
-    }
 
     // Display tagihan & pembayaran page
-    static showTagihan(req, res) {
+    static async showTagihan(req, res) {
         res.render('orangTua/tagihan', {
             title: 'Tagihan & Pembayaran - Candice Kids',
-            layout: 'layouts/orangTua'
+            layout: 'layouts/orangTua',
+            currentUserId: req.session.user.id
         });
     }
 
@@ -617,6 +636,7 @@ class OrangTuaController {
                 return res.render('orangTua/notifikasi', {
                     title: 'Notifikasi Darurat - Candice Kids',
                     layout: 'layouts/orangTua',
+                    currentUserId: req.session.user.id,
                     notifikasiList: [],
                     anakList: [],
                     pagination: {
@@ -690,6 +710,7 @@ class OrangTuaController {
             res.render('orangTua/notifikasi', {
                 title: 'Notifikasi Darurat - Candice Kids',
                 layout: 'layouts/orangTua',
+                currentUserId: req.session.user.id,
                 notifikasiList,
                 anakList,
                 pagination: {

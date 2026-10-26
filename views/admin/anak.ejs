@@ -6,9 +6,7 @@
             <h2 class="text-2xl font-bold text-textPrimary">Kelola Data Anak</h2>
             <p class="text-textSecondary">Manajemen data anak di daycare</p>
         </div>
-        <a href="/admin/anak/add" class="bg-secondary text-textPrimary px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
-            <i class="fas fa-plus mr-2"></i> Tambah Anak
-        </a>
+
     </div>
 
     <!-- Search and Filter -->
@@ -56,7 +54,7 @@
                 <tbody class="bg-secondary divide-y divide-gray-200">
                     <% if (anakList && anakList.length > 0) { %>
                         <% anakList.forEach(anak => { %>
-                            <tr class="hover:bg-gray-50">
+                            <tr class="hover:bg-secondary">
 
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm font-medium text-textPrimary">
@@ -65,12 +63,6 @@
                                     <div class="text-sm text-textSecondary">
                                         <%= anak.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan' %>
                                     </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-textPrimary">
-                                        <%= anak.age %> tahun</div>
-                                    <div class="text-sm text-textSecondary">
-                                        <%= anak.ageInMonths %> bulan</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-textPrimary">

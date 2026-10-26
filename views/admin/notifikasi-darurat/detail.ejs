@@ -25,7 +25,7 @@
     <!-- Main Content -->
     <div class="space-y-6">
         <!-- Top Section - Emergency Description -->
-        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+        <div class="bg-secondary rounded-lg shadow-sm p-4 sm:p-6">
             <h3 class="text-base sm:text-lg font-medium text-textPrimary mb-3 sm:mb-4">
                 <i class="fas fa-exclamation-triangle text-danger mr-2"></i>
                 Deskripsi Darurat
@@ -40,7 +40,7 @@
         <!-- Two Column Layout for Info Cards -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <!-- Left Column - Child Information -->
-            <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+            <div class="bg-secondary rounded-lg shadow-sm p-4 sm:p-6">
                 <h3 class="text-base sm:text-lg font-medium text-textPrimary mb-3 sm:mb-4">
                     <i class="fas fa-child text-primary mr-2"></i>
                     Informasi Anak
@@ -84,27 +84,16 @@
                             </p>
                         </div>
 
-                        <% if (notifikasi.anak && notifikasi.anak.teleponDarurat) { %>
-                            <div class="bg-red-50 p-3 rounded-lg border border-red-200">
-                                <span class="text-sm font-medium text-danger">Telepon Darurat:</span>
-                                <p class="text-sm text-textPrimary mt-1">
-                                    <a href="tel:<%= notifikasi.anak.teleponDarurat %>" class="text-danger hover:underline font-semibold break-all">
-                                        <%= notifikasi.anak.teleponDarurat %>
-                                    </a>
-                                </p>
-                            </div>
-                        <% } %>
-
                         <% if (notifikasi.anak && notifikasi.anak.kondisiKesehatan) { %>
-                            <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-                                <span class="text-sm font-medium text-warning">Kondisi Kesehatan:</span>
+                            <div class="bg-white p-3 rounded-lg border border-white">
+                                <span class="text-sm font-medium text-textSecondary">Kondisi Kesehatan:</span>
                                 <p class="text-sm text-textPrimary mt-1 break-words"><%= notifikasi.anak.kondisiKesehatan %></p>
                             </div>
                         <% } %>
 
                         <% if (notifikasi.anak && notifikasi.anak.alergi) { %>
-                            <div class="bg-orange-50 p-3 rounded-lg border border-orange-200">
-                                <span class="text-sm font-medium text-warning">Alergi:</span>
+                            <div class="bg-white p-3 rounded-lg border border-white">
+                                <span class="text-sm font-medium text-textSecondary">Alergi:</span>
                                 <p class="text-sm text-textPrimary mt-1 break-words"><%= notifikasi.anak.alergi %></p>
                             </div>
                         <% } %>
@@ -116,14 +105,14 @@
             <div class="space-y-4 sm:space-y-6">
                 <!-- Parent Contact -->
                 <% if (notifikasi.anak && notifikasi.anak.orangTua) { %>
-                    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                    <div class="bg-secondary rounded-lg shadow-sm p-4 sm:p-6">
                         <h3 class="text-base sm:text-lg font-medium text-textPrimary mb-3 sm:mb-4">
                             <i class="fas fa-users text-secondary mr-2"></i>
                             Kontak Orang Tua
                         </h3>
                         <div class="space-y-4">
                             <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
                                     <i class="fas fa-user text-white text-sm sm:text-base"></i>
                                 </div>
                                 <div class="min-w-0 flex-1">
@@ -136,7 +125,7 @@
                                 <div class="bg-gray-50 p-3 rounded-lg">
                                     <span class="text-sm font-medium text-textSecondary">Email:</span>
                                     <p class="text-sm text-textPrimary mt-1">
-                                        <a href="mailto:<%= notifikasi.anak.orangTua.email %>" class="text-primary hover:underline break-all">
+                                        <a href="mailto:<%= notifikasi.anak.orangTua.email %>" class="text-textPrimary hover:underline break-all">
                                             <%= notifikasi.anak.orangTua.email %>
                                         </a>
                                     </p>
@@ -146,7 +135,7 @@
                                     <div class="bg-gray-50 p-3 rounded-lg">
                                         <span class="text-sm font-medium text-textSecondary">Telepon:</span>
                                         <p class="text-sm text-textPrimary mt-1">
-                                            <a href="tel:<%= notifikasi.anak.orangTua.telepon %>" class="text-primary hover:underline break-all">
+                                            <a href="tel:<%= notifikasi.anak.orangTua.telepon %>" class="text-textPrimary hover:underline break-all">
                                                 <%= notifikasi.anak.orangTua.telepon %>
                                             </a>
                                         </p>
@@ -174,7 +163,7 @@
                 <% } %>
 
                 <!-- Notification Info -->
-                <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                <div class="bg-secondary rounded-lg shadow-sm p-4 sm:p-6">
                     <h3 class="text-base sm:text-lg font-medium text-textPrimary mb-3 sm:mb-4">
                         <i class="fas fa-info-circle text-info mr-2"></i>
                         Informasi Notifikasi

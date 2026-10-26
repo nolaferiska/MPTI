@@ -20,7 +20,7 @@ module.exports = {
                 danger: '#FF8A80',
                 warning: '#FFE66D',
                 info: '#4ECDC4',
-                background: '#F8F9FF',
+                background: '#91edf9',
                 textPrimary: '#2C3E50',
                 textSecondary: '#7F8C8D',
 

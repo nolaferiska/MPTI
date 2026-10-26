@@ -26,7 +26,7 @@
 
     <!-- Attendance Summary Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-white p-6 rounded-lg shadow-sm">
+        <div class="bg-secondary p-6 rounded-lg shadow-sm">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-success bg-opacity-10">
                     <i class="fas fa-check-circle text-success text-xl"></i>
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-sm">
+        <div class="bg-secondary p-6 rounded-lg shadow-sm">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-danger bg-opacity-10">
                     <i class="fas fa-times-circle text-danger text-xl"></i>
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-sm">
+        <div class="bg-secondary p-6 rounded-lg shadow-sm">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-primary bg-opacity-10">
                     <i class="fas fa-users text-primary text-xl"></i>
@@ -70,14 +70,14 @@
     </div>
 
     <!-- Children Attendance Details -->
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="bg-secondary rounded-lg shadow-sm overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200">
             <h3 class="text-lg font-semibold text-textPrimary">Daftar Anak dan Status Absensi</h3>
         </div>
 
         <div class="overflow-x-auto">
             <table class="w-full">
-                <thead class="bg-gray-50">
+                <thead class="bg-quaternary">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Foto</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Nama</th>
@@ -86,11 +86,11 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Waktu Input</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-secondary divide-y divide-gray-200">
                     <% if (children && children.length > 0) { %>
                         <% children.forEach(child => { %>
                             <% const attendance = existingAttendance[child.id]; %>
-                                <tr class="hover:bg-gray-50">
+                                <tr class="hover:bg-secondary">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex-shrink-0 h-10 w-10">
                                             <% if (child.foto) { %>
@@ -127,10 +127,10 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <% if (attendance) { %>
-                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
-                                            <%= attendance.status === 'hadir' ? 'bg-success text-white' : 'bg-danger text-white' %>">
-                                            <%= attendance.statusDisplay %>
-                                        </span>
+<span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+    <%= attendance.status === 'hadir' ? 'bg-success text-white' : 'bg-danger text-white' %>">
+    <%= attendance.status === 'hadir' ? 'Hadir' : 'Alpha' %>
+</span>
                                             <% } else { %>
                                                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-300 text-gray-700">
                                             Belum Absen

@@ -80,13 +80,37 @@ class AdminController {
     }
 
     // Display admin dashboard
-    static showDashboard(req, res) {
-        res.render("admin/dashboard", {
-            title: "Dashboard Admin - Candice Kids",
-            layout: "layouts/admin",
-            currentUserId: req.session.user.id,
-
-        });
+    static async showDashboard(req, res) {
+        try {
+            // Total Anak
+            const totalAnak = await prisma.anak.count();
+            // Total Orang Tua
+            const totalOrangTua = await prisma.user.count({ where: { role: 'orang_tua' } });
+            // Total Pengasuh
+            const totalPengasuh = await prisma.pengasuh.count();
+            // Kehadiran Hari Ini
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const totalHadir = await prisma.absensi.count({
+                where: {
+                    tanggal: today,
+                    status: 'hadir'
+                }
+            });
+            res.render("admin/dashboard", {
+                title: "Dashboard Admin - Candice Kids",
+                layout: "layouts/admin",
+                currentUserId: req.session.user.id,
+                totalAnak,
+                totalOrangTua,
+                totalPengasuh,
+                totalHadir
+            });
+        } catch (error) {
+            console.error('Error loading dashboard:', error);
+            req.flash('error_msg', 'Gagal memuat dashboard');
+            res.redirect('/admin/login');
+        }
     }
 
     // Display anak management page

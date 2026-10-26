@@ -17,7 +17,7 @@
     </div>
 
     <!-- Basic Information -->
-    <div class="bg-white p-6 rounded-lg shadow-sm">
+    <div class="bg-secondary p-6 rounded-lg shadow-sm">
         <div class="flex items-start space-x-6">
             <!-- Info -->
             <div class="flex-1">
@@ -25,6 +25,14 @@
                     <%= anak.nama %>
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% if (anak.dokumenAnak) { %>
+        <div class="md:col-span-2">
+            <p class="text-sm text-textSecondary mb-1">Dokumen Form Anak</p>
+            <a href="<%= anak.dokumenAnak %>" target="_blank" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded font-semibold hover:bg-primary-dark transition-colors mt-1">
+                <i class="fas fa-file-alt mr-2"></i> Download Dokumen
+            </a>
+        </div>
+        <% } %>
                     <div>
                         <p class="text-sm text-textSecondary">Jenis Kelamin</p>
                         <p class="font-medium">
@@ -70,7 +78,7 @@
     <!-- Contact & Health Information -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Contact Information -->
-        <div class="bg-white p-6 rounded-lg shadow-sm">
+        <div class="bg-secondary p-6 rounded-lg shadow-sm">
             <h4 class="text-lg font-semibold text-textPrimary mb-4">Informasi Kontak</h4>
             <div class="space-y-3">
                 <div>
@@ -101,7 +109,7 @@
         </div>
 
         <!-- Health Information -->
-        <div class="bg-white p-6 rounded-lg shadow-sm">
+        <div class="bg-secondary p-6 rounded-lg shadow-sm">
             <h4 class="text-lg font-semibold text-textPrimary mb-4">Informasi Kesehatan</h4>
             <div class="space-y-3">
                 <div>
@@ -121,7 +129,7 @@
     </div>
 
     <!-- Statistics -->
-    <div class="bg-white p-6 rounded-lg shadow-sm">
+    <div class="bg-secondary p-6 rounded-lg shadow-sm">
         <h4 class="text-lg font-semibold text-textPrimary mb-4">Statistik Bulan Ini</h4>
         <div class="grid grid-cols-3 md:grid-cols-3 gap-3">
             <div class="text-center p-4 bg-blue-50 rounded-lg">
@@ -147,7 +155,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
         <!-- Recent Attendance -->
-        <div class="bg-white p-6 rounded-lg shadow-sm">
+        <div class="bg-secondary p-6 rounded-lg shadow-sm">
             <h4 class="text-lg font-semibold text-textPrimary mb-4">Absensi Terbaru</h4>
             <% if (recentAttendance && recentAttendance.length > 0) { %>
                 <div class="space-y-3">
@@ -176,7 +184,7 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="bg-white p-6 rounded-lg shadow-sm">
+    <div class="bg-secondary p-6 rounded-lg shadow-sm">
         <h4 class="text-lg font-semibold text-textPrimary mb-4">Aksi Cepat</h4>
         <div class="flex flex-wrap gap-3">
             <a href="/admin/absensi?anak=<%= anak.id %>" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">

@@ -77,14 +77,14 @@
                                             </div>
 
                                             <div class="text-sm">
-                                                <a href="#" class="text-primary hover:text-secondary transition-colors font-semibold">
+                        <a href="/forgot-password" class="text-primary hover:text-secondary transition-colors font-semibold">
                             Lupa password?
                         </a>
                                             </div>
                                         </div>
 
                                         <div>
-                                            <button type="submit" class="w-full bg-white/90 backdrop-blur-sm text-textPrimary py-4 px-6 rounded-2xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 border border-white/20">
+                                            <button type="submit" class="w-full bg-secondary backdrop-blur-sm text-textPrimary py-4 px-6 rounded-2xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 border border-white/20">
                         <i class="fas fa-sign-in-alt mr-3"></i>
                         Masuk ke Dashboard
                     </button>
@@ -140,35 +140,3 @@
                                         </div>
     </div>
 </div>
-
-<script>
-    function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        const passwordIcon = document.getElementById('password-icon');
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            passwordIcon.classList.remove('fa-eye');
-            passwordIcon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            passwordIcon.classList.remove('fa-eye-slash');
-            passwordIcon.classList.add('fa-eye');
-        }
-    }
-
-    // Add some interactive effects
-    document.addEventListener('DOMContentLoaded', function() {
-        const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
-
-        inputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.classList.add('ring-2', 'ring-primary');
-            });
-
-            input.addEventListener('blur', function() {
-                this.parentElement.classList.remove('ring-2', 'ring-primary');
-            });
-        });
-    });
-</script>

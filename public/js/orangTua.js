@@ -51,35 +51,8 @@ function initializeMobileMenu() {
     }
 }
 
-function initializeEmergencyButton() {
-    const emergencyButton = document.querySelector('[class*="bg-secondary"]');
-    if (emergencyButton && emergencyButton.textContent.includes('Darurat')) {
-        emergencyButton.addEventListener('click', handleEmergencyClick);
-    }
-}
 
-function handleEmergencyClick(event) {
-    event.preventDefault();
-    
-    const confirmed = confirm(
-        'Apakah Anda yakin ingin mengirim notifikasi darurat?\n\n' +
-        'Notifikasi ini akan langsung dikirim ke admin dan pengasuh.'
-    );
-    
-    if (confirmed) {
-        // Here would be the actual emergency notification logic
-        showParentToast('Notifikasi darurat telah dikirim!', 'success');
-        
-        // Disable button for 30 seconds to prevent spam
-        event.target.disabled = true;
-        event.target.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Terkirim';
-        
-        setTimeout(() => {
-            event.target.disabled = false;
-            event.target.innerHTML = '<i class="fas fa-bell mr-2"></i><span class="hidden sm:inline">Darurat</span>';
-        }, 30000);
-    }
-}
+
 
 function initializeChatNotifications() {
     // Check for new messages every 30 seconds

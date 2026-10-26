@@ -72,7 +72,6 @@
                 <div class="space-y-4 px-4">
                     <a href="/" class="block text-textPrimary hover:text-primary transition-colors font-medium">Beranda</a>
                     <a href="/about" class="block text-textPrimary hover:text-primary transition-colors font-medium">Tentang</a>
-                    <a href="/contact" class="block text-textPrimary hover:text-primary transition-colors font-medium">Kontak</a>
 
                     <% if (user) { %>
                         <% if (user.role === 'admin') { %>
@@ -141,7 +140,6 @@
                                             <ul class="space-y-3">
                                                 <li><a href="/" class="text-gray-300 hover:text-white transition-colors font-medium">Beranda</a></li>
                                                 <li><a href="/about" class="text-gray-300 hover:text-white transition-colors font-medium">Tentang Kami</a></li>
-                                                <li><a href="/contact" class="text-gray-300 hover:text-white transition-colors font-medium">Kontak</a></li>
                                                 <li><a href="/login" class="text-gray-300 hover:text-white transition-colors font-medium">Login</a></li>
                                             </ul>
                                         </div>
@@ -154,7 +152,7 @@
                                                         <i class="fas fa-phone text-primary"></i>
                                                     </div>
                                                     <div>
-                                                        <p class="font-medium">+62 123 456 7890</p>
+                                                        <p class="font-medium">085879984011</p>
                                                         <p class="text-sm text-gray-400">Telepon</p>
                                                     </div>
                                                 </li>
@@ -163,7 +161,7 @@
                                                         <i class="fas fa-envelope text-secondary"></i>
                                                     </div>
                                                     <div>
-                                                        <p class="font-medium">info@candicekids.com</p>
+                                                        <p class="font-medium">renticandice@gmail.com</p>
                                                         <p class="text-sm text-gray-400">Email</p>
                                                     </div>
                                                 </li>
@@ -171,8 +169,8 @@
                                                     <div class="bg-accent bg-opacity-20 w-10 h-10 rounded-full flex items-center justify-center">
                                                         <i class="fas fa-map-marker-alt text-accent"></i>
                                                     </div>
-                                                    <div>
-                                                        <p class="font-medium">Jakarta, Indonesia</p>
+                                                    <div class="max-w-xs break-words">
+                                                        <p class="font-medium whitespace-pre-line">Pandeyan, Kec. Umbulharjo, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55161</p>
                                                         <p class="text-sm text-gray-400">Lokasi</p>
                                                     </div>
                                                 </li>
@@ -253,6 +251,47 @@
                                     console.log(`Password strength: ${strengthText[strength - 1] || 'Sangat Lemah'}`);
                                 }
                             </script>
+                            
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const passwordIcon = document.getElementById('password-icon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordIcon.classList.remove('fa-eye');
+            passwordIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            passwordIcon.classList.remove('fa-eye-slash');
+            passwordIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Add some interactive effects
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-primary');
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-primary');
+            });
+        });
+    });
+</script>
+  <script>
+    // Optional: close modal on click outside
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('register-success-modal');
+      if (modal && e.target === modal) {
+        window.location.href = '/login';
+      }
+    });
+  </script>
 </body>
 
 </html>

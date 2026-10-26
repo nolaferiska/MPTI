@@ -19,73 +19,16 @@
         </a>
     </div>
 
-    <!-- Summary Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-blue-100 text-blue-600">
-                    <i class="fas fa-users text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Total Siswa</p>
-                    <p class="text-2xl font-semibold text-gray-900"><%= summary.total %></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-gray-100 text-gray-600">
-                    <i class="fas fa-file-plus text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Belum Ada Tagihan</p>
-                    <p class="text-2xl font-semibold text-gray-900"><%= summary.belumAda %></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-red-100 text-red-600">
-                    <i class="fas fa-exclamation-circle text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Belum Bayar</p>
-                    <p class="text-2xl font-semibold text-gray-900"><%= summary.belumBayar %></p>
-                </div>
-            </div>
-        </div>
-
-       
-
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-green-100 text-green-600">
-                    <i class="fas fa-check-circle text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Lunas</p>
-                    <p class="text-2xl font-semibold text-gray-900"><%= summary.lunas %></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Filter Tabs -->
-    <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+    <div class="bg-secondary rounded-lg shadow-md overflow-hidden mb-6">
         <div class="border-b border-gray-200">
             <nav class="flex space-x-8 px-6">
                 <button onclick="showTab('all')" id="tab-all" class="tab-button py-4 px-1 border-b-2 border-blue-500 font-medium text-sm text-blue-600">
                     Semua (<%= summary.total %>)
                 </button>
-                <button onclick="showTab('belumAda')" id="tab-belumAda" class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                    Belum Ada Tagihan (<%= summary.belumAda %>)
-                </button>
                 <button onclick="showTab('belumBayar')" id="tab-belumBayar" class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                    Belum Bayar (<%= summary.belumBayar %>)
+                    Belum Bayar (<%= summary.belumBayar + summary.belumAda %>)
                 </button>
-      
                 <button onclick="showTab('lunas')" id="tab-lunas" class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
                     Lunas (<%= summary.lunas %>)
                 </button>
@@ -94,42 +37,28 @@
     </div>
 
     <!-- Data Table -->
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="bg-secondary rounded-lg shadow-md overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
-                <thead class="bg-gray-50">
+                <thead class="bg-quaternary">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Siswa</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Orang Tua</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Masuk</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Tagihan</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jatuh Tempo</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pembayaran Terakhir</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-secondary divide-y divide-gray-200">
                     <% detailData.forEach(data => { %>
-                        <tr class="hover:bg-gray-50 transition-colors duration-200 student-row" 
+                        <tr class="hover:bg-secondary transition-colors duration-200 student-row" 
                             data-status="<%= data.status %>"
                             data-has-tagihan="<%= data.hasTagihan %>">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                                        <%= data.child.nama.charAt(0).toUpperCase() %>
-                                    </div>
+                                    
                                     <div>
                                         <div class="text-sm font-medium text-gray-900"><%= data.child.nama %></div>
-                                        <div class="text-sm text-gray-500">
-                                            <% if (data.isNewStudent) { %>
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                    <i class="fas fa-star mr-1"></i>
-                                                    Siswa Baru
-                                                </span>
-                                            <% } else { %>
-                                                Siswa Lama
-                                            <% } %>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                             </td>
@@ -142,20 +71,9 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">
-                                    <%= data.registrationDate.toLocaleDateString('id-ID', { 
-                                        day: 'numeric', 
-                                        month: 'long', 
-                                        year: 'numeric' 
-                                    }) %>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                    <%= data.status === 'lunas' ? 'bg-green-100 text-green-800' : 
-                                        data.status === 'belum_bayar' ? 'bg-red-100 text-red-800' : 
-                                        'bg-gray-100 text-gray-800' %>">
-                                    <%= data.statusDisplay %>
+                                    <%= data.status === 'lunas' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                                    <%= data.status === 'lunas' ? 'Lunas' : 'Belum Bayar' %>
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -163,51 +81,7 @@
                                     Rp <%= data.amount.toLocaleString('id-ID') %>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <% if (data.tagihan && data.tagihan.tanggalJatuhTempo) { %>
-                                    <div class="text-sm text-gray-900">
-                                        <%= new Date(data.tagihan.tanggalJatuhTempo).toLocaleDateString('id-ID', { 
-                                            day: 'numeric', 
-                                            month: 'short', 
-                                            year: 'numeric' 
-                                        }) %>
-                                    </div>
-                                    <% if (new Date(data.tagihan.tanggalJatuhTempo) < new Date() && data.status !== 'lunas') { %>
-                                        <div class="text-xs text-red-500">
-                                            <i class="fas fa-exclamation-triangle mr-1"></i>
-                                            Terlambat
-                                        </div>
-                                    <% } %>
-                                <% } else { %>
-                                    <span class="text-sm text-gray-400">-</span>
-                                <% } %>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <% if (data.tagihan && data.tagihan.pembayaran && data.tagihan.pembayaran.length > 0) { %>
-                                    <% const lastPayment = data.tagihan.pembayaran[0]; %>
-                                    <div class="text-sm text-gray-900">
-                                        Rp <%= parseFloat(lastPayment.jumlahBayar).toLocaleString('id-ID') %>
-                                    </div>
-                                    <div class="text-xs text-gray-500">
-                                        <%= new Date(lastPayment.createdAt).toLocaleDateString('id-ID', { 
-                                            day: 'numeric', 
-                                            month: 'short', 
-                                            year: 'numeric' 
-                                        }) %>
-                                    </div>
-                                    <div class="text-xs">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
-                                            <%= lastPayment.transactionStatus === 'settlement' || lastPayment.transactionStatus === 'capture' ? 'bg-green-100 text-green-800' : 
-                                                lastPayment.transactionStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                                'bg-red-100 text-red-800' %>">
-                                            <%= lastPayment.transactionStatus === 'settlement' || lastPayment.transactionStatus === 'capture' ? 'Berhasil' : 
-                                                lastPayment.transactionStatus === 'pending' ? 'Pending' : 'Gagal' %>
-                                        </span>
-                                    </div>
-                                <% } else { %>
-                                    <span class="text-sm text-gray-400">-</span>
-                                <% } %>
-                            </td>
+                            
                         </tr>
                     <% }); %>
                 </tbody>
@@ -225,47 +99,12 @@
         </div>
     <% } %>
 </div>
-</div>
-<script>
-function showTab(status) {
-    // Remove active class from all tabs
-    document.querySelectorAll('.tab-button').forEach(tab => {
-        tab.classList.remove('border-blue-500', 'text-blue-600');
-        tab.classList.add('border-transparent', 'text-gray-500');
-    });
-    
-    // Add active class to selected tab
-    const activeTab = document.getElementById(`tab-${status}`);
-    activeTab.classList.remove('border-transparent', 'text-gray-500');
-    activeTab.classList.add('border-blue-500', 'text-blue-600');
-    
-    // Show/hide rows based on status
-    const rows = document.querySelectorAll('.student-row');
-    rows.forEach(row => {
-        const rowStatus = row.getAttribute('data-status');
-        const hasTagihan = row.getAttribute('data-has-tagihan') === 'true';
-        
-        if (status === 'all') {
-            row.style.display = '';
-        } else if (status === 'belumAda') {
-            row.style.display = !hasTagihan ? '' : 'none';
-        } else {
-            row.style.display = rowStatus === status ? '' : 'none';
-        }
-    });
-}
 
-// Initialize with 'all' tab active
-document.addEventListener('DOMContentLoaded', function() {
-    showTab('all');
-});
-</script>
 
 <style>
 .tab-button {
     transition: all 0.2s ease-in-out;
 }
-
 .tab-button:hover {
     cursor: pointer;
 }

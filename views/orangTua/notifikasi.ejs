@@ -6,30 +6,12 @@
             <h2 class="text-2xl font-bold text-textPrimary">Notifikasi Darurat</h2>
             <p class="text-textSecondary">Pantau notifikasi darurat terkait anak Anda</p>
         </div>
-        <div class="flex space-x-4">
-            <!-- Statistics Cards -->
-            <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-center min-w-[100px]">
-                <div class="text-2xl font-bold text-red-600"><%= stats.urgent %></div>
-                <div class="text-sm text-red-700">Urgent (24 jam)</div>
-            </div>
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center min-w-[100px]">
-                <div class="text-2xl font-bold text-blue-600"><%= stats.total %></div>
-                <div class="text-sm text-blue-700">Total Notifikasi</div>
-            </div>
-        </div>
+
     </div>
 
     <!-- Filters -->
-    <div class="bg-white rounded-lg shadow-sm p-6">
+    <div class="bg-secondary rounded-lg shadow-sm p-6">
         <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-            <!-- Search -->
-            <div>
-                <label for="search" class="block text-sm font-medium text-textPrimary mb-2">Cari Notifikasi</label>
-                <input type="text" id="search" name="search" value="<%= filters.search || '' %>" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" 
-                       placeholder="Cari berdasarkan deskripsi...">
-            </div>
-
             <!-- Filter by Child -->
             <div>
                 <label for="anak" class="block text-sm font-medium text-textPrimary mb-2">Anak</label>
@@ -38,15 +20,6 @@
                     <% anakList.forEach(anak => { %>
                         <option value="<%= anak.id %>" <%= filters.anak == anak.id ? 'selected' : '' %>><%= anak.nama %></option>
                     <% }); %>
-                </select>
-            </div>
-
-            <!-- Filter by Status -->
-            <div>
-                <label for="status" class="block text-sm font-medium text-textPrimary mb-2">Status</label>
-                <select id="status" name="status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                    <option value="all">Semua Status</option>
-                    <option value="urgent" <%= filters.status === 'urgent' ? 'selected' : '' %>>Urgent (24 jam)</option>
                 </select>
             </div>
 
@@ -60,11 +33,11 @@
     </div>
 
     <!-- Notifikasi List -->
-    <div class="bg-white rounded-lg shadow-sm">
+    <div class="bg-secondary rounded-lg shadow-sm overflow-hidden">
         <% if (notifikasiList && notifikasiList.length > 0) { %>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                <table class="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-quaternary">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Notifikasi
@@ -76,9 +49,6 @@
                                 Waktu
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Dibuat Oleh
                             </th>
                             <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -86,7 +56,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="divide-y divide-gray-200">
                         <% notifikasiList.forEach(notifikasi => { %>
                             <% 
                                 const isUrgent = (() => {
@@ -96,7 +66,7 @@
                                     return diffHours <= 24;
                                 })();
                             %>
-                            <tr class="hover:bg-gray-50 <%= isUrgent ? 'bg-red-50' : '' %>">
+                            <tr class="bg-secondary hover:bg-secondary <%= isUrgent ? 'bg-red-50' : '' %>">
                                 <td class="px-6 py-4">
                                     <div class="flex items-start space-x-3">
                                         <div class="flex-shrink-0">
@@ -118,19 +88,11 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center mr-3">
-                                            <span class="text-white text-xs font-semibold">
-                                                <%= notifikasi.anak.nama.charAt(0).toUpperCase() %>
-                                            </span>
-                                        </div>
-                                        <div>
+                               
                                             <div class="text-sm font-medium text-textPrimary">
                                                 <%= notifikasi.anak.nama %>
                                             </div>
-                                            <div class="text-sm text-textSecondary">
-                                                <%= notifikasi.anak.umur %> tahun
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-textSecondary">
@@ -142,17 +104,7 @@
                                         minute: '2-digit'
                                     }) %>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <% if (isUrgent) { %>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                            <i class="fas fa-exclamation-circle mr-1"></i>Urgent
-                                        </span>
-                                    <% } else { %>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                            <i class="fas fa-info-circle mr-1"></i>Normal
-                                        </span>
-                                    <% } %>
-                                </td>
+                                
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-textSecondary">
                                     <%= notifikasi.createdByUser?.nama || 'Admin' %>
                                 </td>

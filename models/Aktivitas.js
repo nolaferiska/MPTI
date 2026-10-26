@@ -40,8 +40,41 @@ class Aktivitas {
     // Get all aktivitas
     static async findAll(options = {}) {
         try {
+            // Clean up the where clause to ensure 'mode' is only used with string filters
+            let where = options.where;
+            if (where && where.OR) {
+                where = {
+                    ...where,
+                    OR: where.OR.map(cond => {
+                        if (cond.namaAktivitas && typeof cond.namaAktivitas.contains === 'string') {
+                            return {
+                                namaAktivitas: {
+                                    contains: cond.namaAktivitas.contains,
+                                    mode: 'insensitive'
+                                }
+                            };
+                        }
+                        if (cond.deskripsi && typeof cond.deskripsi.contains === 'string') {
+                            return {
+                                deskripsi: {
+                                    contains: cond.deskripsi.contains,
+                                    mode: 'insensitive'
+                                }
+                            };
+                        }
+                        // If contains is undefined/null, just return the field without mode
+                        if (cond.namaAktivitas && cond.namaAktivitas.contains === undefined) {
+                            return { namaAktivitas: {} };
+                        }
+                        if (cond.deskripsi && cond.deskripsi.contains === undefined) {
+                            return { deskripsi: {} };
+                        }
+                        return cond;
+                    })
+                };
+            }
             const aktivitas = await prisma.aktivitas.findMany({
-                where: options.where,
+                where: where,
                 orderBy: options.orderBy || [
                     { tanggal: 'desc' },
                     { waktuMulai: 'asc' }

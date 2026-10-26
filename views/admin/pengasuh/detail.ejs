@@ -23,7 +23,7 @@
         <!-- Main Info -->
         <div class="lg:col-span-2 space-y-6">
             <!-- Basic Information -->
-            <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="bg-secondary p-6 rounded-lg shadow-sm">
                 <h3 class="text-lg font-semibold text-textPrimary mb-4">Informasi Dasar</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -78,7 +78,7 @@
             </div>
 
             <!-- Address -->
-            <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="bg-secondary p-6 rounded-lg shadow-sm">
                 <h3 class="text-lg font-semibold text-textPrimary mb-4">Alamat</h3>
                 <p class="text-textPrimary">
                     <%= pengasuh.alamat %>
@@ -86,7 +86,12 @@
             </div>
 
             <!-- Education & Experience -->
-            <div class="bg-white p-6 rounded-lg shadow-sm">
+            
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <div class="bg-secondary p-6 rounded-lg shadow-sm">
                 <h3 class="text-lg font-semibold text-textPrimary mb-4">Pendidikan & Pengalaman</h3>
                 <div class="space-y-4">
                     <div>
@@ -108,144 +113,8 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Sidebar -->
-        <div class="space-y-6">
-            <!-- Profile Photo -->
-            <div class="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div class="flex justify-center mb-4">
-                    <% if (pengasuh.foto) { %>
-                        <img class="h-32 w-32 rounded-full object-cover" src="<%= pengasuh.foto %>" alt="<%= pengasuh.nama %>">
-                        <% } else { %>
-                            <div class="h-32 w-32 rounded-full bg-primary text-white flex items-center justify-center text-4xl">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <% } %>
-                </div>
-                <h3 class="text-lg font-semibold text-textPrimary">
-                    <%= pengasuh.nama %>
-                </h3>
-                <p class="text-textSecondary">Pengasuh</p>
-            </div>
-
-            <!-- Quick Stats -->
-            <div class="bg-white p-6 rounded-lg shadow-sm">
-                <h3 class="text-lg font-semibold text-textPrimary mb-4">Statistik</h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between">
-                        <span class="text-textSecondary">Anak Asuh</span>
-                        <span class="font-semibold text-textPrimary"><%= children ? children.length : 0 %></span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-textSecondary">Pengalaman</span>
-                        <span class="font-semibold text-textPrimary"><%= pengasuh.experienceYears %> tahun</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-textSecondary">Status</span>
-                        <span class="font-semibold <%= pengasuh.status === 'aktif' ? 'text-success' : 'text-danger' %>">
-                            <%= pengasuh.status === 'aktif' ? 'Aktif' : 'Nonaktif' %>
-                        </span>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- Children Under Care -->
-    <% if (children && children.length > 0) { %>
-        <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h3 class="text-lg font-semibold text-textPrimary mb-4">Anak Asuh (
-                <%= children.length %>)</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Foto</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Nama</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Usia</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Orang Tua</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Status Hari Ini</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <% children.forEach(child => { %>
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-4 whitespace-nowrap">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <% if (child.foto) { %>
-                                            <img class="h-10 w-10 rounded-full object-cover" src="<%= child.foto %>" alt="<%= child.nama %>">
-                                            <% } else { %>
-                                                <div class="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center">
-                                                    <i class="fas fa-child"></i>
-                                                </div>
-                                                <% } %>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-textPrimary">
-                                        <%= child.nama %>
-                                    </div>
-                                    <div class="text-sm text-textSecondary">
-                                        <%= child.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan' %>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-textPrimary">
-                                        <%= child.age %> tahun
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-textPrimary">
-                                        <%= child.orangTua ? child.orangTua.nama : 'N/A' %>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 whitespace-nowrap">
-                                    <% if (child.absensi && child.absensi.length > 0) { %>
-                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-success text-white">
-                                            Hadir
-                                        </span>
-                                        <% } else { %>
-                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-300 text-gray-700">
-                                            Belum Absen
-                                        </span>
-                                            <% } %>
-                                </td>
-                            </tr>
-                            <% }) %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <% } %>
-
-            <!-- Recent Activities -->
-            <% if (recentActivities && recentActivities.length > 0) { %>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-semibold text-textPrimary mb-4">Aktivitas Terbaru</h3>
-                    <div class="space-y-4">
-                        <% recentActivities.forEach(activity => { %>
-                            <div class="border-l-4 border-primary pl-4 py-2">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h4 class="font-medium text-textPrimary">
-                                            <%= activity.jenisAktivitas %>
-                                        </h4>
-                                        <p class="text-sm text-textSecondary">
-                                            <%= activity.deskripsi %>
-                                        </p>
-                                        <p class="text-xs text-textSecondary mt-1">
-                                            <%= new Date(activity.tanggal).toLocaleDateString('id-ID') %> •
-                                                <%= activity.anak ? activity.anak.nama : 'N/A' %>
-                                        </p>
-                                    </div>
-                                    <div class="text-xs text-textSecondary">
-                                        <%= activity.waktuMulai ? new Date(activity.waktuMulai).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '' %>
-                                    </div>
-                                </div>
-                            </div>
-                            <% }) %>
-                    </div>
-                </div>
-                <% } %>
 </div>

@@ -1,3 +1,4 @@
+    
 const prisma = require('../lib/prisma');
 const crypto = require('crypto');
 
@@ -75,6 +76,59 @@ class User {
         }
     }
 
+    // Generate password reset token
+    async generatePasswordResetToken() {
+        const crypto = require('crypto');
+        const passwordResetToken = crypto.randomBytes(32).toString('hex');
+        const passwordResetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 jam
+        const updatedUser = await prisma.user.update({
+            where: { id: this.id },
+            data: {
+                passwordResetToken,
+                passwordResetExpires
+            }
+        });
+        Object.assign(this, updatedUser);
+        return passwordResetToken;
+    }
+
+    // Find user by password reset token
+    static async findByPasswordResetToken(token) {
+        try {
+            const user = await prisma.user.findFirst({
+                where: {
+                    passwordResetToken: token,
+                    passwordResetExpires: {
+                        gt: new Date()
+                    }
+                }
+            });
+            return user ? new User(user) : null;
+        } catch (error) {
+            throw new Error(`Error finding user by password reset token: ${error.message}`);
+        }
+    }
+
+    // Update password and clear reset token
+    async resetPassword(newPassword) {
+        try {
+            const bcrypt = require('bcrypt');
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+            const updatedUser = await prisma.user.update({
+                where: { id: this.id },
+                data: {
+                    password: hashedPassword,
+                    passwordResetToken: null,
+                    passwordResetExpires: null
+                }
+            });
+            Object.assign(this, updatedUser);
+            return this;
+        } catch (error) {
+            throw new Error(`Error resetting password: ${error.message}`);
+        }
+    }
     // Resend verification email
     async resendVerificationEmail() {
         try {

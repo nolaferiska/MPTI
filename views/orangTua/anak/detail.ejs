@@ -21,14 +21,14 @@
     </div>
 
     <!-- Main Profile Card -->
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div class="bg-gradient-to-r from-primary to-primary-dark p-6 text-white">
-            <div class="flex items-center space-x-6">
+    <div class="bg-secondary rounded-lg shadow-sm overflow-hidden">
+        <div class="bg-secondary p-6 text-white">
+            <div class="flex items-center space-x-6 text-textPrimary">
                 <div class="flex-shrink-0">
                     <% if (anak.foto) { %>
                         <img class="h-24 w-24 rounded-full object-cover border-4 border-white" src="<%= anak.foto %>" alt="<%= anak.nama %>">
                         <% } else { %>
-                            <div class="h-24 w-24 rounded-full bg-white text-primary flex items-center justify-center border-4 border-white">
+                            <div class="h-24 w-24 rounded-full bg-secondary text-primary flex items-center justify-center border-4 border-white">
                                 <i class="fas fa-child text-4xl"></i>
                             </div>
                             <% } %>
@@ -62,6 +62,17 @@
                     <h4 class="text-lg font-semibold text-textPrimary">Informasi Pribadi</h4>
 
                     <div class="space-y-3">
+        <!-- Dokumen Form Anak -->
+        <% if (anak.dokumenAnak) { %>
+            <div>
+                <label class="text-sm font-medium text-textSecondary">Dokumen Form Anak</label>
+                <p>
+                    <a href="<%= anak.dokumenAnak %>" target="_blank" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded font-semibold hover:bg-primary-dark transition-colors mt-1">
+                        <i class="fas fa-file-alt mr-2"></i> Download Dokumen
+                    </a>
+                </p>
+            </div>
+        <% } %>
                         <div>
                             <label class="text-sm font-medium text-textSecondary">Tanggal Lahir</label>
                             <p class="text-textPrimary">
@@ -80,7 +91,7 @@
                             <label class="text-sm font-medium text-textSecondary">Telepon Darurat</label>
                             <p class="text-textPrimary">
                                 <% if (anak.teleponDarurat) { %>
-                                    <a href="tel:<%= anak.teleponDarurat %>" class="text-primary hover:text-primary-dark">
+                                    <a href="tel:<%= anak.teleponDarurat %>>
                                         <i class="fas fa-phone mr-1"></i>
                                         <%= anak.teleponDarurat %>
                                     </a>
@@ -171,7 +182,7 @@
     <!-- Attendance Statistics -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Stats Card -->
-        <div class="bg-white p-6 rounded-lg shadow-sm">
+        <div class="bg-secondary p-6 rounded-lg shadow-sm">
             <h4 class="text-lg font-semibold text-textPrimary mb-4">
                 <i class="fas fa-chart-bar mr-2"></i> Statistik Kehadiran Bulan Ini
             </h4>
@@ -206,7 +217,7 @@
         </div>
 
         <!-- Recent Attendance -->
-        <div class="bg-white p-6 rounded-lg shadow-sm">
+        <div class="bg-secondary p-6 rounded-lg shadow-sm">
             <h4 class="text-lg font-semibold text-textPrimary mb-4">
                 <i class="fas fa-clock mr-2"></i> Kehadiran Terbaru
             </h4>

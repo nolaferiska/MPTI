@@ -250,3 +250,75 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 **Candice Kids** - Making childcare management easier, one step at a time! 👶✨
+
+# Candice Kids Daycare Web App
+
+## Setup & Installation
+
+### 1. Clone Repository
+```bash
+git clone <repo-url>
+cd Candice kids
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+```
+
+### 3. Configure Environment
+- Copy `.env.example` atau buat file `.env`
+- Set `DATABASE_URL` (MySQL) dan variabel lain yang dibutuhkan
+
+### 4. Prisma Setup
+#### a. Generate Prisma Client
+```bash
+npx prisma generate
+```
+#### b. Run Database Migration
+```bash
+npx prisma migrate deploy
+# atau untuk development:
+npx prisma migrate dev
+```
+#### c. (Optional) Seed Database
+```bash
+node prisma/seed.js
+```
+
+### 5. Build Tailwind CSS
+```bash
+npx tailwindcss -i ./src/input.css -o ./public/css/output.css --minify
+```
+
+### 6. Start Development Server
+```bash
+npm run dev
+# atau
+node app.js
+```
+
+## Additional Scripts
+- **Email Setup:**
+  - `npm run setup-email` atau jalankan `scripts/setup-email.js`
+- **Production DB Setup:**
+  - `scripts/setup-production-db.sh` atau `.bat`
+
+## Useful Commands
+- **Prisma Studio (DB GUI):**
+  ```bash
+  npx prisma studio
+  ```
+- **Run Tests:**
+  ```bash
+  npm test
+  ```
+
+## Notes
+- Pastikan MySQL sudah berjalan dan dapat diakses.
+- Untuk deployment, lihat `VERCEL_DEPLOYMENT.md` dan `DEPLOY_CHECKLIST.md`.
+- Untuk troubleshooting, lihat `DATABASE_TROUBLESHOOTING.md`.
+
+---
+
+Untuk detail lebih lanjut, cek file dokumentasi di root project.

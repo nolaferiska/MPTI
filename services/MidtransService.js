@@ -210,19 +210,14 @@ class MidtransService {
     // Map Midtrans payment type to our enum
     mapPaymentType(midtransPaymentType) {
         const paymentTypeMap = {
-            'credit_card': 'credit_card',
             'bank_transfer': 'bank_transfer',
             'bca_va': 'bca_va',
             'bni_va': 'bni_va',
             'bri_va': 'bri_va',
-            'permata_va': 'permata_va',
             'other_va': 'other_va',
             'gopay': 'gopay',
             'shopeepay': 'shopeepay',
             'qris': 'qris',
-            'cstore': 'indomaret', // Default to indomaret for convenience store
-            'akulaku': 'akulaku',
-            'kredivo': 'kredivo'
         };
 
         return paymentTypeMap[midtransPaymentType] || 'bank_transfer';

@@ -12,7 +12,7 @@
     </div>
 
     <!-- Search and Filter -->
-    <div class="bg-white p-6 rounded-lg shadow-sm">
+    <div class="bg-secondary p-6 rounded-lg shadow-sm">
         <form method="GET" action="/admin/pengasuh" class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
                 <label class="block text-sm font-medium text-textPrimary mb-2">Cari</label>
@@ -44,7 +44,7 @@
     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
-                <thead class="bg-gray-50">
+                <thead class="bg-quaternary">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Foto</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Nama</th>
@@ -54,10 +54,10 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-textPrimary uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-secondary divide-y divide-gray-200">
                     <% if (pengasuhList && pengasuhList.length > 0) { %>
                         <% pengasuhList.forEach(pengasuh => { %>
-                            <tr class="hover:bg-gray-50">
+                            <tr class="hover:bg-secondary">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex-shrink-0 h-10 w-10">
                                         <% if (pengasuh.foto) { %>

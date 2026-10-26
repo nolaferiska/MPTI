@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-background">
     <div class="container mx-auto px-4 py-8">
         <!-- Header -->
-        <div class="bg-white rounded-3xl shadow-lg p-8 mb-8">
+        <div class="bg-secondary rounded-3xl shadow-lg p-8 mb-8">
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-3xl font-bold text-textPrimary mb-2">
@@ -23,50 +23,38 @@
 
         <!-- Quick Stats -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-3xl shadow-lg p-6">
+            <div class="bg-secondary rounded-3xl shadow-lg p-6">
                 <div class="flex items-center">
                     <div class="bg-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center">
                         <i class="fas fa-child text-xl"></i>
                     </div>
                     <div class="ml-4">
                         <h3 class="text-lg font-semibold text-textPrimary">Anak Terdaftar</h3>
-                        <p class="text-2xl font-bold text-primary">2</p>
+                        <p class="text-2xl font-bold text-primary"><%= anakList.length %></p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-3xl shadow-lg p-6">
+            <div class="bg-secondary rounded-3xl shadow-lg p-6">
                 <div class="flex items-center">
                     <div class="bg-success text-white w-12 h-12 rounded-2xl flex items-center justify-center">
                         <i class="fas fa-calendar-check text-xl"></i>
                     </div>
                     <div class="ml-4">
                         <h3 class="text-lg font-semibold text-textPrimary">Kehadiran Hari Ini</h3>
-                        <p class="text-2xl font-bold text-success">2</p>
+                        <p class="text-2xl font-bold text-success"><%= absensiHariIni.length %></p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-3xl shadow-lg p-6">
+            <div class="bg-secondary rounded-3xl shadow-lg p-6">
                 <div class="flex items-center">
                     <div class="bg-warning text-white w-12 h-12 rounded-2xl flex items-center justify-center">
                         <i class="fas fa-file-invoice-dollar text-xl"></i>
                     </div>
                     <div class="ml-4">
                         <h3 class="text-lg font-semibold text-textPrimary">Tagihan Pending</h3>
-                        <p class="text-2xl font-bold text-warning">1</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-3xl shadow-lg p-6">
-                <div class="flex items-center">
-                    <div class="bg-info text-white w-12 h-12 rounded-2xl flex items-center justify-center">
-                        <i class="fas fa-comments text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h3 class="text-lg font-semibold text-textPrimary">Pesan Baru</h3>
-                        <p class="text-2xl font-bold text-info">3</p>
+                        <p class="text-2xl font-bold text-warning"><%= tagihanPending.length %></p>
                     </div>
                 </div>
             </div>
@@ -75,7 +63,7 @@
         <!-- Main Content -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Anak List -->
-            <div class="bg-white rounded-3xl shadow-lg p-8">
+            <div class="bg-secondary rounded-3xl shadow-lg p-8">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-bold text-textPrimary">
                         <i class="fas fa-child mr-3 text-primary"></i> Data Anak
@@ -86,91 +74,67 @@
                 </div>
 
                 <div class="space-y-4">
-                    <div class="border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center">
-                                    <i class="fas fa-child text-lg"></i>
+                    <% anakList.forEach(anak => { %>
+                        <div class="border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center">
+                                        <i class="fas fa-child text-lg"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="font-semibold text-textPrimary"><%= anak.nama %></h3>
+                                        <p class="text-sm text-textSecondary">Usia: <%= anak.age || '-' %> tahun</p>
+                                    </div>
                                 </div>
-                                <div class="ml-4">
-                                    <h3 class="font-semibold text-textPrimary">Aisyah Putri Santoso</h3>
-                                    <p class="text-sm text-textSecondary">Usia: 5 tahun</p>
+                                <div class="text-right">
+                                    <% const hadir = absensiHariIni.find(a => a.anakId === anak.id && a.status === 'hadir'); %>
+                                    <span class="<%= hadir ? 'bg-success' : 'bg-danger' %> text-white px-3 py-1 rounded-full text-sm">
+                                        <%= hadir ? 'Hadir' : 'Alpha' %>
+                                    </span>
                                 </div>
-                            </div>
-                            <div class="text-right">
-                                <span class="bg-success text-white px-3 py-1 rounded-full text-sm">
-                                    Hadir
-                                </span>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-secondary text-white rounded-full flex items-center justify-center">
-                                    <i class="fas fa-child text-lg"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="font-semibold text-textPrimary">Ahmad Rizki Indah</h3>
-                                    <p class="text-sm text-textSecondary">Usia: 6 tahun</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <span class="bg-success text-white px-3 py-1 rounded-full text-sm">
-                                    Hadir
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    <% }) %>
                 </div>
             </div>
 
             <!-- Recent Activities -->
-            <div class="bg-white rounded-3xl shadow-lg p-8">
+            <div class="bg-secondary rounded-3xl shadow-lg p-8">
                 <h2 class="text-2xl font-bold text-textPrimary mb-6">
                     <i class="fas fa-clock mr-3 text-primary"></i> Aktivitas Terbaru
                 </h2>
 
                 <div class="space-y-4">
-                    <div class="flex items-start space-x-4 p-4 bg-blue-50 rounded-2xl">
-                        <div class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-puzzle-piece text-sm"></i>
+                    <% aktivitasTerbaru.forEach(aktivitas => { %>
+                        <div class="flex items-start space-x-4 p-4 bg-blue-50 rounded-2xl">
+                            <div class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-puzzle-piece text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-textPrimary"><%= aktivitas.nama || aktivitas.judul || 'Aktivitas' %></h4>
+                                <p class="text-sm text-textSecondary"><%= aktivitas.deskripsi || '-' %></p>
+                                <p class="text-xs text-textSecondary mt-1"><%= aktivitas.createdAt ? waktuRelatif(aktivitas.createdAt) : '' %></p>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-textPrimary">Bermain Puzzle</h4>
-                            <p class="text-sm text-textSecondary">Aisyah bermain puzzle dan menyelesaikan gambar dengan baik</p>
-                            <p class="text-xs text-textSecondary mt-1">2 jam yang lalu</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-2xl">
-                        <div class="bg-success text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-utensils text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-textPrimary">Makan Siang</h4>
-                            <p class="text-sm text-textSecondary">Ahmad makan siang dengan lahap, menu: nasi goreng dan sayur</p>
-                            <p class="text-xs text-textSecondary mt-1">4 jam yang lalu</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 p-4 bg-yellow-50 rounded-2xl">
-                        <div class="bg-warning text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-book text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-textPrimary">Belajar Huruf</h4>
-                            <p class="text-sm text-textSecondary">Aisyah belajar mengenal huruf A-Z dengan baik</p>
-                            <p class="text-xs text-textSecondary mt-1">6 jam yang lalu</p>
-                        </div>
-                    </div>
+                    <% }) %>
                 </div>
+<script>
+// Fungsi waktu relatif sederhana
+function waktuRelatif(dateStr) {
+    const now = new Date();
+    const date = new Date(dateStr);
+    const diff = Math.floor((now - date) / 1000);
+    if (diff < 60) return diff + ' detik yang lalu';
+    if (diff < 3600) return Math.floor(diff/60) + ' menit yang lalu';
+    if (diff < 86400) return Math.floor(diff/3600) + ' jam yang lalu';
+    return date.toLocaleDateString('id-ID');
+}
+</script>
             </div>
         </div>
 
         <!-- Quick Actions -->
-        <div class="bg-white rounded-3xl shadow-lg p-8 mt-8">
+        <div class="bg-secondary rounded-3xl shadow-lg p-8 mt-8">
             <h2 class="text-2xl font-bold text-textPrimary mb-6">
                 <i class="fas fa-bolt mr-3 text-primary"></i> Akses Cepat
             </h2>

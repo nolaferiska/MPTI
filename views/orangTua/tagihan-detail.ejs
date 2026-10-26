@@ -1,5 +1,5 @@
 <div class="container mx-auto px-4 py-6">
-    <div class="bg-white rounded-lg shadow-md p-6">
+    <div class="bg-secondary rounded-lg shadow-md p-6">
         <!-- Breadcrumb -->
         <nav class="mb-6">
             <ol class="flex items-center space-x-2 text-sm text-gray-600">
@@ -51,62 +51,13 @@
         <% } %>
 
         <!-- Filter Controls -->
-        <div class="bg-gray-50 rounded-lg p-4 mb-6">
-            <div class="flex flex-wrap items-center justify-between gap-4">
-                <div class="flex flex-wrap items-center gap-4">
-                    <div>
-                        <label class="text-sm font-medium text-gray-700 mr-2">Filter Status:</label>
-                        <select id="statusFilter" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="all">Semua Status</option>
-                            <option value="belum_ada">Belum Ada Tagihan</option>
-                            <option value="belum_bayar">Belum Bayar</option>
-                            <option value="lunas">Lunas</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="text-sm font-medium text-gray-700 mr-2">Urutkan:</label>
-                        <select id="sortOrder" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="newest">Terbaru</option>
-                            <option value="oldest">Terlama</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="flex items-center gap-2">
-                    <button id="resetFilters" class="px-4 py-2 bg-gray-500 text-white rounded-md text-sm hover:bg-gray-600 transition">
-                        <i class="fas fa-undo mr-1"></i>
-                        Reset
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Summary Stats -->
-            <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-white rounded-lg p-3 text-center">
-                    <div class="text-2xl font-bold text-gray-800" id="totalPeriods"><%= periods.length %></div>
-                    <div class="text-sm text-gray-600">Total Periode</div>
-                </div>
-                <div class="bg-white rounded-lg p-3 text-center">
-                    <div class="text-2xl font-bold text-red-600" id="belumBayar"><%= periods.filter(p => p.status === 'belum_bayar' || p.status === 'belum_ada').length %></div>
-                    <div class="text-sm text-gray-600">Belum Bayar</div>
-                </div>
-                <div class="bg-white rounded-lg p-3 text-center">
-                    <div class="text-2xl font-bold text-green-600" id="sudahLunas"><%= periods.filter(p => p.status === 'lunas').length %></div>
-                    <div class="text-sm text-gray-600">Sudah Lunas</div>
-                </div>
-                <div class="bg-white rounded-lg p-3 text-center">
-                    <div class="text-2xl font-bold text-blue-600" id="totalAmount">Rp <%= periods.reduce((sum, p) => sum + parseInt(p.jumlah), 0).toLocaleString('id-ID') %></div>
-                    <div class="text-sm text-gray-600">Total Tagihan</div>
-                </div>
-            </div>
-        </div>
+        
 
         <!-- Tagihan Content -->
         <div id="tagihanContent">
             <div class="grid gap-4">
                 <% periods.forEach(period => { %>
-                    <div class="period-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                    <div class="period-card bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
                          data-status="<%= period.status %>" 
                          data-amount="<%= parseInt(period.jumlah) %>"
                          data-periode="<%= period.periode %>">

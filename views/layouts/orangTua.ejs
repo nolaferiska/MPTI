@@ -2,199 +2,175 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title %>
-    </title>
-    <style>
-        .online-indicator {
-            background: #e0ffe0 !important;
-            position: relative;
-        }
-        
-        .online-indicator::before {
-            content: '';
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #2ecc40;
-            border-radius: 50%;
-            margin-right: 6px;
-            position: absolute;
-            left: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-    </style>
-    <!-- Tailwind CSS - Compiled -->
-    <link href="/css/output.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <style>
+    .online-indicator {
+      background: #e0ffe0 !important;
+      position: relative;
+    }
 
-    <!-- Google Fonts - Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    .online-indicator::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #2ecc40;
+      border-radius: 50%;
+      margin-right: 6px;
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  </style>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Tailwind CSS -->
+  <link href="/css/output.css" rel="stylesheet" />
+
+  <!-- Google Fonts - Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
-<body class="font-poppins bg-background">
-    <!-- Mobile Navigation Toggle -->
-    <div class="lg:hidden">
-        <button id="mobile-menu-toggle" class="fixed top-4 left-4 z-50 bg-primary text-white p-2 rounded-lg">
-            <i class="fas fa-bars"></i>
-        </button>
+<body class="font-poppins bg-gray-100">
+  <div class="flex h-screen relative">
+    <!-- Mobile Topbar -->
+    <div class="lg:hidden w-full bg-white shadow px-4 py-3 flex items-center justify-between fixed top-0 z-40">
+      <button id="toggleSidebar" class="text-gray-700 focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+      <div class="text-lg font-semibold truncate"><%= title %></div>
     </div>
 
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div id="sidebar" class="bg-white shadow-lg w-64 fixed h-full overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
-            <div class="p-4 h-full flex flex-col">
-                <div class="flex items-center space-x-2 mb-8">
-                    <div class="bg-primary text-white w-10 h-10 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-baby text-lg"></i>
-                    </div>
-                    <div>
-                        <span class="text-lg font-bold text-primary">Candice Kids</span>
-                        <p class="text-xs text-textSecondary">Dashboard Orang Tua</p>
-                    </div>
-                </div>
+    <!-- Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
 
-                <nav class="space-y-2 flex-1">
-                    <a href="/dashboard" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
-                        <i class="fas fa-home text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
-                        <span class="group-hover:text-primary transition-colors duration-200">Dashboard</span>
-                    </a>
-
-                    <a href="/kelola-anak" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
-                        <i class="fas fa-child text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
-                        <span class="group-hover:text-primary transition-colors duration-200">Kelola Anak</span>
-                    </a>
-
-                    <a href="/absen" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
-                        <i class="fas fa-calendar-check text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
-                        <span class="group-hover:text-primary transition-colors duration-200">Absen Anak</span>
-                    </a>
-
-                    <a href="/aktivitas" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
-                        <i class="fas fa-tasks text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
-                        <span class="group-hover:text-primary transition-colors duration-200">Aktivitas Harian</span>
-                    </a>
-
-                    <a href="/komunikasi" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
-                        <i class="fas fa-comments text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
-                        <span class="group-hover:text-primary transition-colors duration-200">Komunikasi</span>
-                    </a>
-
-                    <a href="/tagihan" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
-                        <i class="fas fa-money-bill text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
-                        <span class="group-hover:text-primary transition-colors duration-200">Tagihan</span>
-                    </a>
-
-                    <a href="/notifikasi" class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 hover:border-l-4 hover:border-primary transition-all duration-200 text-textPrimary group">
-                        <i class="fas fa-bell text-gray-500 group-hover:text-primary transition-colors duration-200"></i>
-                        <span class="group-hover:text-primary transition-colors duration-200">Notifikasi Darurat</span>
-                    </a>
-                </nav>
-
-                <!-- Logout Button -->
-                <div class="mt-auto pt-4 border-t border-gray-200">
-                    <a href="/logout" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-50 transition-colors text-textPrimary hover:text-red-600" onclick="return confirm('Apakah Anda yakin ingin logout?')">
-                        <i class="fas fa-sign-out-alt text-red-500"></i>
-                        <span>Logout</span>
-                    </a>
-                </div>
-            </div>
+    <!-- Sidebar -->
+    <div
+      id="sidebar"
+      class="bg-secondary text-textPrimary w-64 fixed top-0 left-0 h-full overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+      <div class="p-4 h-full flex flex-col pt-16 lg:pt-4">
+        <!-- Logo Section -->
+        <div class="flex flex-col items-center justify-center mx-auto mb-8">
+          <img src="/images/logo.png" alt="Candice Kids Logo" class="h-10 object-cover p-1" />
         </div>
 
-        <!-- Mobile Sidebar Overlay -->
-        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden hidden"></div>
+        <!-- Navigation Menu -->
+        <nav class="space-y-2 flex-1">
+          <a href="/dashboard"
+            class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-tertiary transition-all duration-200 text-textPrimary group">
+            <i class="fas fa-home text-gray-400 group-hover:text-textPrimary transition-colors duration-200"></i>
+            <span class="group-hover:text-textPrimary transition-colors duration-200">Dashboard</span>
+          </a>
 
-        <!-- Main Content -->
-        <div class="flex-1 lg:ml-64">
-            <!-- Top Bar -->
+          <a href="/kelola-anak"
+            class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-tertiary transition-all duration-200 text-textPrimary group">
+            <i class="fas fa-child text-gray-400 group-hover:text-textPrimary transition-colors duration-200"></i>
+            <span class="group-hover:text-textPrimary transition-colors duration-200">Kelola Anak</span>
+          </a>
 
-            <!-- Flash Messages -->
-            <% if (success_msg && success_msg.length > 0) { %>
-                <div class="bg-success text-white p-4 text-center">
-                    <i class="fas fa-check-circle mr-2"></i>
-                    <%= success_msg %>
-                </div>
-                <% } %>
+          <a href="/absen"
+            class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-tertiary transition-all duration-200 text-textPrimary group">
+            <i class="fas fa-calendar-check text-gray-400 group-hover:text-textPrimary transition-colors duration-200"></i>
+            <span class="group-hover:text-textPrimary transition-colors duration-200">Absen Anak</span>
+          </a>
 
-                    <% if (error_msg && error_msg.length > 0) { %>
-                        <div class="bg-danger text-white p-4 text-center">
-                            <i class="fas fa-exclamation-circle mr-2"></i>
-                            <%= error_msg %>
-                        </div>
-                        <% } %>
+          <a href="/aktivitas"
+            class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-tertiary transition-all duration-200 text-textPrimary group">
+            <i class="fas fa-tasks text-gray-400 group-hover:text-textPrimary transition-colors duration-200"></i>
+            <span class="group-hover:text-textPrimary transition-colors duration-200">Aktivitas Harian</span>
+          </a>
 
-                            <% if (info_msg && info_msg.length > 0) { %>
-                                <div class="bg-blue-500 text-white p-4 text-center">
-                                    <i class="fas fa-info-circle mr-2"></i>
-                                    <%= info_msg %>
-                                </div>
-                                <% } %>
+          <a href="/komunikasi"
+            class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-tertiary transition-all duration-200 text-textPrimary group">
+            <i class="fas fa-comments text-gray-400 group-hover:text-textPrimary transition-colors duration-200"></i>
+            <span class="group-hover:text-textPrimary transition-colors duration-200">Komunikasi</span>
+          </a>
 
-                                    <!-- Page Content -->
-                                    <main class="p-6">
-                                        <%- body %>
-                                    </main>
+          <a href="/tagihan"
+            class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-tertiary transition-all duration-200 text-textPrimary group">
+            <i class="fas fa-money-bill text-gray-400 group-hover:text-textPrimary transition-colors duration-200"></i>
+            <span class="group-hover:text-textPrimary transition-colors duration-200">Tagihan</span>
+          </a>
+
+          <a href="/notifikasi"
+            class="nav-link flex items-center space-x-3 p-3 rounded-lg hover:bg-tertiary transition-all duration-200 text-textPrimary group">
+            <i class="fas fa-bell text-gray-400 group-hover:text-textPrimary transition-colors duration-200"></i>
+            <span class="group-hover:text-textPrimary transition-colors duration-200">Notifikasi Darurat</span>
+          </a>
+        </nav>
+
+        <!-- Logout Button -->
+        <div class="mt-auto pt-4 border-t border-gray-600">
+          <a href="/logout"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-600 transition-colors text-textPrimary hover:text-white"
+            onclick="return confirm('Apakah Anda yakin ingin logout?')">
+            <i class="fas fa-sign-out-alt text-red-400"></i>
+            <span>Logout</span>
+          </a>
         </div>
+      </div>
     </div>
 
-    <script>
-        // Mobile menu toggle
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
+    <!-- Main Content -->
+    <div class="flex-1 lg:ml-64 pt-16 lg:pt-0 bg-background">
+      <!-- Flash Messages -->
+      <% if (success_msg && success_msg.length > 0) { %>
+      <div class="bg-success text-white p-4 text-center">
+        <i class="fas fa-check-circle mr-2"></i>
+        <%= success_msg %>
+      </div>
+      <% } %>
 
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-                sidebarOverlay.classList.toggle('hidden');
-            });
-        }
+      <% if (error_msg && error_msg.length > 0) { %>
+      <div class="bg-danger text-white p-4 text-center">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <%= error_msg %>
+      </div>
+      <% } %>
 
-        if (sidebarOverlay) {
-            sidebarOverlay.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-                sidebarOverlay.classList.add('hidden');
-            });
-        }
+      <% if (info_msg && info_msg.length > 0) { %>
+      <div class="bg-tertiary0 text-white p-4 text-center">
+        <i class="fas fa-info-circle mr-2"></i>
+        <%= info_msg %>
+      </div>
+      <% } %>
 
-        // Add active state to current menu item
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentPath = window.location.pathname;
-            const menuItems = document.querySelectorAll('.nav-link');
+      <!-- Page Content -->
+      <main class="bg-background p-6">
+        <%- body %>
+      </main>
+    </div>
+  </div>
 
-            menuItems.forEach(item => {
-                const href = item.getAttribute('href');
-                if (href === currentPath) {
-                    // Add active state
-                    item.classList.add('bg-primary', 'text-white', 'border-l-4', 'border-white');
-                    item.classList.remove('text-textPrimary', 'hover:bg-blue-50', 'hover:border-primary');
+  <!-- Sidebar toggle script -->
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
 
-                    // Style the icon and text for active state
-                    const icon = item.querySelector('i');
-                    const span = item.querySelector('span');
-                    if (icon) {
-                        icon.classList.remove('text-gray-500', 'group-hover:text-primary');
-                        icon.classList.add('text-white');
-                    }
-                    if (span) {
-                        span.classList.remove('group-hover:text-primary');
-                        span.classList.add('text-white');
-                    }
-                }
-            });
-        });
-    </script>
-    <script src="/js/orangTua.js"></script>
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = sidebar.classList.contains('-translate-x-full');
+      sidebar.classList.toggle('-translate-x-full');
+      sidebar.classList.toggle('translate-x-0');
+      overlay.classList.toggle('hidden', !isOpen);
+    });
 
-    <!-- Chat CSS for better scroll behavior -->
+    overlay.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebar.classList.remove('translate-x-0');
+      overlay.classList.add('hidden');
+    });
+  </script>
+      <!-- Chat CSS for better scroll behavior -->
     <style>
         #messagesContainer {
             scroll-behavior: auto !important;

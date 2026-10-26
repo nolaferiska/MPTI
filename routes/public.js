@@ -20,6 +20,11 @@ router.get('/register', redirectIfAuth(), AuthController.showRegister);
 
 // Process register for orang tua
 router.post('/register', redirectIfAuth(), AuthController.processRegister);
+// Forgot password
+router.get('/forgot-password', PublicController.showForgotPassword);
+router.post('/forgot-password', PublicController.processForgotPassword);
+router.get('/reset-password/:token', PublicController.showResetPassword);
+router.post('/reset-password/:token', PublicController.processResetPassword);
 
 // Email verification routes
 router.get('/verify-email/:token', AuthController.verifyEmail);

@@ -2,12 +2,57 @@ const { Anak, User, Absensi, Aktivitas, Komunikasi, NotifikasiDarurat } = requir
 
 class OrangTuaController {
     // Display orang tua dashboard
-    static showDashboard(req, res) {
-        res.render('orangTua/dashboard', {
-            title: 'Dashboard - Candice Kids',
-            layout: 'layouts/orangTua',
-            currentUserId: req.session.user.id
-        });
+    static async showDashboard(req, res) {
+        try {
+            const orangTuaId = req.session.user.id;
+            // 1. Anak terdaftar
+            const anakList = await Anak.findAll({ where: { orangTuaId } });
+            // 2. Kehadiran hari ini
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const absensiHariIni = await Absensi.findAll({
+                where: {
+                    anakId: { in: anakList.map(a => a.id) },
+                    tanggal: today
+                }
+            });
+            // 3. Tagihan pending
+            const tagihanPending = await require('../models/Tagihan').findAll({
+                where: {
+                    anakId: { in: anakList.map(a => a.id) },
+                    status: 'belum_bayar'
+                }
+            });
+
+            // 5. Aktivitas terbaru (ambil 3 terakhir)
+            let aktivitasTerbaru = [];
+            try {
+                aktivitasTerbaru = await Aktivitas.findAll({
+                    where: anakList.length > 0 ? {
+                        anakId: { in: anakList.map(a => a.id) }
+                    } : {},
+                    orderBy: { createdAt: 'desc' },
+                    take: 3
+                });
+            } catch (err) {
+                aktivitasTerbaru = [];
+            }
+            // Kirim ke view
+            res.render('orangTua/dashboard', {
+                title: 'Dashboard - Candice Kids',
+                layout: 'layouts/orangTua',
+                user: req.session.user || {},
+                anakList: Array.isArray(anakList) ? anakList : [],
+                absensiHariIni: Array.isArray(absensiHariIni) ? absensiHariIni : [],
+                tagihanPending: Array.isArray(tagihanPending) ? tagihanPending : [],
+                aktivitasTerbaru: Array.isArray(aktivitasTerbaru) ? aktivitasTerbaru : [],
+                currentUserId: req.session.user.id
+            });
+        } catch (error) {
+            console.error('Error loading dashboard:', error);
+            req.flash('error_msg', 'Gagal memuat dashboard');
+            res.redirect('/');
+        }
     }
 
     // Display kelola anak page (list anak)
